@@ -10,6 +10,10 @@ final class AppRoutes {
   static const partnerTransactions = '/partner/transactions';
   static const partnerProfile = '/partner/profile';
 
+  // Partner deep-link routes (outside shell)
+  static const addTransaction = '/partner/add-transaction';
+  static const transactionDetail = '/partner/transaction/:id';
+
   // Admin routes
   static const adminHome = '/admin/home';
   static const adminPartners = '/admin/partners';

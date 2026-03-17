@@ -7,7 +7,13 @@ import '../../features/auth/presentation/providers/auth_provider.dart';
 import '../../features/auth/presentation/screens/login_screen.dart';
 import '../../features/auth/presentation/screens/unauthorized_screen.dart';
 import '../../features/partner/presentation/shell/partner_shell.dart';
+import '../../features/partner/presentation/screens/partner_home_screen.dart';
+import '../../features/partner/presentation/screens/partner_transactions_screen.dart';
+import '../../features/partner/presentation/screens/partner_profile_screen.dart';
+import '../../features/partner/presentation/screens/add_transaction_screen.dart';
+import '../../features/partner/presentation/screens/transaction_detail_screen.dart';
 import '../../features/admin/presentation/shell/admin_shell.dart';
+import '../../features/transactions/domain/models/transaction_model.dart';
 import 'route_guard.dart';
 import 'routes.dart';
 
@@ -32,25 +38,49 @@ GoRouter appRouter(AppRouterRef ref) {
         path: AppRoutes.unauthorized,
         builder: (context, state) => const UnauthorizedScreen(),
       ),
-      // Partner shell with nested routes
+
+      // ─── Add Transaction (outside shell — full-screen) ─────────────
+      GoRoute(
+        path: AppRoutes.addTransaction,
+        builder: (c, s) {
+          final extra = s.extra as Map<String, dynamic>?;
+          final type = extra?['type'] as TransactionType?;
+          return AddTransactionScreen(initialType: type);
+        },
+      ),
+
+      // ─── Transaction Detail (outside shell — full-screen) ──────────
+      GoRoute(
+        path: '/partner/transaction/:id',
+        builder: (c, s) {
+          final extra = s.extra as Map<String, dynamic>?;
+          return TransactionDetailScreen(
+            transactionId: s.pathParameters['id']!,
+            siteId: extra?['siteId'] as String? ?? '',
+          );
+        },
+      ),
+
+      // ─── Partner shell ─────────────────────────────────────────────
       ShellRoute(
         builder: (context, state, child) => PartnerShell(child: child),
         routes: [
           GoRoute(
             path: AppRoutes.partnerHome,
-            builder: (c, s) => const PartnerHomePlaceholder(),
+            builder: (c, s) => const PartnerHomeScreen(),
           ),
           GoRoute(
             path: AppRoutes.partnerTransactions,
-            builder: (c, s) => const PartnerTransactionsPlaceholder(),
+            builder: (c, s) => const PartnerTransactionsScreen(),
           ),
           GoRoute(
             path: AppRoutes.partnerProfile,
-            builder: (c, s) => const PartnerProfilePlaceholder(),
+            builder: (c, s) => const PartnerProfileScreen(),
           ),
         ],
       ),
-      // Admin shell with nested routes
+
+      // ─── Admin shell ───────────────────────────────────────────────
       ShellRoute(
         builder: (context, state, child) => AdminShell(child: child),
         routes: [
@@ -99,31 +129,7 @@ class _AuthChangeNotifier extends ChangeNotifier {
   }
 }
 
-// ─── Placeholder screens (replaced in Phases 5–7) ───────────────────────────
-
-class PartnerHomePlaceholder extends StatelessWidget {
-  const PartnerHomePlaceholder({super.key});
-  @override
-  Widget build(BuildContext context) => const Scaffold(
-        body: Center(child: Text('Partner Home\n(Phase 5)', textAlign: TextAlign.center)),
-      );
-}
-
-class PartnerTransactionsPlaceholder extends StatelessWidget {
-  const PartnerTransactionsPlaceholder({super.key});
-  @override
-  Widget build(BuildContext context) => const Scaffold(
-        body: Center(child: Text('Partner Transactions\n(Phase 5)', textAlign: TextAlign.center)),
-      );
-}
-
-class PartnerProfilePlaceholder extends StatelessWidget {
-  const PartnerProfilePlaceholder({super.key});
-  @override
-  Widget build(BuildContext context) => const Scaffold(
-        body: Center(child: Text('Partner Profile\n(Phase 5)', textAlign: TextAlign.center)),
-      );
-}
+// ─── Admin Placeholder screens (replaced in Phases 6–7) ─────────────────────
 
 class AdminHomePlaceholder extends StatelessWidget {
   const AdminHomePlaceholder({super.key});
