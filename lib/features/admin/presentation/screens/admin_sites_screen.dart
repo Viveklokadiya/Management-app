@@ -6,6 +6,8 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/state_widgets.dart';
 import '../../../sites/domain/models/site_model.dart';
+import 'add_edit_site_screen.dart';
+import 'admin_site_detail_screen.dart';
 
 class AdminSitesScreen extends ConsumerStatefulWidget {
   const AdminSitesScreen({super.key});
@@ -194,9 +196,9 @@ class _AdminSitesScreenState extends ConsumerState<AdminSitesScreen> {
   }
 
   void _showAddSiteDialog(BuildContext context) {
-    // Placeholder — full CRUD in Phase 6b or via admin form
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Add Site — coming soon')),
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => const AddEditSiteScreen()),
     );
   }
 }
@@ -350,10 +352,10 @@ class _SiteCard extends StatelessWidget {
                     minimumSize: Size.zero,
                   ),
                   onPressed: () {
-                    // Navigate to site detail — Phase 6b
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                          content: Text('Site detail: ${site.name}')),
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => AdminSiteDetailScreen(site: site)),
                     );
                   },
                   child: Text('Manage',

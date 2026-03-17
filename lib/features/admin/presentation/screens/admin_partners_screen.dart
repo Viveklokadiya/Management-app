@@ -7,6 +7,7 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/state_widgets.dart';
 import '../../../auth/domain/models/app_user.dart';
+import 'admin_partner_detail_screen.dart';
 
 class AdminPartnersScreen extends ConsumerStatefulWidget {
   const AdminPartnersScreen({super.key});
@@ -303,12 +304,12 @@ class _PartnerCard extends StatelessWidget {
                 ),
                 const Spacer(),
                 TextButton(
-                  onPressed: () {
-                    // Navigate to partner detail — future phase
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                          content: Text(
-                              'Partner details: ${user.name}')),
+                   onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) =>
+                              AdminPartnerDetailScreen(partner: user)),
                     );
                   },
                   child: Row(
