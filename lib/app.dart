@@ -4,17 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'l10n/app_localizations.dart';
 import 'core/theme/app_theme.dart';
-import 'core/theme/app_colors.dart';
-import 'core/theme/app_text_styles.dart';
 import 'core/providers/locale_provider.dart';
-import 'core/widgets/app_button.dart';
-import 'core/widgets/app_card.dart';
-import 'core/widgets/amount_display.dart';
-import 'core/utils/currency_formatter.dart';
-import 'features/auth/presentation/providers/auth_provider.dart';
-import 'features/auth/presentation/screens/splash_screen.dart';
-import 'features/auth/presentation/screens/login_screen.dart';
-import 'features/auth/presentation/screens/unauthorized_screen.dart';
+import 'core/router/app_router.dart';
 
 class ShreeGirirajApp extends ConsumerWidget {
   const ShreeGirirajApp({super.key});
@@ -22,9 +13,9 @@ class ShreeGirirajApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final locale = ref.watch(localeProvider);
-    final authState = ref.watch(authStateProvider);
+    final router = ref.watch(appRouterProvider);
 
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'Shree Giriraj Engineering',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
@@ -36,111 +27,7 @@ class ShreeGirirajApp extends ConsumerWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: appSupportedLocales,
-      home: authState.when(
-        data: (user) {
-          if (user == null) {
-            return const LoginScreen();
-          } else if (!user.isActive) {
-            return const UnauthorizedScreen();
-          } else {
-            return const _PlaceholderHome();
-          }
-        },
-        error: (error, stack) => const UnauthorizedScreen(),
-        loading: () => const SplashScreen(),
-      ),
-    );
-  }
-}
-
-/// Temporary placeholder — replaced by go_router + auth in Phase 2
-class _PlaceholderHome extends StatelessWidget {
-  const _PlaceholderHome();
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Shree Giriraj Engineering'),
-      ),
-      backgroundColor: AppColors.background,
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Phase 1 — Design System Preview',
-              style: AppTextStyles.headlineLarge,
-            ),
-            const SizedBox(height: 24),
-
-            // Income / Expense summary cards
-            const Row(
-              children: [
-                Expanded(
-                  child: AmountSummaryCard(
-                    label: 'Today Income',
-                    amount: 1234567,
-                    type: TransactionType.income,
-                  ),
-                ),
-                SizedBox(width: 12),
-                Expanded(
-                  child: AmountSummaryCard(
-                    label: 'Today Expense',
-                    amount: 456789,
-                    type: TransactionType.expense,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 24),
-
-            // Currency formatter demo
-            AppCard(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Indian Currency Formatter',
-                    style: AppTextStyles.headlineSmall,
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    CurrencyFormatter.format(1234567),
-                    style: AppTextStyles.amountMedium,
-                  ),
-                  Text(
-                    CurrencyFormatter.formatCompact(1500000),
-                    style: AppTextStyles.amountSmall
-                        .copyWith(color: AppColors.textSecondary),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 16),
-
-            // Button variants
-            const AppButton(label: 'Primary Button', onPressed: null),
-            const SizedBox(height: 8),
-            const AppButton(
-                label: 'Loading...', onPressed: null, isLoading: true),
-            const SizedBox(height: 8),
-            const AppButton(
-              label: 'Outline',
-              onPressed: null,
-              variant: AppButtonVariant.outline,
-            ),
-            const SizedBox(height: 8),
-            const AppButton(
-              label: 'Danger',
-              onPressed: null,
-              variant: AppButtonVariant.danger,
-            ),
-          ],
-        ),
-      ),
+      routerConfig: router,
     );
   }
 }
