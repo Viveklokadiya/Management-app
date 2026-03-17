@@ -1,4 +1,4 @@
-package com.shreegiriraj.shree_giriraj_management
+package com.shreegiriraj.management
 
 import io.flutter.embedding.android.FlutterActivity
 

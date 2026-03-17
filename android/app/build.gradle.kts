@@ -8,7 +8,7 @@ plugins {
 android {
     namespace = "com.shreegiriraj.management"
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+    ndkVersion = "27.0.12077973" // Updated to match plugins like cloud_firestore
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
@@ -21,7 +21,7 @@ android {
 
     defaultConfig {
         applicationId = "com.shreegiriraj.management"
-        minSdk = 21
+        minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'app_colors.dart';
 import 'app_text_styles.dart';
 
@@ -7,6 +8,7 @@ class AppTheme {
   AppTheme._();
 
   static ThemeData get lightTheme {
+    
     return ThemeData(
       useMaterial3: true,
       colorScheme: const ColorScheme.light(
@@ -23,38 +25,50 @@ class AppTheme {
         surfaceContainerHighest: AppColors.background,
       ),
       scaffoldBackgroundColor: AppColors.background,
-      fontFamily: 'Roboto',
+      textTheme: GoogleFonts.publicSansTextTheme(const TextTheme(
+        displayLarge: AppTextStyles.displayLarge,
+        displayMedium: AppTextStyles.displayMedium,
+        headlineLarge: AppTextStyles.headlineLarge,
+        headlineMedium: AppTextStyles.headlineMedium,
+        headlineSmall: AppTextStyles.headlineSmall,
+        bodyLarge: AppTextStyles.bodyLarge,
+        bodyMedium: AppTextStyles.bodyMedium,
+        bodySmall: AppTextStyles.bodySmall,
+        labelLarge: AppTextStyles.labelLarge,
+        labelMedium: AppTextStyles.labelMedium,
+        labelSmall: AppTextStyles.labelSmall,
+      )),
 
-      // AppBar — Deep Navy
+      // AppBar — Light layout as per designs
       appBarTheme: const AppBarTheme(
-        backgroundColor: AppColors.primary,
-        foregroundColor: AppColors.textOnPrimary,
+        backgroundColor: AppColors.background,
+        foregroundColor: AppColors.textPrimary,
         elevation: 0,
         centerTitle: false,
         titleTextStyle: TextStyle(
-          color: AppColors.textOnPrimary,
+          color: AppColors.textPrimary,
           fontSize: 18,
-          fontWeight: FontWeight.w600,
+          fontWeight: FontWeight.w700,
         ),
-        iconTheme: IconThemeData(color: AppColors.textOnPrimary),
+        iconTheme: IconThemeData(color: AppColors.textPrimary),
         systemOverlayStyle: SystemUiOverlayStyle(
           statusBarColor: Colors.transparent,
-          statusBarIconBrightness: Brightness.light,
+          statusBarIconBrightness: Brightness.dark,
         ),
       ),
 
-      // Card — Rounded with shadow
+      // Card — Rounded with soft shadow
       cardTheme: CardThemeData(
         color: AppColors.cardBackground,
-        elevation: 2,
-        shadowColor: AppColors.shadow,
+        elevation: 0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
+          side: const BorderSide(color: AppColors.border),
         ),
         margin: EdgeInsets.zero,
       ),
 
-      // Input — Rounded, focused navy border
+      // Input — Rounded
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: AppColors.surface,
@@ -79,13 +93,12 @@ class AppTheme {
         labelStyle: const TextStyle(color: AppColors.textSecondary),
       ),
 
-      // ElevatedButton — Navy
+      // ElevatedButton
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.primary,
           foregroundColor: AppColors.textOnPrimary,
-          elevation: 2,
-          shadowColor: AppColors.shadow,
+          elevation: 0,
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           textStyle: AppTextStyles.buttonLarge,
@@ -156,21 +169,6 @@ class AppTheme {
         indicatorColor: AppColors.primary,
         labelStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
         unselectedLabelStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
-      ),
-
-      // Text Theme
-      textTheme: const TextTheme(
-        displayLarge: AppTextStyles.displayLarge,
-        displayMedium: AppTextStyles.displayMedium,
-        headlineLarge: AppTextStyles.headlineLarge,
-        headlineMedium: AppTextStyles.headlineMedium,
-        headlineSmall: AppTextStyles.headlineSmall,
-        bodyLarge: AppTextStyles.bodyLarge,
-        bodyMedium: AppTextStyles.bodyMedium,
-        bodySmall: AppTextStyles.bodySmall,
-        labelLarge: AppTextStyles.labelLarge,
-        labelMedium: AppTextStyles.labelMedium,
-        labelSmall: AppTextStyles.labelSmall,
       ),
     );
   }
