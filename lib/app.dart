@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'l10n/app_localizations.dart';
 import 'core/theme/app_theme.dart';
 import 'core/theme/app_colors.dart';
@@ -10,6 +11,10 @@ import 'core/widgets/app_button.dart';
 import 'core/widgets/app_card.dart';
 import 'core/widgets/amount_display.dart';
 import 'core/utils/currency_formatter.dart';
+import 'features/auth/presentation/providers/auth_provider.dart';
+import 'features/auth/presentation/screens/splash_screen.dart';
+import 'features/auth/presentation/screens/login_screen.dart';
+import 'features/auth/presentation/screens/unauthorized_screen.dart';
 
 class ShreeGirirajApp extends ConsumerWidget {
   const ShreeGirirajApp({super.key});
@@ -17,6 +22,7 @@ class ShreeGirirajApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final locale = ref.watch(localeProvider);
+    final authState = ref.watch(authStateProvider);
 
     return MaterialApp(
       title: 'Shree Giriraj Engineering',
@@ -30,7 +36,19 @@ class ShreeGirirajApp extends ConsumerWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: appSupportedLocales,
-      home: const _PlaceholderHome(),
+      home: authState.when(
+        data: (user) {
+          if (user == null) {
+            return const LoginScreen();
+          } else if (!user.isActive) {
+            return const UnauthorizedScreen();
+          } else {
+            return const _PlaceholderHome();
+          }
+        },
+        error: (error, stack) => const UnauthorizedScreen(),
+        loading: () => const SplashScreen(),
+      ),
     );
   }
 }
