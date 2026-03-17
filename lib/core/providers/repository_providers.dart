@@ -53,23 +53,16 @@ final allPartnersStreamProvider = StreamProvider<List<AppUser>>((ref) {
 });
 
 /// Stream of ALL transactions across all sites (admin view).
-/// collectionGroup without orderBy — we sort client-side to avoid requiring
-/// a Firestore composite index that would need manual setup in the console.
+/// Uses the flat root `transactions` collection (mirrored on create/update/delete)
+/// — no collectionGroup index required.
 final allTransactionsStreamProvider =
     StreamProvider<List<TransactionModel>>((ref) {
   final db = ref.read(firestoreProvider);
-  return db
-      .collectionGroup('transactions')
-      .snapshots()
-      .map((q) {
-        final list = q.docs
-            .map((doc) => TransactionModel.fromFirestore(doc))
-            .toList();
-        // Sort by transactionDate descending on the client
-        list.sort((a, b) =>
-            b.transactionDate.compareTo(a.transactionDate));
-        return list;
-      });
+  return db.collection('transactions').snapshots().map((q) {
+    final list = q.docs.map(TransactionModel.fromFirestore).toList();
+    list.sort((a, b) => b.transactionDate.compareTo(a.transactionDate));
+    return list;
+  });
 });
 
 // ─── Super Admin: All Users ───────────────────────────────────────────────────

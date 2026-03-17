@@ -6,8 +6,13 @@ class TransactionRemoteDataSource {
   final FirebaseFirestore _db;
   TransactionRemoteDataSource(this._db);
 
+  // Subcollection path: sites/{siteId}/transactions/{txnId}
   CollectionReference<Map<String, dynamic>> _txnCol(String siteId) =>
       _db.collection('sites').doc(siteId).collection('transactions');
+
+  // Root flat mirror: transactions/{txnId}  — used for watchByUser (no index needed)
+  CollectionReference<Map<String, dynamic>> get _rootTxnCol =>
+      _db.collection('transactions');
 
   Stream<List<TransactionModel>> watchBySite(String siteId) => _txnCol(siteId)
       .snapshots()
@@ -17,8 +22,9 @@ class TransactionRemoteDataSource {
         return list;
       });
 
-  Stream<List<TransactionModel>> watchByUser(String userId) => _db
-      .collectionGroup('transactions')
+  /// Query the flat root `transactions` collection by userId — no collectionGroup,
+  /// no composite index required.
+  Stream<List<TransactionModel>> watchByUser(String userId) => _rootTxnCol
       .where('createdByUserId', isEqualTo: userId)
       .snapshots()
       .map((snap) {
@@ -28,7 +34,10 @@ class TransactionRemoteDataSource {
       });
 
   Future<String> create(TransactionModel txn) async {
+    // Write to subcollection
     final ref = await _txnCol(txn.siteId).add(txn.toMap());
+    // Mirror to root collection with same ID
+    await _rootTxnCol.doc(ref.id).set(txn.toMap());
     await _writeAuditLog(
       entityType: 'transaction',
       entityId: ref.id,
@@ -45,7 +54,10 @@ class TransactionRemoteDataSource {
     final ref = _txnCol(txn.siteId).doc(txn.id);
     final before = await ref.get();
     final beforeData = before.data() ?? {};
-    await ref.update({...txn.toMap(), 'updatedAt': FieldValue.serverTimestamp()});
+    final updated = {...txn.toMap(), 'updatedAt': FieldValue.serverTimestamp()};
+    await ref.update(updated);
+    // Mirror to root collection
+    await _rootTxnCol.doc(txn.id).update(updated);
     await _writeAuditLog(
       entityType: 'transaction',
       entityId: txn.id,
@@ -67,6 +79,8 @@ class TransactionRemoteDataSource {
     final snap = await ref.get();
     final beforeData = snap.data() ?? {};
     await ref.delete();
+    // Remove from root mirror too (ignore if missing)
+    await _rootTxnCol.doc(transactionId).delete().catchError((_) {});
     await _writeAuditLog(
       entityType: 'transaction',
       entityId: transactionId,
