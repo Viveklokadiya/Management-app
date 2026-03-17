@@ -23,4 +23,7 @@ final class AppRoutes {
 
   // Super Admin routes (extends admin shell)
   static const superAdminUsers = '/admin/users';
+  static const superAdminAddUser = '/admin/add-user';
+  // Edit user: /admin/edit-user/:id
+  static const superAdminEditUser = '/admin/edit-user/:id';
 }

@@ -18,7 +18,11 @@ import '../../features/admin/presentation/screens/admin_transactions_screen.dart
 import '../../features/admin/presentation/screens/admin_sites_screen.dart';
 import '../../features/admin/presentation/screens/admin_partners_screen.dart';
 import '../../features/admin/presentation/screens/admin_profile_screen.dart';
+
+import '../../features/super_admin/presentation/screens/super_admin_users_screen.dart';
+import '../../features/super_admin/presentation/screens/add_edit_user_screen.dart';
 import '../../features/transactions/domain/models/transaction_model.dart';
+import '../../features/auth/domain/models/app_user.dart';
 import 'route_guard.dart';
 import 'routes.dart';
 
@@ -44,13 +48,28 @@ GoRouter appRouter(AppRouterRef ref) {
         builder: (context, state) => const UnauthorizedScreen(),
       ),
 
-      // ─── Add Transaction (outside shell — full-screen) ─────────────
+      // ─── Add Transaction (outside shell — full-screen) ──────────────────────
       GoRoute(
         path: AppRoutes.addTransaction,
         builder: (c, s) {
           final extra = s.extra as Map<String, dynamic>?;
           final type = extra?['type'] as TransactionType?;
           return AddTransactionScreen(initialType: type);
+        },
+      ),
+
+      // ─── Add User (outside shell — full-screen) ──────────────────────────────
+      GoRoute(
+        path: AppRoutes.superAdminAddUser,
+        builder: (c, s) => const AddEditUserScreen(),
+      ),
+
+      // ─── Edit User (outside shell — full-screen) ──────────────────────────────
+      GoRoute(
+        path: '/admin/edit-user/:id',
+        builder: (c, s) {
+          final user = s.extra as AppUser?;
+          return AddEditUserScreen(existingUser: user);
         },
       ),
 
@@ -111,7 +130,7 @@ GoRouter appRouter(AppRouterRef ref) {
           ),
           GoRoute(
             path: AppRoutes.superAdminUsers,
-            builder: (c, s) => const SuperAdminUsersPlaceholder(),
+            builder: (c, s) => const SuperAdminUsersScreen(),
           ),
         ],
       ),

@@ -44,21 +44,42 @@ final allPartnersStreamProvider = StreamProvider<List<AppUser>>((ref) {
   return db
       .collection('users')
       .where('role', isEqualTo: 'partner')
-      .orderBy('name')
       .snapshots()
-      .map((q) => q.docs.map(AppUser.fromFirestore).toList());
+      .map((q) {
+        final list = q.docs.map(AppUser.fromFirestore).toList();
+        list.sort((a, b) => a.name.compareTo(b.name)); // sort client-side
+        return list;
+      });
 });
 
 /// Stream of ALL transactions across all sites (admin view).
-/// Since transactions are in site sub-collections, we use a collectionGroup query.
+/// collectionGroup without orderBy — we sort client-side to avoid requiring
+/// a Firestore composite index that would need manual setup in the console.
 final allTransactionsStreamProvider =
     StreamProvider<List<TransactionModel>>((ref) {
   final db = ref.read(firestoreProvider);
   return db
       .collectionGroup('transactions')
-      .orderBy('transactionDate', descending: true)
       .snapshots()
-      .map((q) => q.docs
-          .map((doc) => TransactionModel.fromFirestore(doc))
-          .toList());
+      .map((q) {
+        final list = q.docs
+            .map((doc) => TransactionModel.fromFirestore(doc))
+            .toList();
+        // Sort by transactionDate descending on the client
+        list.sort((a, b) =>
+            b.transactionDate.compareTo(a.transactionDate));
+        return list;
+      });
+});
+
+// ─── Super Admin: All Users ───────────────────────────────────────────────────
+
+/// Stream of ALL users (any role) for super admin user management.
+final allUsersStreamProvider = StreamProvider<List<AppUser>>((ref) {
+  final db = ref.read(firestoreProvider);
+  return db.collection('users').snapshots().map((q) {
+    final list = q.docs.map(AppUser.fromFirestore).toList();
+    list.sort((a, b) => a.name.compareTo(b.name));
+    return list;
+  });
 });

@@ -9,9 +9,12 @@ class SiteRemoteDataSource {
   Stream<List<SiteModel>> watchAllSites() => _db
       .collection('sites')
       .where('isActive', isEqualTo: true)
-      .orderBy('name')
       .snapshots()
-      .map((s) => s.docs.map(SiteModel.fromFirestore).toList());
+      .map((s) {
+        final list = s.docs.map(SiteModel.fromFirestore).toList();
+        list.sort((a, b) => a.name.compareTo(b.name)); // sort client-side
+        return list;
+      });
 
   Future<List<SiteModel>> getSitesForUser(String userId) async {
     // Step 1: find all site_users entries for this user
