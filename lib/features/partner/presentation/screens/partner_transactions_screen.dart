@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import '../../../../core/providers/repository_providers.dart';
 import '../../../../core/router/routes.dart';
 import '../../../../core/theme/app_colors.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/utils/currency_formatter.dart';
 import '../../../../core/widgets/state_widgets.dart';
@@ -50,6 +51,7 @@ class _PartnerTransactionsScreenState
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final user = ref.watch(authStateProvider).value;
     if (user == null) return const SizedBox.shrink();
 
@@ -60,7 +62,7 @@ class _PartnerTransactionsScreenState
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: const Text('Transactions'),
+        title: Text(l10n.transactions),
         backgroundColor: AppColors.surface,
         surfaceTintColor: Colors.transparent,
         elevation: 0,

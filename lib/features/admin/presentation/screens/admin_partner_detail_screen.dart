@@ -1,6 +1,10 @@
+import 'dart:ui' as ui;
+
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:latlong2/latlong.dart';
 
 import '../../../../core/providers/repository_providers.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -563,76 +567,280 @@ class _TransactionsTab extends ConsumerWidget {
 
 // ─── Location tab ─────────────────────────────────────────────────────────────
 
-class _LocationTab extends StatelessWidget {
+class _LocationTab extends StatefulWidget {
   const _LocationTab({required this.partner});
   final AppUser partner;
 
   @override
+  State<_LocationTab> createState() => _LocationTabState();
+}
+
+class _LocationTabState extends State<_LocationTab> {
+  late final MapController _mapController;
+
+  @override
+  void initState() {
+    super.initState();
+    _mapController = MapController();
+  }
+
+  @override
+  void dispose() {
+    _mapController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final partner = widget.partner;
     final hasLocation =
         partner.lastLatitude != null && partner.lastLongitude != null;
-    return Padding(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        children: [
-          // Location card
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: AppColors.border),
+
+    if (!hasLocation) {
+      return const Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.location_off, size: 56, color: AppColors.textHint),
+            SizedBox(height: 12),
+            Text('No Location Data',
+                style: TextStyle(
+                    fontWeight: FontWeight.w700, fontSize: 16)),
+            SizedBox(height: 4),
+            Text(
+              'This partner has not shared\ntheir location yet.',
+              textAlign: TextAlign.center,
+              style: TextStyle(color: AppColors.textSecondary),
             ),
-            child: hasLocation
-                ? Column(
-                    children: [
-                      const Icon(Icons.location_on,
-                          color: AppColors.primary, size: 40),
-                      const SizedBox(height: 10),
-                      Text('Last Known Location',
-                          style: AppTextStyles.bodyMedium
-                              .copyWith(fontWeight: FontWeight.w700)),
-                      const SizedBox(height: 4),
-                      Text(
-                        '${partner.lastLatitude!.toStringAsFixed(5)}, '
-                        '${partner.lastLongitude!.toStringAsFixed(5)}',
-                        style: AppTextStyles.bodySmall.copyWith(
-                            color: AppColors.textSecondary),
-                        textAlign: TextAlign.center,
-                      ),
-                      if (partner.lastLocationAt != null) ...[
-                        const SizedBox(height: 8),
-                        Text(
-                          'Updated: ${DateFormat('d MMM yyyy, HH:mm').format(partner.lastLocationAt!)}',
-                          style: AppTextStyles.labelSmall.copyWith(
-                              color: AppColors.textHint),
+          ],
+        ),
+      );
+    }
+
+    final point =
+        LatLng(partner.lastLatitude!, partner.lastLongitude!);
+
+    return Column(
+      children: [
+        // ─── Map ──────────────────────────────────────────────────────────
+        Expanded(
+          child: Stack(
+            children: [
+              FlutterMap(
+                mapController: _mapController,
+                options: MapOptions(
+                  initialCenter: point,
+                  initialZoom: 15,
+                  minZoom: 3,
+                  maxZoom: 18,
+                ),
+                children: [
+                  // OpenStreetMap tiles — free, no API key
+                  TileLayer(
+                    urlTemplate:
+                        'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                    userAgentPackageName:
+                        'com.shreegiriraj.managementapp',
+                    maxNativeZoom: 18,
+                  ),
+                  // Partner marker
+                  MarkerLayer(
+                    markers: [
+                      Marker(
+                        point: point,
+                        width: 48,
+                        height: 48,
+                        child: Column(
+                          children: [
+                            Container(
+                              width: 36,
+                              height: 36,
+                              decoration: const BoxDecoration(
+                                color: AppColors.primary,
+                                shape: BoxShape.circle,
+                              ),
+                              child: Center(
+                                child: Text(
+                                  partner.name.isNotEmpty
+                                      ? partner.name[0].toUpperCase()
+                                      : '?',
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            CustomPaint(
+                              size: const Size(12, 8),
+                              painter: _TrianglePainter(),
+                            ),
+                          ],
                         ),
-                      ],
-                    ],
-                  )
-                : Column(
-                    children: [
-                      const Icon(Icons.location_off,
-                          color: AppColors.textHint, size: 40),
-                      const SizedBox(height: 10),
-                      Text('No Location Data',
-                          style: AppTextStyles.bodyMedium
-                              .copyWith(fontWeight: FontWeight.w700)),
-                      const SizedBox(height: 4),
-                      Text(
-                        'This partner has not shared their location yet.',
-                        style: AppTextStyles.bodySmall.copyWith(
-                            color: AppColors.textSecondary),
-                        textAlign: TextAlign.center,
                       ),
                     ],
                   ),
+                ],
+              ),
+
+              // ─── Zoom controls ──────────────────────────────────────────
+              Positioned(
+                bottom: 16,
+                right: 12,
+                child: Column(
+                  children: [
+                    _MapButton(
+                      icon: Icons.add,
+                      onTap: () {
+                        _mapController.move(
+                          _mapController.camera.center,
+                          _mapController.camera.zoom + 1,
+                        );
+                      },
+                    ),
+                    const SizedBox(height: 6),
+                    _MapButton(
+                      icon: Icons.remove,
+                      onTap: () {
+                        _mapController.move(
+                          _mapController.camera.center,
+                          _mapController.camera.zoom - 1,
+                        );
+                      },
+                    ),
+                    const SizedBox(height: 6),
+                    _MapButton(
+                      icon: Icons.my_location,
+                      onTap: () {
+                        _mapController.move(point, 15);
+                      },
+                    ),
+                  ],
+                ),
+              ),
+
+              // ─── OSM attribution (required by OSM license) ──────────────
+              Positioned(
+                bottom: 4,
+                left: 8,
+                child: Text(
+                  '© OpenStreetMap contributors',
+                  style: TextStyle(
+                    fontSize: 9,
+                    color: Colors.black.withValues(alpha: 0.5),
+                    backgroundColor:
+                        Colors.white.withValues(alpha: 0.6),
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
+
+        // ─── Info card below map ───────────────────────────────────────────
+        Container(
+          padding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            border: Border(top: BorderSide(color: AppColors.border)),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.05),
+                blurRadius: 6,
+                offset: const Offset(0, -2),
+              )
+            ],
+          ),
+          child: Row(
+            children: [
+              Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: AppColors.primaryLight,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: const Icon(Icons.location_on,
+                    color: AppColors.primary, size: 22),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '${partner.lastLatitude!.toStringAsFixed(5)}, '
+                      '${partner.lastLongitude!.toStringAsFixed(5)}',
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 13,
+                      ),
+                    ),
+                    if (partner.lastLocationAt != null)
+                      Text(
+                        'Updated ${DateFormat('d MMM yyyy, HH:mm').format(partner.lastLocationAt!)}',
+                        style: const TextStyle(
+                            fontSize: 11,
+                            color: AppColors.textSecondary),
+                      ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+// ─── Map zoom button ──────────────────────────────────────────────────────────
+
+class _MapButton extends StatelessWidget {
+  const _MapButton({required this.icon, required this.onTap});
+  final IconData icon;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 36,
+        height: 36,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(8),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.15),
+              blurRadius: 4,
+            )
+          ],
+        ),
+        child: Icon(icon, size: 20, color: AppColors.textPrimary),
       ),
     );
   }
+}
+
+// ─── Marker triangle pointer ──────────────────────────────────────────────────
+
+class _TrianglePainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()..color = AppColors.primary;
+    final path = ui.Path()
+      ..moveTo(0, 0)
+      ..lineTo(size.width, 0)
+      ..lineTo(size.width / 2, size.height)
+      ..close();
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter old) => false;
 }
 
 // ─── Sticky tab bar delegate ──────────────────────────────────────────────────

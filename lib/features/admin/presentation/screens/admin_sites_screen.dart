@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../l10n/app_localizations.dart';
 import '../../../../core/providers/repository_providers.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
@@ -68,7 +69,7 @@ class _AdminSitesScreenState extends ConsumerState<AdminSitesScreen> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('Construction Sites'),
+                Text(AppLocalizations.of(context)!.constructionSites),
                 Text(
                   'Shree Giriraj Engineering',
                   style: AppTextStyles.labelSmall.copyWith(
@@ -123,7 +124,7 @@ class _AdminSitesScreenState extends ConsumerState<AdminSitesScreen> {
                       controller: _searchCtrl,
                       onChanged: (v) => setState(() => _query = v),
                       decoration: InputDecoration(
-                        hintText: 'Search by name, city or status...',
+                        hintText: AppLocalizations.of(context)!.searchSites,
                         prefixIcon: const Icon(Icons.search,
                             color: AppColors.textSecondary),
                         filled: true,
@@ -143,21 +144,21 @@ class _AdminSitesScreenState extends ConsumerState<AdminSitesScreen> {
                       child: Row(
                         children: [
                           _FilterChip(
-                            label: 'All Projects',
+                            label: AppLocalizations.of(context)!.allProjects,
                             selected: _activeFilter == null,
                             onTap: () =>
                                 setState(() => _activeFilter = null),
                           ),
                           const SizedBox(width: 8),
                           _FilterChip(
-                            label: 'Active',
+                            label: AppLocalizations.of(context)!.active,
                             selected: _activeFilter == true,
                             onTap: () =>
                                 setState(() => _activeFilter = true),
                           ),
                           const SizedBox(width: 8),
                           _FilterChip(
-                            label: 'Inactive',
+                            label: AppLocalizations.of(context)!.inactive,
                             selected: _activeFilter == false,
                             onTap: () =>
                                 setState(() => _activeFilter = false),
@@ -173,10 +174,10 @@ class _AdminSitesScreenState extends ConsumerState<AdminSitesScreen> {
               Expanded(
                 child: filtered.isEmpty
                     ? EmptyStateWidget(
-                        title: 'No sites found',
+                        title: AppLocalizations.of(context)!.noSitesFound,
                         message: _query.isNotEmpty
-                            ? 'Try a different search term'
-                            : 'Tap + to add a new site',
+                            ? AppLocalizations.of(context)!.tryDifferentSearch
+                            : AppLocalizations.of(context)!.tapToAddSite,
                         icon: Icons.factory_outlined,
                       )
                     : ListView.separated(
@@ -308,7 +309,7 @@ class _SiteCard extends StatelessWidget {
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Text(
-                    site.isActive ? 'ACTIVE' : 'ON HOLD',
+                    site.isActive ? AppLocalizations.of(context)!.active.toUpperCase() : AppLocalizations.of(context)!.onHold.toUpperCase(),
                     style: AppTextStyles.labelSmall
                         .copyWith(color: Colors.white),
                   ),
@@ -328,7 +329,7 @@ class _SiteCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'SITE ID',
+                        AppLocalizations.of(context)!.siteIdUppercase,
                         style: AppTextStyles.labelSmall
                             .copyWith(fontSize: 9, color: AppColors.textHint),
                       ),
@@ -358,7 +359,7 @@ class _SiteCard extends StatelessWidget {
                           builder: (_) => AdminSiteDetailScreen(site: site)),
                     );
                   },
-                  child: Text('Manage',
+                  child: Text(AppLocalizations.of(context)!.manage,
                       style: AppTextStyles.labelSmall
                           .copyWith(color: Colors.white)),
                 ),

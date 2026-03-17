@@ -10,6 +10,7 @@ import '../../../../core/widgets/state_widgets.dart';
 import '../../../sites/domain/models/site_model.dart';
 import '../../../sites/domain/models/site_user_model.dart';
 import '../../../transactions/domain/models/transaction_model.dart';
+import '../../../auth/presentation/providers/auth_provider.dart';
 import 'add_edit_site_screen.dart';
 
 class AdminSiteDetailScreen extends ConsumerStatefulWidget {
@@ -201,14 +202,93 @@ class _SiteHero extends StatelessWidget {
 
 // ─── Partners Tab ─────────────────────────────────────────────────────────────
 
-class _PartnersTab extends ConsumerWidget {
+class _PartnersTab extends ConsumerStatefulWidget {
   const _PartnersTab({required this.siteId});
   final String siteId;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<_PartnersTab> createState() => _PartnersTabState();
+}
+
+class _PartnersTabState extends ConsumerState<_PartnersTab> {
+  late Future<List<SiteUserModel>> _usersFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUsers();
+  }
+
+  void _loadUsers() {
+    _usersFuture = ref.read(siteRepositoryProvider).getUsersForSite(widget.siteId);
+  }
+
+  void _refresh() {
+    setState(() {
+      _loadUsers();
+    });
+  }
+
+  void _showAssignSheet(List<SiteUserModel> assignedUsers) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      builder: (ctx) => _AssignPartnerSheet(
+        siteId: widget.siteId,
+        assignedUserIds: assignedUsers.map((u) => u.userId).toSet(),
+        onAssigned: () {
+          Navigator.pop(ctx);
+          _refresh();
+        },
+      ),
+    );
+  }
+
+  Future<void> _removePartner(SiteUserModel siteUser) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Remove Partner'),
+        content: Text('Remove ${siteUser.userName} from this site?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: const Text('Cancel'),
+          ),
+          FilledButton(
+            style: FilledButton.styleFrom(backgroundColor: AppColors.error),
+            onPressed: () => Navigator.pop(ctx, true),
+            child: const Text('Remove'),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmed != true) return;
+
+    try {
+      await ref.read(siteRepositoryProvider).removeUserFromSite(
+            siteId: widget.siteId,
+            userId: siteUser.userId,
+          );
+      _refresh();
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error: $e')),
+        );
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return FutureBuilder<List<SiteUserModel>>(
-      future: ref.read(siteRepositoryProvider).getUsersForSite(siteId),
+      future: _usersFuture,
       builder: (ctx, snap) {
         if (snap.connectionState == ConnectionState.waiting) {
           return const LoadingWidget();
@@ -217,18 +297,62 @@ class _PartnersTab extends ConsumerWidget {
           return ErrorStateWidget(message: snap.error.toString());
         }
         final users = snap.data ?? [];
-        if (users.isEmpty) {
-          return const EmptyStateWidget(
-            title: 'No partners assigned',
-            message: 'Assign partners to this site via the Users screen',
-            icon: Icons.people_outline,
-          );
-        }
-        return ListView.separated(
-          padding: const EdgeInsets.all(16),
-          itemCount: users.length,
-          separatorBuilder: (_, __) => const SizedBox(height: 10),
-          itemBuilder: (_, i) => _PartnerRow(siteUser: users[i]),
+        return CustomScrollView(
+          slivers: [
+            SliverPadding(
+              padding: const EdgeInsets.all(16),
+              sliver: SliverList(
+                delegate: SliverChildListDelegate([
+                  if (users.isEmpty)
+                    const Padding(
+                      padding: EdgeInsets.only(bottom: 24),
+                      child: EmptyStateWidget(
+                        title: 'No partners assigned',
+                        message: 'Assign partners to this site to allow them to add transactions',
+                        icon: Icons.people_outline,
+                      ),
+                    )
+                  else
+                    ListView.separated(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: users.length,
+                      separatorBuilder: (_, __) => const SizedBox(height: 10),
+                      itemBuilder: (_, i) => _PartnerRow(
+                        siteUser: users[i],
+                        onRemove: () => _removePartner(users[i]),
+                      ),
+                    ),
+                  Padding(
+                    padding: EdgeInsets.only(top: users.isEmpty ? 0 : 20),
+                    child: InkWell(
+                      onTap: () => _showAssignSheet(users),
+                      borderRadius: BorderRadius.circular(14),
+                      child: Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: AppColors.primary,
+                            width: 2,
+                          ),
+                          borderRadius: BorderRadius.circular(14),
+                        ),
+                        child: Center(
+                          child: Text(
+                            '+ Assign Partner',
+                            style: AppTextStyles.labelMedium.copyWith(
+                              color: AppColors.primary,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ]),
+              ),
+            ),
+          ],
         );
       },
     );
@@ -236,8 +360,9 @@ class _PartnersTab extends ConsumerWidget {
 }
 
 class _PartnerRow extends StatelessWidget {
-  const _PartnerRow({required this.siteUser});
+  const _PartnerRow({required this.siteUser, this.onRemove});
   final SiteUserModel siteUser;
+  final VoidCallback? onRemove;
 
   @override
   Widget build(BuildContext context) {
@@ -283,9 +408,150 @@ class _PartnerRow extends StatelessWidget {
               ],
             ),
           ),
-          const Icon(Icons.chevron_right, color: AppColors.textHint),
+          if (onRemove != null)
+            IconButton(
+              icon: const Icon(Icons.close, color: AppColors.error),
+              onPressed: onRemove,
+            )
+          else
+            const Icon(Icons.chevron_right, color: AppColors.textHint),
         ],
       ),
+    );
+  }
+}
+
+class _AssignPartnerSheet extends ConsumerWidget {
+  const _AssignPartnerSheet({
+    required this.siteId,
+    required this.assignedUserIds,
+    required this.onAssigned,
+  });
+
+  final String siteId;
+  final Set<String> assignedUserIds;
+  final VoidCallback onAssigned;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final partnersStream = ref.watch(allPartnersStreamProvider);
+
+    return DraggableScrollableSheet(
+      initialChildSize: 0.6,
+      minChildSize: 0.4,
+      maxChildSize: 0.9,
+      expand: false,
+      builder: (ctx, scrollController) {
+        return Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    'Assign Partner',
+                    style: AppTextStyles.headlineSmall,
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.close),
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                ],
+              ),
+            ),
+            const Divider(height: 1, color: AppColors.border),
+            Expanded(
+              child: partnersStream.when(
+                loading: () => const Center(child: CircularProgressIndicator()),
+                error: (e, _) => Center(child: Text(e.toString())),
+                data: (partners) {
+                  final available = partners
+                      .where((p) => !assignedUserIds.contains(p.id))
+                      .toList();
+                  
+                  if (available.isEmpty) {
+                    return const Center(
+                      child: Text('All partners are already assigned.'),
+                    );
+                  }
+
+                  return ListView.separated(
+                    controller: scrollController,
+                    padding: const EdgeInsets.all(16),
+                    itemCount: available.length,
+                    separatorBuilder: (_, __) => const SizedBox(height: 10),
+                    itemBuilder: (context, index) {
+                      final partner = available[index];
+                      return Container(
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(14),
+                          border: Border.all(color: AppColors.border),
+                        ),
+                        child: Row(
+                          children: [
+                            CircleAvatar(
+                              backgroundColor: AppColors.primaryLight,
+                              foregroundColor: AppColors.primary,
+                              child: Text(partner.name.isNotEmpty ? partner.name[0].toUpperCase() : '?'),
+                            ),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(partner.name, style: AppTextStyles.bodyMedium.copyWith(fontWeight: FontWeight.w600)),
+                                  if (partner.phone?.isNotEmpty == true)
+                                    Text(partner.phone!, style: AppTextStyles.bodySmall.copyWith(color: AppColors.textSecondary)),
+                                ],
+                              ),
+                            ),
+                            FilledButton.tonal(
+                              style: FilledButton.styleFrom(
+                                backgroundColor: AppColors.primaryLight,
+                              ),
+                              onPressed: () async {
+                                final currentUser = ref.read(authStateProvider).value;
+                                if (currentUser == null) return;
+
+                                final siteUser = SiteUserModel(
+                                  id: '',
+                                  siteId: siteId,
+                                  userId: partner.id,
+                                  userName: partner.name,
+                                  userEmail: partner.email,
+                                  assignedAt: DateTime.now(),
+                                  assignedByUserId: currentUser.id,
+                                );
+
+                                try {
+                                  await ref
+                                      .read(siteRepositoryProvider)
+                                      .assignUserToSite(siteUser);
+                                  onAssigned();
+                                } catch (e) {
+                                  if (context.mounted) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(content: Text('Error: $e')),
+                                    );
+                                  }
+                                }
+                              },
+                              child: Text('Assign', style: AppTextStyles.labelMedium.copyWith(color: AppColors.primary)),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }

@@ -3,12 +3,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../core/providers/repository_providers.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/utils/currency_formatter.dart';
 
 import '../../../auth/presentation/providers/auth_provider.dart';
 import '../../../sites/domain/models/site_model.dart';
+import '../../../auth/domain/models/app_user.dart';
 import '../../../transactions/domain/models/transaction_model.dart';
 
 class AddTransactionScreen extends ConsumerStatefulWidget {
@@ -30,7 +32,7 @@ class _AddTransactionScreenState
   PaymentMethod _paymentMethod = PaymentMethod.cash;
   String? _selectedSiteId;
   DateTime _selectedDate = DateTime.now();
-  bool _isLoading = false;
+  bool _isSubmitting = false;
   List<SiteModel> _sites = [];
   bool _loadingSites = true;
 
@@ -44,15 +46,18 @@ class _AddTransactionScreenState
   Future<void> _loadSites() async {
     final user = ref.read(authStateProvider).value;
     if (user == null) return;
-    final sites = await ref
-        .read(siteRepositoryProvider)
-        .getAssignedSites(user.id);
+    List<SiteModel> sites;
+    if (user.role == UserRole.admin || user.role == UserRole.superAdmin) {
+      sites = await ref.read(siteRepositoryProvider).getAllSites().first;
+    } else {
+      sites = await ref.read(siteRepositoryProvider).getAssignedSites(user.id);
+    }
     if (mounted) {
       setState(() {
-      _sites = sites;
-      _loadingSites = false;
-      if (sites.length == 1) _selectedSiteId = sites.first.id;
-    });
+        _sites = sites;
+        _loadingSites = false;
+        if (sites.length == 1) _selectedSiteId = sites.first.id;
+      });
     }
   }
 
@@ -63,18 +68,19 @@ class _AddTransactionScreenState
     super.dispose();
   }
 
-  Future<void> _save() async {
+  Future<void> _submit(BuildContext context) async {
+    final l10n = AppLocalizations.of(context)!;
     if (!_formKey.currentState!.validate()) return;
     if (_selectedSiteId == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please select a site')),
+        SnackBar(content: Text(l10n.pleaseSelectSite)),
       );
       return;
     }
     final user = ref.read(authStateProvider).value;
     if (user == null) return;
 
-    setState(() => _isLoading = true);
+    setState(() => _isSubmitting = true);
     try {
       final amountRupees = double.parse(
           _amountController.text.replaceAll(',', ''));
@@ -100,16 +106,17 @@ class _AddTransactionScreenState
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error saving transaction: $e')),
+          SnackBar(content: Text('${l10n.errorPrefix}$e')),
         );
       }
     } finally {
-      if (mounted) setState(() => _isLoading = false);
+      if (mounted) setState(() => _isSubmitting = false);
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final isIncome = _type == TransactionType.income;
     final typeColor = isIncome ? AppColors.income : AppColors.expense;
     final amountText = _amountController.text.replaceAll(',', '');
@@ -122,7 +129,7 @@ class _AddTransactionScreenState
         foregroundColor: Colors.white,
         elevation: 2,
         title: Text(
-          isIncome ? 'Add Income' : 'Add Expense',
+          isIncome ? l10n.addIncome : l10n.addExpense,
           style: AppTextStyles.headlineSmall
               .copyWith(color: Colors.white),
         ),
@@ -145,7 +152,7 @@ class _AddTransactionScreenState
                   children: [
                     Expanded(
                       child: _TypeButton(
-                        label: 'Expense',
+                        label: l10n.expense,
                         selected: _type == TransactionType.expense,
                         color: AppColors.expense,
                         onTap: () => setState(
@@ -154,7 +161,7 @@ class _AddTransactionScreenState
                     ),
                     Expanded(
                       child: _TypeButton(
-                        label: 'Income',
+                        label: l10n.income,
                         selected: _type == TransactionType.income,
                         color: AppColors.income,
                         onTap: () => setState(
@@ -167,7 +174,7 @@ class _AddTransactionScreenState
               const SizedBox(height: 20),
 
               // ─── Amount ───────────────────────────────────────────
-              const _FieldLabel('Amount'),
+              _FieldLabel(l10n.amount),
               const SizedBox(height: 6),
               TextFormField(
                 controller: _amountController,
@@ -195,9 +202,9 @@ class _AddTransactionScreenState
                       horizontal: 16, vertical: 18),
                 ),
                 validator: (v) {
-                  if (v == null || v.isEmpty) return 'Amount is required';
+                  if (v == null || v.isEmpty) return l10n.amountIsRequired;
                   final n = double.tryParse(v.replaceAll(',', ''));
-                  if (n == null || n <= 0) return 'Enter a valid amount';
+                  if (n == null || n <= 0) return l10n.enterValidAmount;
                   return null;
                 },
               ),
@@ -213,14 +220,14 @@ class _AddTransactionScreenState
               const SizedBox(height: 20),
 
               // ─── Site ─────────────────────────────────────────────
-              const _FieldLabel('Site / Location'),
+              _FieldLabel(l10n.siteLocation),
               const SizedBox(height: 6),
               _loadingSites
                   ? const Center(child: CircularProgressIndicator())
                   : DropdownButtonFormField<String>(
-                      initialValue: _selectedSiteId,
+                      value: _selectedSiteId,
                       isExpanded: true,
-                      decoration: _dropdownDecoration('Select Site'),
+                      decoration: _dropdownDecoration(l10n.selectSite),
                       items: _sites
                           .map((s) => DropdownMenuItem(
                                 value: s.id,
@@ -231,12 +238,12 @@ class _AddTransactionScreenState
                       onChanged: (v) =>
                           setState(() => _selectedSiteId = v),
                       validator: (v) =>
-                          v == null ? 'Please select a site' : null,
+                          v == null ? l10n.pleaseSelectSite : null,
                     ),
               const SizedBox(height: 20),
 
               // ─── Payment Method ───────────────────────────────────
-              const _FieldLabel('Payment Method'),
+              _FieldLabel(l10n.paymentMethod),
               const SizedBox(height: 8),
               GridView.count(
                 crossAxisCount: 2,
@@ -257,7 +264,7 @@ class _AddTransactionScreenState
               const SizedBox(height: 20),
 
               // ─── Date ─────────────────────────────────────────────
-              const _FieldLabel('Date'),
+              _FieldLabel(l10n.date),
               const SizedBox(height: 6),
               GestureDetector(
                 onTap: () async {
@@ -304,13 +311,13 @@ class _AddTransactionScreenState
               const SizedBox(height: 20),
 
               // ─── Remarks ──────────────────────────────────────────
-              const _FieldLabel('Remarks (Optional)'),
+              _FieldLabel(l10n.remarksOptional),
               const SizedBox(height: 6),
               TextFormField(
                 controller: _remarksController,
                 maxLines: 3,
                 decoration: InputDecoration(
-                  hintText: 'What was this for?',
+                  hintText: l10n.whatWasThisFor,
                   hintStyle: AppTextStyles.bodyMedium
                       .copyWith(color: AppColors.textHint),
                   filled: true,
@@ -346,8 +353,8 @@ class _AddTransactionScreenState
                 borderRadius: BorderRadius.circular(16),
               ),
             ),
-            onPressed: _isLoading ? null : _save,
-            child: _isLoading
+            onPressed: _isSubmitting ? null : () => _submit(context),
+            child: _isSubmitting
                 ? const SizedBox(
                     height: 20,
                     width: 20,
@@ -355,7 +362,7 @@ class _AddTransactionScreenState
                         color: Colors.white, strokeWidth: 2),
                   )
                 : Text(
-                    'Save Transaction',
+                    l10n.saveTransaction,
                     style: AppTextStyles.labelLarge
                         .copyWith(color: Colors.white),
                   ),
@@ -434,11 +441,12 @@ class _PaymentMethodTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final label = switch (method) {
-      PaymentMethod.cash => 'Cash',
-      PaymentMethod.upi => 'UPI',
-      PaymentMethod.bank => 'Bank',
-      PaymentMethod.other => 'Other',
+      PaymentMethod.cash => l10n.cash,
+      PaymentMethod.upi => l10n.upi,
+      PaymentMethod.bank => l10n.bank,
+      PaymentMethod.other => l10n.other,
     };
     return GestureDetector(
       onTap: onTap,

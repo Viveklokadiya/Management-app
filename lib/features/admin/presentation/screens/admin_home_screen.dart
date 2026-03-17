@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../l10n/app_localizations.dart';
 import '../../../../core/providers/repository_providers.dart';
 import '../../../../core/router/routes.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -75,7 +76,7 @@ class AdminHomeScreen extends ConsumerWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Hello, ${user.name.split(' ').first}',
+                              '${AppLocalizations.of(context)!.hello}, ${user.name.split(' ').first}',
                               style: AppTextStyles.headlineSmall,
                             ),
                             Text(
@@ -142,7 +143,7 @@ class AdminHomeScreen extends ConsumerWidget {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    'NET BALANCE',
+                                    AppLocalizations.of(context)!.netBalance,
                                     style: AppTextStyles.labelSmall.copyWith(
                                       color: Colors.white.withValues(alpha: 0.8),
                                       letterSpacing: 1,
@@ -176,7 +177,7 @@ class AdminHomeScreen extends ConsumerWidget {
                                         color: Colors.white, size: 14),
                                     const SizedBox(width: 4),
                                     Text(
-                                      '${allTxns.length} total transactions',
+                                      AppLocalizations.of(context)!.totalTransactionsCount(allTxns.length),
                                       style: AppTextStyles.labelSmall
                                           .copyWith(color: Colors.white),
                                     ),
@@ -192,7 +193,7 @@ class AdminHomeScreen extends ConsumerWidget {
                           children: [
                             Expanded(
                               child: _MiniStatCard(
-                                label: 'Today Income',
+                                label: AppLocalizations.of(context)!.todayIncome,
                                 amount: todayIncome,
                                 isIncome: true,
                               ),
@@ -200,7 +201,7 @@ class AdminHomeScreen extends ConsumerWidget {
                             const SizedBox(width: 12),
                             Expanded(
                               child: _MiniStatCard(
-                                label: 'Today Expense',
+                                label: AppLocalizations.of(context)!.todayExpense,
                                 amount: todayExpense,
                                 isIncome: false,
                               ),
@@ -219,14 +220,14 @@ class AdminHomeScreen extends ConsumerWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text('Quick Actions',
+                        Text(AppLocalizations.of(context)!.quickActions,
                             style: AppTextStyles.headlineSmall),
                         const SizedBox(height: 12),
                         Row(
                           children: [
                             Expanded(
                               child: _QuickActionButton(
-                                label: 'Add Income',
+                                label: AppLocalizations.of(context)!.addIncome,
                                 icon: Icons.add_circle_outline,
                                 onTap: () => context.push(
                                   AppRoutes.addTransaction,
@@ -240,7 +241,7 @@ class AdminHomeScreen extends ConsumerWidget {
                             const SizedBox(width: 12),
                             Expanded(
                               child: _QuickActionButton(
-                                label: 'Add Expense',
+                                label: AppLocalizations.of(context)!.addExpense,
                                 icon: Icons.remove_circle_outline,
                                 onTap: () => context.push(
                                   AppRoutes.addTransaction,
@@ -267,8 +268,8 @@ class AdminHomeScreen extends ConsumerWidget {
                         Expanded(
                           child: _InfoTile(
                             icon: Icons.receipt_long_outlined,
-                            title: 'Total Transactions',
-                            subtitle: '${allTxns.length} items',
+                            title: AppLocalizations.of(context)!.totalTransactions,
+                            subtitle: AppLocalizations.of(context)!.itemsCount(allTxns.length),
                           ),
                         ),
                         const SizedBox(width: 12),
@@ -281,8 +282,8 @@ class AdminHomeScreen extends ConsumerWidget {
                               final count = snapshot.data?.length ?? 0;
                               return _InfoTile(
                                 icon: Icons.factory_outlined,
-                                title: 'Active Sites',
-                                subtitle: '$count locations',
+                                title: AppLocalizations.of(context)!.activeSites,
+                                subtitle: AppLocalizations.of(context)!.locationsCount(count),
                               );
                             },
                           ),
@@ -299,13 +300,13 @@ class AdminHomeScreen extends ConsumerWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text('Recent Transactions',
+                        Text(AppLocalizations.of(context)!.recentTransactions,
                             style: AppTextStyles.headlineSmall),
                         TextButton(
                           onPressed: () =>
                               context.go(AppRoutes.adminTransactions),
                           child: Text(
-                            'View All',
+                            AppLocalizations.of(context)!.viewAll,
                             style: AppTextStyles.labelMedium
                                 .copyWith(color: AppColors.primary),
                           ),
@@ -316,12 +317,12 @@ class AdminHomeScreen extends ConsumerWidget {
                 ),
 
                 if (recent.isEmpty)
-                  const SliverToBoxAdapter(
+                  SliverToBoxAdapter(
                     child: Padding(
-                      padding: EdgeInsets.all(16),
+                      padding: const EdgeInsets.all(16),
                       child: EmptyStateWidget(
-                        title: 'No transactions yet',
-                        message: 'Add your first transaction',
+                        title: AppLocalizations.of(context)!.noTransactionsYet,
+                        message: AppLocalizations.of(context)!.addYourFirstTransaction,
                         icon: Icons.receipt_long_outlined,
                       ),
                     ),
@@ -395,7 +396,7 @@ class _MiniStatCard extends StatelessWidget {
               ),
               const SizedBox(width: 2),
               Text(
-                isIncome ? 'Income' : 'Expense',
+                isIncome ? AppLocalizations.of(context)!.income : AppLocalizations.of(context)!.expense,
                 style: AppTextStyles.labelSmall.copyWith(
                   color: isIncome ? AppColors.income : AppColors.expense,
                   fontSize: 9,
@@ -559,7 +560,7 @@ class _RecentTxnTile extends StatelessWidget {
                   Text(
                     txn.remarks?.isNotEmpty == true
                         ? txn.remarks!
-                        : '${isIncome ? 'Income' : 'Expense'} · ${txn.siteId}',
+                        : '${isIncome ? AppLocalizations.of(context)!.income : AppLocalizations.of(context)!.expense} · ${txn.siteId}',
                     style: AppTextStyles.bodySmall.copyWith(
                         fontWeight: FontWeight.w600,
                         color: AppColors.textPrimary),
@@ -587,7 +588,7 @@ class _RecentTxnTile extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  _paymentLabel(txn.paymentMethod),
+                  _paymentLabel(txn.paymentMethod, context),
                   style: AppTextStyles.labelSmall.copyWith(
                     fontSize: 9,
                     color: AppColors.textHint,
@@ -601,10 +602,10 @@ class _RecentTxnTile extends StatelessWidget {
     );
   }
 
-  String _paymentLabel(PaymentMethod m) => switch (m) {
-        PaymentMethod.upi => 'UPI',
-        PaymentMethod.bank => 'Bank Transfer',
-        PaymentMethod.cash => 'Cash',
-        PaymentMethod.other => 'Other',
+  String _paymentLabel(PaymentMethod m, BuildContext context) => switch (m) {
+        PaymentMethod.upi => AppLocalizations.of(context)!.upi,
+        PaymentMethod.bank => AppLocalizations.of(context)!.bank,
+        PaymentMethod.cash => AppLocalizations.of(context)!.cash,
+        PaymentMethod.other => AppLocalizations.of(context)!.other,
       };
 }

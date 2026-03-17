@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../l10n/app_localizations.dart';
 import '../../../../core/providers/repository_providers.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
@@ -60,7 +61,7 @@ class _AdminPartnersScreenState extends ConsumerState<AdminPartnersScreen> {
                   color: AppColors.primary, size: 20),
             ),
             const SizedBox(width: 10),
-            const Text('Partners'),
+            Text(AppLocalizations.of(context)!.partners),
           ],
         ),
         bottom: const PreferredSize(
@@ -85,7 +86,7 @@ class _AdminPartnersScreenState extends ConsumerState<AdminPartnersScreen> {
                       controller: _searchCtrl,
                       onChanged: (v) => setState(() => _query = v),
                       decoration: InputDecoration(
-                        hintText: 'Search partners by name or ID',
+                        hintText: AppLocalizations.of(context)!.searchPartners,
                         prefixIcon: const Icon(Icons.search,
                             color: AppColors.textSecondary),
                         filled: true,
@@ -110,7 +111,7 @@ class _AdminPartnersScreenState extends ConsumerState<AdminPartnersScreen> {
                             borderRadius: BorderRadius.circular(20),
                           ),
                           child: Text(
-                            'All Partners (${filtered.length})',
+                            AppLocalizations.of(context)!.allPartnersCount(filtered.length),
                             style: AppTextStyles.labelSmall
                                 .copyWith(color: Colors.white),
                           ),
@@ -124,10 +125,10 @@ class _AdminPartnersScreenState extends ConsumerState<AdminPartnersScreen> {
               Expanded(
                 child: filtered.isEmpty
                     ? EmptyStateWidget(
-                        title: 'No partners found',
+                        title: AppLocalizations.of(context)!.noPartnersFound,
                         message: _query.isNotEmpty
-                            ? 'Try a different search term'
-                            : 'No partners registered yet',
+                            ? AppLocalizations.of(context)!.tryDifferentSearch
+                            : AppLocalizations.of(context)!.noPartnersRegistered,
                         icon: Icons.people_outline,
                       )
                     : ListView.separated(
@@ -236,11 +237,11 @@ class _PartnerCard extends StatelessWidget {
                             ),
                             child: Text(
                               isOnline
-                                  ? 'Online'
+                                  ? AppLocalizations.of(context)!.online
                                   : lastSeen != null
                                       ? DateFormat('h:mm a')
                                           .format(lastSeen)
-                                      : 'Offline',
+                                      : AppLocalizations.of(context)!.offline,
                               style: AppTextStyles.labelSmall.copyWith(
                                 color: isOnline
                                     ? AppColors.income
@@ -273,8 +274,8 @@ class _PartnerCard extends StatelessWidget {
                           Expanded(
                             child: Text(
                               lastSeen != null
-                                  ? 'Last seen ${DateFormat('d MMM y').format(lastSeen)}'
-                                  : 'No location data',
+                                  ? AppLocalizations.of(context)!.lastSeenDate(DateFormat('d MMM y').format(lastSeen))
+                                  : AppLocalizations.of(context)!.noLocationData,
                               style: AppTextStyles.bodySmall
                                   .copyWith(color: AppColors.textSecondary),
                               overflow: TextOverflow.ellipsis,
@@ -298,7 +299,7 @@ class _PartnerCard extends StatelessWidget {
                     color: AppColors.primary, size: 18),
                 const SizedBox(width: 6),
                 Text(
-                  'View assigned sites',
+                  AppLocalizations.of(context)!.viewAssignedSites,
                   style: AppTextStyles.labelSmall
                       .copyWith(fontWeight: FontWeight.w600),
                 ),
@@ -316,7 +317,7 @@ class _PartnerCard extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        'View Details',
+                        AppLocalizations.of(context)!.viewDetails,
                         style: AppTextStyles.labelSmall
                             .copyWith(color: AppColors.primary),
                       ),

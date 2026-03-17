@@ -19,6 +19,7 @@ class ShreeGirirajApp extends ConsumerWidget {
       title: 'Shree Giriraj Engineering',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
+      // Drives the entire app locale — any setLocale() call rebuilds here.
       locale: locale,
       localizationsDelegates: const [
         AppLocalizations.delegate,
@@ -31,3 +32,4 @@ class ShreeGirirajApp extends ConsumerWidget {
     );
   }
 }
+

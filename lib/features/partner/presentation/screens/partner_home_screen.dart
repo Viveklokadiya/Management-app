@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../l10n/app_localizations.dart';
 import '../../../../core/providers/repository_providers.dart';
 import '../../../../core/router/routes.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -71,12 +72,12 @@ class PartnerHomeScreen extends ConsumerWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              '${_greeting()}, ${user.name.split(' ').first}',
+                              '${_greeting(context)}, ${user.name.split(' ').first}',
                               style: AppTextStyles.headlineMedium,
                             ),
                             const SizedBox(height: 2),
                             Text(
-                              'Welcome back to your dashboard',
+                              AppLocalizations.of(context)!.welcomeBackDashboard,
                               style: AppTextStyles.bodySmall
                                   .copyWith(color: AppColors.textSecondary),
                             ),
@@ -109,7 +110,7 @@ class PartnerHomeScreen extends ConsumerWidget {
                           children: [
                             Expanded(
                               child: _StatCard(
-                                label: 'Today Income',
+                                label: AppLocalizations.of(context)!.todayIncome,
                                 amount: todayIncome,
                                 isIncome: true,
                               ),
@@ -117,7 +118,7 @@ class PartnerHomeScreen extends ConsumerWidget {
                             const SizedBox(width: 12),
                             Expanded(
                               child: _StatCard(
-                                label: 'Today Expense',
+                                label: AppLocalizations.of(context)!.todayExpense,
                                 amount: todayExpense,
                                 isIncome: false,
                               ),
@@ -147,7 +148,7 @@ class PartnerHomeScreen extends ConsumerWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'TOTAL TRANSACTIONS',
+                                    AppLocalizations.of(context)!.totalTransactions,
                                     style: AppTextStyles.labelSmall.copyWith(
                                       color: Colors.white.withOpacity(0.8),
                                       letterSpacing: 0.5,
@@ -188,13 +189,13 @@ class PartnerHomeScreen extends ConsumerWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text('Quick Actions', style: AppTextStyles.headlineSmall),
+                        Text(AppLocalizations.of(context)!.quickActions, style: AppTextStyles.headlineSmall),
                         const SizedBox(height: 12),
                         Row(
                           children: [
                             Expanded(
                               child: _QuickActionTile(
-                                label: 'Add Income',
+                                label: AppLocalizations.of(context)!.addIncome,
                                 icon: Icons.add,
                                 color: AppColors.income,
                                 bgColor: AppColors.incomeLight,
@@ -207,7 +208,7 @@ class PartnerHomeScreen extends ConsumerWidget {
                             const SizedBox(width: 12),
                             Expanded(
                               child: _QuickActionTile(
-                                label: 'Add Expense',
+                                label: AppLocalizations.of(context)!.addExpense,
                                 icon: Icons.remove,
                                 color: AppColors.textPrimary,
                                 bgColor: const Color(0xFFF3F4F6),
@@ -231,13 +232,13 @@ class PartnerHomeScreen extends ConsumerWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text('Recent Transactions',
+                        Text(AppLocalizations.of(context)!.recentTransactions,
                             style: AppTextStyles.headlineSmall),
                         TextButton(
                           onPressed: () =>
                               context.go(AppRoutes.partnerTransactions),
                           child: Text(
-                            'View All',
+                            AppLocalizations.of(context)!.viewAll,
                             style: AppTextStyles.labelMedium
                                 .copyWith(color: AppColors.primary),
                           ),
@@ -248,12 +249,12 @@ class PartnerHomeScreen extends ConsumerWidget {
                 ),
 
                 if (recent.isEmpty)
-                  const SliverToBoxAdapter(
+                  SliverToBoxAdapter(
                     child: Padding(
-                      padding: EdgeInsets.all(16),
+                      padding: const EdgeInsets.all(16),
                       child: EmptyStateWidget(
-                        title: 'No transactions yet',
-                        message: 'Tap + to add your first transaction',
+                        title: AppLocalizations.of(context)!.noTransactionsYet,
+                        message: AppLocalizations.of(context)!.tapToAddFirstTransaction,
                         icon: Icons.receipt_long_outlined,
                       ),
                     ),
@@ -283,11 +284,11 @@ class PartnerHomeScreen extends ConsumerWidget {
     );
   }
 
-  String _greeting() {
+  String _greeting(BuildContext context) {
     final hour = DateTime.now().hour;
-    if (hour < 12) return 'Good morning';
-    if (hour < 17) return 'Good afternoon';
-    return 'Good evening';
+    if (hour < 12) return AppLocalizations.of(context)!.goodMorning;
+    if (hour < 17) return AppLocalizations.of(context)!.goodAfternoon;
+    return AppLocalizations.of(context)!.goodEvening;
   }
 }
 
@@ -461,7 +462,7 @@ class _TransactionListTile extends StatelessWidget {
                     Text(
                       txn.remarks?.isNotEmpty == true
                           ? txn.remarks!
-                          : (isIncome ? 'Income' : 'Expense'),
+                          : (isIncome ? AppLocalizations.of(context)!.income : AppLocalizations.of(context)!.expense),
                       style: AppTextStyles.bodyMedium
                           .copyWith(fontWeight: FontWeight.w600),
                       maxLines: 1,

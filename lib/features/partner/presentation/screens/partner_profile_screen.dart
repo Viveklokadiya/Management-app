@@ -4,6 +4,8 @@ import 'package:intl/intl.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
+import '../../../../core/widgets/language_tile.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../../auth/presentation/providers/auth_provider.dart';
 
 class PartnerProfileScreen extends ConsumerStatefulWidget {
@@ -21,6 +23,7 @@ class _PartnerProfileScreenState
   @override
   Widget build(BuildContext context) {
     final user = ref.watch(authStateProvider).value;
+    final l10n = AppLocalizations.of(context)!;
     if (user == null) return const SizedBox.shrink();
 
     return Scaffold(
@@ -69,7 +72,7 @@ class _PartnerProfileScreenState
                           color: Colors.white.withOpacity(0.3)),
                     ),
                     child: Text(
-                      'PARTNER',
+                      l10n.partner.toUpperCase(),
                       style: AppTextStyles.labelSmall.copyWith(
                         color: Colors.white,
                         letterSpacing: 1.2,
@@ -102,7 +105,7 @@ class _PartnerProfileScreenState
                     children: [
                       _InfoRow(
                         icon: Icons.email_outlined,
-                        label: 'Email',
+                        label: l10n.email,
                         value: user.email,
                       ),
                       const Divider(
@@ -111,10 +114,10 @@ class _PartnerProfileScreenState
                           color: AppColors.border),
                       _InfoRow(
                         icon: Icons.phone_outlined,
-                        label: 'Phone Number',
+                        label: l10n.phoneNumber,
                         value: user.phone?.isNotEmpty == true
                             ? user.phone!
-                            : 'Not provided',
+                            : l10n.notProvided,
                       ),
                       const Divider(
                           height: 1,
@@ -122,15 +125,34 @@ class _PartnerProfileScreenState
                           color: AppColors.border),
                       _InfoRow(
                         icon: Icons.location_on_outlined,
-                        label: 'Last Location Updated',
+                        label: l10n.lastLocationUpdated,
                         value: user.lastLocationAt != null
                             ? DateFormat('d MMM y, h:mm a')
                                 .format(user.lastLocationAt!)
-                            : 'Not yet captured',
+                            : l10n.notYetCaptured,
                       ),
                     ],
                   ),
                 ),
+              ),
+            ),
+
+            // ─── Settings Card ───────────────────────────────────────
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 0, 20, 16),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: AppColors.shadow,
+                      blurRadius: 12,
+                      offset: Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: LanguageTile(),
               ),
             ),
 
@@ -147,7 +169,7 @@ class _PartnerProfileScreenState
                       borderRadius: BorderRadius.circular(16),
                     ),
                   ),
-                  onPressed: _signingOut ? null : _signOut,
+                  onPressed: _signingOut ? null : () => _signOut(context),
                   icon: _signingOut
                       ? const SizedBox(
                           width: 18,
@@ -157,7 +179,7 @@ class _PartnerProfileScreenState
                         )
                       : const Icon(Icons.logout, color: Colors.white),
                   label: Text(
-                    'Logout',
+                    l10n.logout,
                     style: AppTextStyles.labelLarge
                         .copyWith(color: Colors.white),
                   ),
@@ -170,23 +192,23 @@ class _PartnerProfileScreenState
     );
   }
 
-  Future<void> _signOut() async {
+  Future<void> _signOut(BuildContext context) async {
+    final l10n = AppLocalizations.of(context)!;
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('Sign Out'),
-        content:
-            const Text('Are you sure you want to sign out?'),
+        title: Text(l10n.signOut),
+        content: Text(l10n.signOutConfirm),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: const Text('Cancel'),
+            child: Text(l10n.cancel),
           ),
           FilledButton(
             style: FilledButton.styleFrom(
                 backgroundColor: AppColors.accent),
             onPressed: () => Navigator.pop(ctx, true),
-            child: const Text('Sign Out'),
+            child: Text(l10n.signOut),
           ),
         ],
       ),
@@ -223,8 +245,7 @@ class _InfoRow extends StatelessWidget {
               color: const Color(0xFFE0E1DD),
               borderRadius: BorderRadius.circular(12),
             ),
-            child: Icon(icon,
-                size: 22, color: AppColors.accent),
+            child: Icon(icon, size: 22, color: AppColors.accent),
           ),
           const SizedBox(width: 14),
           Expanded(

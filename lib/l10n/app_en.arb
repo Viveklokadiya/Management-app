@@ -27,6 +27,82 @@
   "upi": "UPI",
   "bank": "Bank Transfer",
   "other": "Other",
+  "welcomeBackDashboard": "Welcome back to your dashboard",
+  "todayIncome": "Today Income",
+  "todayExpense": "Today Expense",
+  "totalTransactions": "TOTAL TRANSACTIONS",
+  "quickActions": "Quick Actions",
+  "recentTransactions": "Recent Transactions",
+  "viewAll": "View All",
+  "noTransactionsYet": "No transactions yet",
+  "tapToAddFirstTransaction": "Tap + to add your first transaction",
+  "addYourFirstTransaction": "Add your first transaction",
+  "goodMorning": "Good morning",
+  "goodAfternoon": "Good afternoon",
+  "goodEvening": "Good evening",
+  "hello": "Hello",
+  "transactions": "Transactions",
+  "all": "All",
+  "partners": "Partners",
+  "searchPartners": "Search partners by name or ID",
+  "allPartnersCount": "All Partners ({count})",
+  "@allPartnersCount": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "noPartnersFound": "No partners found",
+  "tryDifferentSearch": "Try a different search term",
+  "noPartnersRegistered": "No partners registered yet",
+  "online": "Online",
+  "offline": "Offline",
+  "lastSeenDate": "Last seen {date}",
+  "@lastSeenDate": {
+    "placeholders": {
+      "date": {}
+    }
+  },
+  "noLocationData": "No location data",
+  "viewAssignedSites": "View assigned sites",
+  "viewDetails": "View Details",
+  "constructionSites": "Construction Sites",
+  "searchSites": "Search by name, city or status...",
+  "allProjects": "All Projects",
+  "active": "Active",
+  "inactive": "Inactive",
+  "noSitesFound": "No sites found",
+  "tapToAddSite": "Tap + to add a new site",
+  "onHold": "On Hold",
+  "siteIdUppercase": "SITE ID",
+  "manage": "Manage",
+  "noTransactions": "No transactions",
+  "nothingToShowFilter": "Nothing to show for this filter",
+  "byUser": "By: {name}",
+  "@byUser": {
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "netBalance": "NET BALANCE",
+  "totalTransactionsCount": "{count} total transactions",
+  "@totalTransactionsCount": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "itemsCount": "{count} items",
+  "@itemsCount": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "activeSites": "Active Sites",
+  "locationsCount": "{count} locations",
+  "@locationsCount": {
+    "placeholders": {
+      "count": {}
+    }
+  },
   "date": "Date",
   "site": "Site",
   "selectSite": "Select Site",
@@ -48,5 +124,36 @@
   "admin": "Admin",
   "partner": "Partner",
   "required": "This field is required",
-  "invalidAmount": "Please enter a valid amount"
+  "invalidAmount": "Please enter a valid amount",
+  "email": "Email",
+  "phoneNumber": "Phone Number",
+  "notProvided": "Not provided",
+  "lastLocationUpdated": "Last Location Updated",
+  "notYetCaptured": "Not yet captured",
+  "organization": "Organization",
+  "memberSince": "Member Since",
+  "numbersInEnglishNote": "Numbers always display in English (1, 2, 3…)",
+  "signOutConfirm": "Are you sure you want to sign out?",
+  "chooseLanguage": "Choose Language",
+  "signOut": "Sign Out",
+  "deactivate": "Deactivate",
+  "activate": "Activate",
+  "errorPrefix": "Error: ",
+  "transactionDetails": "Transaction Details",
+  "pleaseSelectSite": "Please select a site",
+  "errorSavingTransaction": "Error saving transaction: ",
+  "titleSiteList": "Site List",
+  "addIncome": "Add Income",
+  "addExpense": "Add Expense",
+  "amountIsRequired": "Amount is required",
+  "enterValidAmount": "Enter a valid amount",
+  "siteLocation": "Site / Location",
+  "remarksOptional": "Remarks (Optional)",
+  "whatWasThisFor": "What was this for?",
+  "saveTransaction": "Save Transaction",
+  "constructionSites": "Construction Sites",
+  "siteDetails": "Site Details",
+  "editSite": "Edit Site",
+  "partnerDetails": "Partner Details",
+  "partners": "Partners"
 }

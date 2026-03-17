@@ -27,6 +27,82 @@
   "upi": "UPI",
   "bank": "બૅન્ક ટ્રાન્સફર",
   "other": "અન્ય",
+  "welcomeBackDashboard": "તમારા ડેશબોર્ડમાં ફરી સ્વાગત છે",
+  "todayIncome": "આજની આવક",
+  "todayExpense": "આજનો ખર્ચ",
+  "totalTransactions": "કુલ વ્યવહારો",
+  "quickActions": "ઝડપી ક્રિયાઓ",
+  "recentTransactions": "તાજેતરના વ્યવહારો",
+  "viewAll": "બધું જુઓ",
+  "noTransactionsYet": "હજુ સુધી કોઈ વ્યવહારો નથી",
+  "tapToAddFirstTransaction": "તમારો પ્રથમ વ્યવહાર ઉમેરવા માટે + ટેપ કરો",
+  "addYourFirstTransaction": "તમારો પ્રથમ વ્યવહાર ઉમેરો",
+  "goodMorning": "શુભ સવાર",
+  "goodAfternoon": "શુભ બપોર",
+  "goodEvening": "શુભ સાંજ",
+  "hello": "નમસ્તે",
+  "transactions": "વ્યવહારો",
+  "all": "બધા",
+  "partners": "ભાગીદારો",
+  "searchPartners": "નામ અથવા ID દ્વારા ભાગીદારો શોધો",
+  "allPartnersCount": "બધા ભાગીદારો ({count})",
+  "@allPartnersCount": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "noPartnersFound": "કોઈ ભાગીદારો મળ્યા નથી",
+  "tryDifferentSearch": "ભિન્ન શોધ શબ્દનો પ્રયાસ કરો",
+  "noPartnersRegistered": "હજી સુધી કોઈ ભાગીદારો નોંધાયેલા નથી",
+  "online": "ઓનલાઈન",
+  "offline": "ઓફલાઈન",
+  "lastSeenDate": "છેલ્લે જોયું {date}",
+  "@lastSeenDate": {
+    "placeholders": {
+      "date": {}
+    }
+  },
+  "noLocationData": "કોઈ સ્થાન ડેટા નથી",
+  "viewAssignedSites": "સોંપેલ સાઇટ્સ જુઓ",
+  "viewDetails": "વિગતો જુઓ",
+  "constructionSites": "બાંધકામ સાઇટ્સ",
+  "searchSites": "નામ, શહેર અથવા સ્થિતિ દ્વારા શોધો...",
+  "allProjects": "બધા પ્રોજેક્ટ્સ",
+  "active": "સક્રિય",
+  "inactive": "નિષ્ક્રિય",
+  "noSitesFound": "કોઈ સાઇટ્સ મળી નથી",
+  "tapToAddSite": "નવી સાઇટ ઉમેરવા માટે + પર ટૅપ કરો",
+  "onHold": "હોલ્ડ પર",
+  "siteIdUppercase": "સાઇટ આઇડી",
+  "manage": "વ્યવસ્થાપિત કરો",
+  "noTransactions": "કોઈ વ્યવહારો નથી",
+  "nothingToShowFilter": "આ ફિલ્ટર માટે બતાવવા માટે કંઈ નથી",
+  "byUser": "દ્વારા: {name}",
+  "@byUser": {
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "netBalance": "ચોખ્ખું બેલેન્સ",
+  "totalTransactionsCount": "{count} કુલ વ્યવહારો",
+  "@totalTransactionsCount": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "itemsCount": "{count} વસ્તુઓ",
+  "@itemsCount": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "activeSites": "સક્રિય સાઇટ્સ",
+  "locationsCount": "{count} સ્થાનો",
+  "@locationsCount": {
+    "placeholders": {
+      "count": {}
+    }
+  },
   "date": "તારીખ",
   "site": "સાઇટ",
   "selectSite": "સાઇટ પસંદ કરો",
@@ -48,5 +124,36 @@
   "admin": "એડમિન",
   "partner": "ભાગીદાર",
   "required": "આ ક્ષેત્ર આવશ્યક છે",
-  "invalidAmount": "કૃપા કરી માન્ય રકમ દાખલ કરો"
+  "invalidAmount": "કૃપા કરી માન્ય રકમ દાખલ કરો",
+  "email": "ઇમેઇલ",
+  "phoneNumber": "ફોન નંબર",
+  "notProvided": "પ્રદાન કરેલ નથી",
+  "lastLocationUpdated": "છેલ્લું સ્થાન અપડેટ",
+  "notYetCaptured": "હજી સુધી કેપ્ચર થયું નથી",
+  "organization": "સંસ્થા",
+  "memberSince": "ત્યારથી સભ્ય",
+  "numbersInEnglishNote": "નંબરો હંમેશા અંગ્રેજીમાં દેખાય છે (1, 2, 3…)",
+  "signOutConfirm": "શું તમે ચોક્કસ સાઇન આઉટ કરવા માંગો છો?",
+  "chooseLanguage": "ભાષા પસંદ કરો",
+  "signOut": "સાઇન આઉટ",
+  "deactivate": "નિષ્ક્રિય કરો",
+  "activate": "સક્રિય કરો",
+  "errorPrefix": "ભૂલ: ",
+  "transactionDetails": "વ્યવહારની વિગતો",
+  "pleaseSelectSite": "કૃપા કરીને સાઇટ પસંદ કરો",
+  "errorSavingTransaction": "વ્યવહાર સાચવવામાં ભૂલ: ",
+  "constructionSites": "બાંધકામ સાઇટ્સ",
+  "titleSiteList": "સાઇટ યાદી",
+  "addIncome": "આવક ઉમેરો",
+  "addExpense": "ખર્ચ ઉમેરો",
+  "amountIsRequired": "રકમ જરૂરી છે",
+  "enterValidAmount": "યોગ્ય રકમ દાખલ કરો",
+  "siteLocation": "સાઇટ / સ્થાન",
+  "remarksOptional": "નોંધ (વૈકલ્પિક)",
+  "whatWasThisFor": "આ શેના માટે હતું?",
+  "saveTransaction": "વ્યવહાર સાચવો",
+  "siteDetails": "સાઇટની વિગતો",
+  "editSite": "સાઇટ સંપાદિત કરો",
+  "partnerDetails": "ભાગીદારની વિગતો",
+  "partners": "ભાગીદારો"
 }

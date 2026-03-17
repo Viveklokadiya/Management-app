@@ -4,6 +4,8 @@ import 'package:intl/intl.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
+import '../../../../core/widgets/language_tile.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../../auth/domain/models/app_user.dart';
 import '../../../auth/presentation/providers/auth_provider.dart';
 
@@ -21,6 +23,7 @@ class _AdminProfileScreenState extends ConsumerState<AdminProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final user = ref.watch(authStateProvider).value;
+    final l10n = AppLocalizations.of(context)!;
     if (user == null) return const SizedBox.shrink();
 
     final isSuperAdmin = user.role == UserRole.superAdmin;
@@ -79,7 +82,9 @@ class _AdminProfileScreenState extends ConsumerState<AdminProfileScreen> {
                           color: Colors.white.withValues(alpha: 0.3)),
                     ),
                     child: Text(
-                      isSuperAdmin ? 'SUPER ADMIN' : 'ADMIN',
+                      isSuperAdmin
+                          ? l10n.superAdmin.toUpperCase()
+                          : l10n.admin.toUpperCase(),
                       style: AppTextStyles.labelSmall.copyWith(
                         color: Colors.white,
                         letterSpacing: 1.2,
@@ -111,7 +116,7 @@ class _AdminProfileScreenState extends ConsumerState<AdminProfileScreen> {
                     children: [
                       _InfoRow(
                         icon: Icons.email_outlined,
-                        label: 'Email',
+                        label: l10n.email,
                         value: user.email,
                       ),
                       const Divider(
@@ -120,18 +125,18 @@ class _AdminProfileScreenState extends ConsumerState<AdminProfileScreen> {
                           color: AppColors.border),
                       _InfoRow(
                         icon: Icons.phone_outlined,
-                        label: 'Phone Number',
+                        label: l10n.phoneNumber,
                         value: user.phone?.isNotEmpty == true
                             ? user.phone!
-                            : 'Not provided',
+                            : l10n.notProvided,
                       ),
                       const Divider(
                           height: 1,
                           indent: 64,
                           color: AppColors.border),
-                      const _InfoRow(
+                      _InfoRow(
                         icon: Icons.business_outlined,
-                        label: 'Organization',
+                        label: l10n.organization,
                         value: 'Shree Giriraj Engineering',
                       ),
                       const Divider(
@@ -140,7 +145,7 @@ class _AdminProfileScreenState extends ConsumerState<AdminProfileScreen> {
                           color: AppColors.border),
                       _InfoRow(
                         icon: Icons.calendar_today_outlined,
-                        label: 'Member Since',
+                        label: l10n.memberSince,
                         value: DateFormat('MMMM yyyy')
                             .format(user.createdAt),
                       ),
@@ -150,7 +155,26 @@ class _AdminProfileScreenState extends ConsumerState<AdminProfileScreen> {
               ),
             ),
 
-            // ─── Logout ──────────────────────────────────────────────
+            // ─── Settings Card ───────────────────────────────────────
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 0, 20, 16),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: AppColors.shadow,
+                      blurRadius: 12,
+                      offset: Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: const LanguageTile(),
+              ),
+            ),
+
+            // ─── Logout ──────────────────────────────────────────
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 0, 20, 32),
               child: SizedBox(
@@ -163,7 +187,7 @@ class _AdminProfileScreenState extends ConsumerState<AdminProfileScreen> {
                       borderRadius: BorderRadius.circular(16),
                     ),
                   ),
-                  onPressed: _signingOut ? null : _signOut,
+                  onPressed: _signingOut ? null : () => _signOut(context),
                   icon: _signingOut
                       ? const SizedBox(
                           width: 18,
@@ -173,7 +197,7 @@ class _AdminProfileScreenState extends ConsumerState<AdminProfileScreen> {
                         )
                       : const Icon(Icons.logout, color: Colors.white),
                   label: Text(
-                    'Logout',
+                    l10n.logout,
                     style: AppTextStyles.labelLarge
                         .copyWith(color: Colors.white),
                   ),
@@ -186,22 +210,23 @@ class _AdminProfileScreenState extends ConsumerState<AdminProfileScreen> {
     );
   }
 
-  Future<void> _signOut() async {
+  Future<void> _signOut(BuildContext context) async {
+    final l10n = AppLocalizations.of(context)!;
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('Sign Out'),
-        content: const Text('Are you sure you want to sign out?'),
+        title: Text(l10n.signOut),
+        content: Text(l10n.signOutConfirm),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: const Text('Cancel'),
+            child: Text(l10n.cancel),
           ),
           FilledButton(
             style: FilledButton.styleFrom(
                 backgroundColor: AppColors.accent),
             onPressed: () => Navigator.pop(ctx, true),
-            child: const Text('Sign Out'),
+            child: Text(l10n.signOut),
           ),
         ],
       ),

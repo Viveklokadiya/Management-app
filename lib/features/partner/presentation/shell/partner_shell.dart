@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../core/router/routes.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/widgets/location_banner.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../../auth/presentation/providers/auth_provider.dart';
 
 class PartnerShell extends ConsumerStatefulWidget {
@@ -38,6 +39,8 @@ class _PartnerShellState extends ConsumerState<PartnerShell>
     final selectedIndex =
         tabs.indexWhere((t) => location.startsWith(t)).clamp(0, tabs.length - 1);
 
+    final l10n = AppLocalizations.of(context)!;
+    
     return Scaffold(
       body: Column(
         children: [
@@ -51,21 +54,21 @@ class _PartnerShellState extends ConsumerState<PartnerShell>
         backgroundColor: AppColors.surface,
         indicatorColor: AppColors.primaryLight,
         labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
-        destinations: const [
+        destinations: [
           NavigationDestination(
-            icon: Icon(Icons.home_outlined),
-            selectedIcon: Icon(Icons.home),
-            label: 'Home',
+            icon: const Icon(Icons.home_outlined),
+            selectedIcon: const Icon(Icons.home),
+            label: l10n.home,
           ),
           NavigationDestination(
-            icon: Icon(Icons.receipt_long_outlined),
-            selectedIcon: Icon(Icons.receipt_long),
-            label: 'Transactions',
+            icon: const Icon(Icons.receipt_long_outlined),
+            selectedIcon: const Icon(Icons.receipt_long),
+            label: l10n.transactions,
           ),
           NavigationDestination(
-            icon: Icon(Icons.person_outline),
-            selectedIcon: Icon(Icons.person),
-            label: 'Profile',
+            icon: const Icon(Icons.person_outline),
+            selectedIcon: const Icon(Icons.person),
+            label: l10n.profile,
           ),
         ],
       ),

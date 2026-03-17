@@ -27,6 +27,82 @@
   "upi": "UPI",
   "bank": "बैंक ट्रांसफर",
   "other": "अन्य",
+  "welcomeBackDashboard": "आपके डैशबोर्ड में फिर से स्वागत है",
+  "todayIncome": "आज की आय",
+  "todayExpense": "आज का खर्च",
+  "totalTransactions": "कुल लेनदेन",
+  "quickActions": "त्वरित कार्रवाइयां",
+  "recentTransactions": "हाल के लेनदेन",
+  "viewAll": "सभी देखें",
+  "noTransactionsYet": "अभी तक कोई लेनदेन नहीं",
+  "tapToAddFirstTransaction": "अपना पहला लेनदेन जोड़ने के लिए + पर टैप करें",
+  "addYourFirstTransaction": "अपना पहला लेनदेन जोड़ें",
+  "goodMorning": "शुभ प्रभात",
+  "goodAfternoon": "शुभ दोपहर",
+  "goodEvening": "शुभ संध्या",
+  "hello": "नमस्ते",
+  "transactions": "लेनदेन",
+  "all": "सभी",
+  "partners": "भागीदार",
+  "searchPartners": "नाम या ID द्वारा खोजें",
+  "allPartnersCount": "सभी भागीदार ({count})",
+  "@allPartnersCount": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "noPartnersFound": "कोई भागीदार नहीं मिला",
+  "tryDifferentSearch": "अलग खोज शब्द का प्रयास करें",
+  "noPartnersRegistered": "अभी तक कोई भागीदार पंजीकृत नहीं है",
+  "online": "ऑनलाइन",
+  "offline": "ऑफ़लाइन",
+  "lastSeenDate": "अंतिम बार देखा {date}",
+  "@lastSeenDate": {
+    "placeholders": {
+      "date": {}
+    }
+  },
+  "noLocationData": "कोई स्थान डेटा नहीं",
+  "viewAssignedSites": "सौंपी गई साइटें देखें",
+  "viewDetails": "विवरण देखें",
+  "constructionSites": "निर्माण स्थल",
+  "searchSites": "नाम, शहर या स्थिति से खोजें...",
+  "allProjects": "सभी परियोजनाएं",
+  "active": "सक्रिय",
+  "inactive": "निष्क्रिय",
+  "noSitesFound": "कोई साइट नहीं मिली",
+  "tapToAddSite": "नई साइट जोड़ने के लिए + टैप करें",
+  "onHold": "होल्ड पर",
+  "siteIdUppercase": "साइट आईडी",
+  "manage": "प्रबंधित करें",
+  "noTransactions": "कोई लेनदेन नहीं",
+  "nothingToShowFilter": "इस फ़िल्टर के लिए दिखाने के लिए कुछ भी नहीं है",
+  "byUser": "द्वारा: {name}",
+  "@byUser": {
+    "placeholders": {
+      "name": {}
+    }
+  },
+  "netBalance": "शुद्ध शेष",
+  "totalTransactionsCount": "{count} कुल लेनदेन",
+  "@totalTransactionsCount": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "itemsCount": "{count} आइटम",
+  "@itemsCount": {
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "activeSites": "सक्रिय साइटें",
+  "locationsCount": "{count} स्थान",
+  "@locationsCount": {
+    "placeholders": {
+      "count": {}
+    }
+  },
   "date": "तारीख",
   "site": "साइट",
   "selectSite": "साइट चुनें",
@@ -48,5 +124,36 @@
   "admin": "एडमिन",
   "partner": "पार्टनर",
   "required": "यह फ़ील्ड आवश्यक है",
-  "invalidAmount": "कृपया वैध राशि दर्ज करें"
+  "invalidAmount": "कृपया वैध राशि दर्ज करें",
+  "email": "ईमेल",
+  "phoneNumber": "फ़ोन नंबर",
+  "notProvided": "दिया नहीं गया",
+  "lastLocationUpdated": "अंतिम स्थान अपडेट",
+  "notYetCaptured": "अभी तक कैप्चर नहीं किया गया",
+  "organization": "संगठन",
+  "memberSince": "सदस्य कब से",
+  "numbersInEnglishNote": "संख्याएँ हमेशा अंग्रेज़ी में दिखाई देती हैं (1, 2, 3…)",
+  "signOutConfirm": "क्या आप वाकई साइन आउट करना चाहते हैं?",
+  "chooseLanguage": "भाषा चुनें",
+  "signOut": "साइन आउट",
+  "deactivate": "निष्क्रिय करें",
+  "activate": "सक्रिय करें",
+  "errorPrefix": "त्रुटि: ",
+  "transactionDetails": "लेनदेन विवरण",
+  "pleaseSelectSite": "कृपया एक साइट चुनें",
+  "errorSavingTransaction": "लेनदेन सहेजने में त्रुटि: ",
+  "constructionSites": "निर्माण साइट्स",
+  "siteDetails": "साइट विवरण",
+  "editSite": "साइट संपादित करें",
+  "titleSiteList": "साइट सूची",
+  "addIncome": "आय जोड़ें",
+  "addExpense": "खर्च जोड़ें",
+  "amountIsRequired": "रकम आवश्यक है",
+  "enterValidAmount": "सही रकम दर्ज करें",
+  "siteLocation": "साइट / स्थान",
+  "remarksOptional": "टिप्पणी (वैकल्पिक)",
+  "whatWasThisFor": "यह किस लिए था?",
+  "saveTransaction": "लेनदेन सहेजें",
+  "partnerDetails": "पार्टनर विवरण",
+  "partners": "पार्टनर्स"
 }

@@ -262,6 +262,276 @@ abstract class AppLocalizations {
   /// **'Other'**
   String get other;
 
+  /// No description provided for @welcomeBackDashboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome back to your dashboard'**
+  String get welcomeBackDashboard;
+
+  /// No description provided for @todayIncome.
+  ///
+  /// In en, this message translates to:
+  /// **'Today Income'**
+  String get todayIncome;
+
+  /// No description provided for @todayExpense.
+  ///
+  /// In en, this message translates to:
+  /// **'Today Expense'**
+  String get todayExpense;
+
+  /// No description provided for @totalTransactions.
+  ///
+  /// In en, this message translates to:
+  /// **'TOTAL TRANSACTIONS'**
+  String get totalTransactions;
+
+  /// No description provided for @quickActions.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick Actions'**
+  String get quickActions;
+
+  /// No description provided for @recentTransactions.
+  ///
+  /// In en, this message translates to:
+  /// **'Recent Transactions'**
+  String get recentTransactions;
+
+  /// No description provided for @viewAll.
+  ///
+  /// In en, this message translates to:
+  /// **'View All'**
+  String get viewAll;
+
+  /// No description provided for @noTransactionsYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No transactions yet'**
+  String get noTransactionsYet;
+
+  /// No description provided for @tapToAddFirstTransaction.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap + to add your first transaction'**
+  String get tapToAddFirstTransaction;
+
+  /// No description provided for @addYourFirstTransaction.
+  ///
+  /// In en, this message translates to:
+  /// **'Add your first transaction'**
+  String get addYourFirstTransaction;
+
+  /// No description provided for @goodMorning.
+  ///
+  /// In en, this message translates to:
+  /// **'Good morning'**
+  String get goodMorning;
+
+  /// No description provided for @goodAfternoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Good afternoon'**
+  String get goodAfternoon;
+
+  /// No description provided for @goodEvening.
+  ///
+  /// In en, this message translates to:
+  /// **'Good evening'**
+  String get goodEvening;
+
+  /// No description provided for @hello.
+  ///
+  /// In en, this message translates to:
+  /// **'Hello'**
+  String get hello;
+
+  /// No description provided for @all.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get all;
+
+  /// No description provided for @partners.
+  ///
+  /// In en, this message translates to:
+  /// **'Partners'**
+  String get partners;
+
+  /// No description provided for @searchPartners.
+  ///
+  /// In en, this message translates to:
+  /// **'Search partners by name or ID'**
+  String get searchPartners;
+
+  /// No description provided for @allPartnersCount.
+  ///
+  /// In en, this message translates to:
+  /// **'All Partners ({count})'**
+  String allPartnersCount(Object count);
+
+  /// No description provided for @noPartnersFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No partners found'**
+  String get noPartnersFound;
+
+  /// No description provided for @tryDifferentSearch.
+  ///
+  /// In en, this message translates to:
+  /// **'Try a different search term'**
+  String get tryDifferentSearch;
+
+  /// No description provided for @noPartnersRegistered.
+  ///
+  /// In en, this message translates to:
+  /// **'No partners registered yet'**
+  String get noPartnersRegistered;
+
+  /// No description provided for @online.
+  ///
+  /// In en, this message translates to:
+  /// **'Online'**
+  String get online;
+
+  /// No description provided for @offline.
+  ///
+  /// In en, this message translates to:
+  /// **'Offline'**
+  String get offline;
+
+  /// No description provided for @lastSeenDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Last seen {date}'**
+  String lastSeenDate(Object date);
+
+  /// No description provided for @noLocationData.
+  ///
+  /// In en, this message translates to:
+  /// **'No location data'**
+  String get noLocationData;
+
+  /// No description provided for @viewAssignedSites.
+  ///
+  /// In en, this message translates to:
+  /// **'View assigned sites'**
+  String get viewAssignedSites;
+
+  /// No description provided for @viewDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'View Details'**
+  String get viewDetails;
+
+  /// No description provided for @constructionSites.
+  ///
+  /// In en, this message translates to:
+  /// **'Construction Sites'**
+  String get constructionSites;
+
+  /// No description provided for @searchSites.
+  ///
+  /// In en, this message translates to:
+  /// **'Search by name, city or status...'**
+  String get searchSites;
+
+  /// No description provided for @allProjects.
+  ///
+  /// In en, this message translates to:
+  /// **'All Projects'**
+  String get allProjects;
+
+  /// No description provided for @active.
+  ///
+  /// In en, this message translates to:
+  /// **'Active'**
+  String get active;
+
+  /// No description provided for @inactive.
+  ///
+  /// In en, this message translates to:
+  /// **'Inactive'**
+  String get inactive;
+
+  /// No description provided for @noSitesFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No sites found'**
+  String get noSitesFound;
+
+  /// No description provided for @tapToAddSite.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap + to add a new site'**
+  String get tapToAddSite;
+
+  /// No description provided for @onHold.
+  ///
+  /// In en, this message translates to:
+  /// **'On Hold'**
+  String get onHold;
+
+  /// No description provided for @siteIdUppercase.
+  ///
+  /// In en, this message translates to:
+  /// **'SITE ID'**
+  String get siteIdUppercase;
+
+  /// No description provided for @manage.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage'**
+  String get manage;
+
+  /// No description provided for @noTransactions.
+  ///
+  /// In en, this message translates to:
+  /// **'No transactions yet'**
+  String get noTransactions;
+
+  /// No description provided for @nothingToShowFilter.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing to show for this filter'**
+  String get nothingToShowFilter;
+
+  /// No description provided for @byUser.
+  ///
+  /// In en, this message translates to:
+  /// **'By: {name}'**
+  String byUser(Object name);
+
+  /// No description provided for @netBalance.
+  ///
+  /// In en, this message translates to:
+  /// **'NET BALANCE'**
+  String get netBalance;
+
+  /// No description provided for @totalTransactionsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} total transactions'**
+  String totalTransactionsCount(Object count);
+
+  /// No description provided for @itemsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} items'**
+  String itemsCount(Object count);
+
+  /// No description provided for @activeSites.
+  ///
+  /// In en, this message translates to:
+  /// **'Active Sites'**
+  String get activeSites;
+
+  /// No description provided for @locationsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} locations'**
+  String locationsCount(Object count);
+
   /// No description provided for @date.
   ///
   /// In en, this message translates to:
@@ -315,12 +585,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Filter'**
   String get filter;
-
-  /// No description provided for @noTransactions.
-  ///
-  /// In en, this message translates to:
-  /// **'No transactions yet'**
-  String get noTransactions;
 
   /// No description provided for @noSites.
   ///
@@ -393,6 +657,180 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Please enter a valid amount'**
   String get invalidAmount;
+
+  /// No description provided for @email.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get email;
+
+  /// No description provided for @phoneNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone Number'**
+  String get phoneNumber;
+
+  /// No description provided for @notProvided.
+  ///
+  /// In en, this message translates to:
+  /// **'Not provided'**
+  String get notProvided;
+
+  /// No description provided for @lastLocationUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Last Location Updated'**
+  String get lastLocationUpdated;
+
+  /// No description provided for @notYetCaptured.
+  ///
+  /// In en, this message translates to:
+  /// **'Not yet captured'**
+  String get notYetCaptured;
+
+  /// No description provided for @organization.
+  ///
+  /// In en, this message translates to:
+  /// **'Organization'**
+  String get organization;
+
+  /// No description provided for @memberSince.
+  ///
+  /// In en, this message translates to:
+  /// **'Member Since'**
+  String get memberSince;
+
+  /// No description provided for @numbersInEnglishNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Numbers always display in English (1, 2, 3…)'**
+  String get numbersInEnglishNote;
+
+  /// No description provided for @signOutConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to sign out?'**
+  String get signOutConfirm;
+
+  /// No description provided for @chooseLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose Language'**
+  String get chooseLanguage;
+
+  /// No description provided for @signOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign Out'**
+  String get signOut;
+
+  /// No description provided for @deactivate.
+  ///
+  /// In en, this message translates to:
+  /// **'Deactivate'**
+  String get deactivate;
+
+  /// No description provided for @activate.
+  ///
+  /// In en, this message translates to:
+  /// **'Activate'**
+  String get activate;
+
+  /// No description provided for @errorPrefix.
+  ///
+  /// In en, this message translates to:
+  /// **'Error: '**
+  String get errorPrefix;
+
+  /// No description provided for @transactionDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Transaction Details'**
+  String get transactionDetails;
+
+  /// No description provided for @pleaseSelectSite.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select a site'**
+  String get pleaseSelectSite;
+
+  /// No description provided for @errorSavingTransaction.
+  ///
+  /// In en, this message translates to:
+  /// **'Error saving transaction: '**
+  String get errorSavingTransaction;
+
+  /// No description provided for @titleSiteList.
+  ///
+  /// In en, this message translates to:
+  /// **'Site List'**
+  String get titleSiteList;
+
+  /// No description provided for @addIncome.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Income'**
+  String get addIncome;
+
+  /// No description provided for @addExpense.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Expense'**
+  String get addExpense;
+
+  /// No description provided for @amountIsRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount is required'**
+  String get amountIsRequired;
+
+  /// No description provided for @enterValidAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid amount'**
+  String get enterValidAmount;
+
+  /// No description provided for @siteLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Site / Location'**
+  String get siteLocation;
+
+  /// No description provided for @remarksOptional.
+  ///
+  /// In en, this message translates to:
+  /// **'Remarks (Optional)'**
+  String get remarksOptional;
+
+  /// No description provided for @whatWasThisFor.
+  ///
+  /// In en, this message translates to:
+  /// **'What was this for?'**
+  String get whatWasThisFor;
+
+  /// No description provided for @saveTransaction.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Transaction'**
+  String get saveTransaction;
+
+  /// No description provided for @siteDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Site Details'**
+  String get siteDetails;
+
+  /// No description provided for @editSite.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Site'**
+  String get editSite;
+
+  /// No description provided for @partnerDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Partner Details'**
+  String get partnerDetails;
 }
 
 class _AppLocalizationsDelegate

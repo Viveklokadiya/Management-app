@@ -3,12 +3,18 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'app.dart';
 
+// Please generate this file by running: flutterfire configure
+// import 'firebase_options.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   Widget app;
   try {
-    await Firebase.initializeApp();
+    await Firebase.initializeApp(
+      // Uncomment the line below after running 'flutterfire configure'
+      // options: DefaultFirebaseOptions.currentPlatform,
+    );
     app = const ProviderScope(child: ShreeGirirajApp());
   } catch (e) {
     app = MaterialApp(

@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../core/router/routes.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/widgets/location_banner.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../../auth/domain/models/app_user.dart';
 import '../../../auth/presentation/providers/auth_provider.dart';
 
@@ -45,6 +46,8 @@ class _AdminShellState extends ConsumerState<AdminShell>
         .indexWhere((t) => location.startsWith(t))
         .clamp(0, tabs.length - 1);
 
+    final l10n = AppLocalizations.of(context)!;
+    
     return Scaffold(
       body: Column(
         children: [
@@ -59,36 +62,36 @@ class _AdminShellState extends ConsumerState<AdminShell>
         indicatorColor: AppColors.primaryLight,
         labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
         destinations: [
-          const NavigationDestination(
-            icon: Icon(Icons.dashboard_outlined),
-            selectedIcon: Icon(Icons.dashboard),
-            label: 'Home',
+          NavigationDestination(
+            icon: const Icon(Icons.dashboard_outlined),
+            selectedIcon: const Icon(Icons.dashboard),
+            label: l10n.home,
           ),
-          const NavigationDestination(
-            icon: Icon(Icons.people_outline),
-            selectedIcon: Icon(Icons.people),
-            label: 'Partners',
+          NavigationDestination(
+            icon: const Icon(Icons.people_outline),
+            selectedIcon: const Icon(Icons.people),
+            label: l10n.partners,
           ),
-          const NavigationDestination(
-            icon: Icon(Icons.location_city_outlined),
-            selectedIcon: Icon(Icons.location_city),
-            label: 'Sites',
+          NavigationDestination(
+            icon: const Icon(Icons.location_city_outlined),
+            selectedIcon: const Icon(Icons.location_city),
+            label: l10n.sites,
           ),
-          const NavigationDestination(
-            icon: Icon(Icons.receipt_long_outlined),
-            selectedIcon: Icon(Icons.receipt_long),
-            label: 'Transactions',
+          NavigationDestination(
+            icon: const Icon(Icons.receipt_long_outlined),
+            selectedIcon: const Icon(Icons.receipt_long),
+            label: l10n.transactions,
           ),
-          const NavigationDestination(
-            icon: Icon(Icons.person_outline),
-            selectedIcon: Icon(Icons.person),
-            label: 'Profile',
+          NavigationDestination(
+            icon: const Icon(Icons.person_outline),
+            selectedIcon: const Icon(Icons.person),
+            label: l10n.profile,
           ),
           if (isSuperAdmin)
-            const NavigationDestination(
-              icon: Icon(Icons.manage_accounts_outlined),
-              selectedIcon: Icon(Icons.manage_accounts),
-              label: 'Users',
+            NavigationDestination(
+              icon: const Icon(Icons.manage_accounts_outlined),
+              selectedIcon: const Icon(Icons.manage_accounts),
+              label: l10n.users,
             ),
         ],
       ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../../l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../core/providers/repository_providers.dart';
@@ -21,10 +22,11 @@ class TransactionDetailScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FA),
+      backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: const Text('Transaction Details'),
+        title: Text(l10n.transactionDetails),
         leading: const BackButton(),
         backgroundColor: AppColors.surface,
         surfaceTintColor: Colors.transparent,

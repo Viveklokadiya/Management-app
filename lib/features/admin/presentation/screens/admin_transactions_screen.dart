@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../l10n/app_localizations.dart';
 import '../../../../core/providers/repository_providers.dart';
 import '../../../../core/router/routes.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -62,7 +63,7 @@ class _AdminTransactionsScreenState
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('Transactions'),
+            Text(AppLocalizations.of(context)!.transactions),
             Text(
               'Shree Giriraj Engineering',
               style: AppTextStyles.labelSmall
@@ -83,10 +84,10 @@ class _AdminTransactionsScreenState
           indicatorColor: AppColors.primary,
           labelStyle:
               AppTextStyles.labelMedium.copyWith(fontWeight: FontWeight.w700),
-          tabs: const [
-            Tab(text: 'All'),
-            Tab(text: 'Income'),
-            Tab(text: 'Expense'),
+          tabs: [
+            Tab(text: AppLocalizations.of(context)!.all),
+            Tab(text: AppLocalizations.of(context)!.income),
+            Tab(text: AppLocalizations.of(context)!.expense),
           ],
         ),
       ),
@@ -141,7 +142,7 @@ class _AdminTransactionsScreenState
                               borderRadius: BorderRadius.circular(4),
                             ),
                             child: Text(
-                              'NET BALANCE',
+                              AppLocalizations.of(context)!.netBalance,
                               style: AppTextStyles.labelSmall
                                   .copyWith(
                                       color: Colors.white, fontSize: 9),
@@ -160,7 +161,7 @@ class _AdminTransactionsScreenState
                                   color: Colors.white70, size: 14),
                               const SizedBox(width: 4),
                               Text(
-                                '${filtered.length} transactions',
+                                AppLocalizations.of(context)!.totalTransactionsCount(filtered.length),
                                 style: AppTextStyles.bodySmall
                                     .copyWith(color: Colors.white70),
                               ),
@@ -181,9 +182,9 @@ class _AdminTransactionsScreenState
               // List
               Expanded(
                 child: filtered.isEmpty
-                    ? const EmptyStateWidget(
-                        title: 'No transactions',
-                        message: 'Nothing to show for this filter',
+                    ? EmptyStateWidget(
+                        title: AppLocalizations.of(context)!.noTransactions,
+                        message: AppLocalizations.of(context)!.nothingToShowFilter,
                         icon: Icons.receipt_long_outlined,
                       )
                     : ListView.builder(
@@ -284,7 +285,7 @@ class _AdminTxnTile extends StatelessWidget {
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: Text(
-                        isIncome ? 'INCOME' : 'EXPENSE',
+                        isIncome ? AppLocalizations.of(context)!.income.toUpperCase() : AppLocalizations.of(context)!.expense.toUpperCase(),
                         style: AppTextStyles.labelSmall.copyWith(
                           color: isIncome ? AppColors.income : AppColors.expense,
                           fontSize: 9,
@@ -296,7 +297,7 @@ class _AdminTxnTile extends StatelessWidget {
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  'By: ${txn.createdByName}',
+                  AppLocalizations.of(context)!.byUser(txn.createdByName ?? ''),
                   style: AppTextStyles.bodySmall
                       .copyWith(color: AppColors.textSecondary),
                 ),
