@@ -88,6 +88,13 @@
 - [ ] **PROF-01**: Profile screen shows: name, email, phone, profile image (avatar), last location updated timestamp
 - [ ] **PROF-02**: Profile screen has a Logout button
 - [ ] **PROF-03**: Profile screen has a Privacy Policy placeholder link
+- [ ] **PROF-04**: Profile screen has a Language selector to switch between English, Hindi, and Gujarati
+
+### Localization (LANG)
+
+- [ ] **LANG-01**: App supports English, Hindi (हिन्दी), and Gujarati (ગુજરાતી) languages
+- [ ] **LANG-02**: User's selected language is persisted across app restarts (stored in SharedPreferences)
+- [ ] **LANG-03**: All UI strings are externalized via ARB files — no hardcoded English strings in widgets
 
 ### Firestore Security (SEC)
 
@@ -145,6 +152,7 @@
 | File attachments (MVP) | Phase 2 |
 | Push notifications (MVP) | Phase 2 |
 | Reports/exports (MVP) | Phase 2 |
+| Multi-language (was v2) | Promoted to v1 — Hindi, English, Gujarati required from start |
 
 ---
 
@@ -160,7 +168,8 @@
 | LOC-01–05 | Phase 8 | Pending |
 | AUDIT-01–03 | Phase 5 | Pending |
 | DASH-01–05 | Phase 5–6 | Pending |
-| PROF-01–03 | Phase 5 | Pending |
+| PROF-01–04 | Phase 5 | Pending |
+| LANG-01–03 | Phase 1 | Pending |
 | SEC-01–06 | Phase 9 | Pending |
 | TECH-01–08 | Phase 1–4 | Pending |
 
