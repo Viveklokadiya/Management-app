@@ -10,16 +10,22 @@ class TransactionRemoteDataSource {
       _db.collection('sites').doc(siteId).collection('transactions');
 
   Stream<List<TransactionModel>> watchBySite(String siteId) => _txnCol(siteId)
-      .orderBy('transactionDate', descending: true)
       .snapshots()
-      .map((snap) => snap.docs.map(TransactionModel.fromFirestore).toList());
+      .map((snap) {
+        final list = snap.docs.map(TransactionModel.fromFirestore).toList();
+        list.sort((a, b) => b.transactionDate.compareTo(a.transactionDate));
+        return list;
+      });
 
   Stream<List<TransactionModel>> watchByUser(String userId) => _db
       .collectionGroup('transactions')
       .where('createdByUserId', isEqualTo: userId)
-      .orderBy('transactionDate', descending: true)
       .snapshots()
-      .map((snap) => snap.docs.map(TransactionModel.fromFirestore).toList());
+      .map((snap) {
+        final list = snap.docs.map(TransactionModel.fromFirestore).toList();
+        list.sort((a, b) => b.transactionDate.compareTo(a.transactionDate));
+        return list;
+      });
 
   Future<String> create(TransactionModel txn) async {
     final ref = await _txnCol(txn.siteId).add(txn.toMap());

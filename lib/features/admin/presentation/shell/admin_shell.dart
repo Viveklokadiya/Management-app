@@ -1,17 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import '../../../../core/theme/app_colors.dart';
 import '../../../../core/router/routes.dart';
+import '../../../../core/theme/app_colors.dart';
+import '../../../../core/widgets/location_banner.dart';
 import '../../../auth/domain/models/app_user.dart';
 import '../../../auth/presentation/providers/auth_provider.dart';
 
-class AdminShell extends ConsumerWidget {
+class AdminShell extends ConsumerStatefulWidget {
   final Widget child;
   const AdminShell({super.key, required this.child});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<AdminShell> createState() => _AdminShellState();
+}
+
+class _AdminShellState extends ConsumerState<AdminShell>
+    with LocationCaptureMixin {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final userId = ref.read(authStateProvider).value?.id;
+      if (userId != null) captureLocation(userId);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final user = ref.watch(authStateProvider).value;
     final isSuperAdmin = user?.role == UserRole.superAdmin;
 
@@ -30,7 +46,12 @@ class AdminShell extends ConsumerWidget {
         .clamp(0, tabs.length - 1);
 
     return Scaffold(
-      body: child,
+      body: Column(
+        children: [
+          const LocationPermissionBanner(),
+          Expanded(child: widget.child),
+        ],
+      ),
       bottomNavigationBar: NavigationBar(
         selectedIndex: selectedIndex,
         onDestinationSelected: (i) => context.go(tabs[i]),
