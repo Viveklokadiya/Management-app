@@ -166,7 +166,7 @@
 | SITE-01–05 | Phase 6 | Pending |
 | USER-01–09 | Phase 7 | Pending |
 | LOC-01–05 | Phase 8 | Pending |
-| AUDIT-01–03 | Phase 5 | Pending |
+| AUDIT-01–03 | Phase 5 | Complete |
 | DASH-01–05 | Phase 5–6 | Pending |
 | PROF-01–04 | Phase 5 | Pending |
 | LANG-01–03 | Phase 1 | Pending |

@@ -13,6 +13,11 @@ import '../../features/partner/presentation/screens/partner_profile_screen.dart'
 import '../../features/partner/presentation/screens/add_transaction_screen.dart';
 import '../../features/partner/presentation/screens/transaction_detail_screen.dart';
 import '../../features/admin/presentation/shell/admin_shell.dart';
+import '../../features/admin/presentation/screens/admin_home_screen.dart';
+import '../../features/admin/presentation/screens/admin_transactions_screen.dart';
+import '../../features/admin/presentation/screens/admin_sites_screen.dart';
+import '../../features/admin/presentation/screens/admin_partners_screen.dart';
+import '../../features/admin/presentation/screens/admin_profile_screen.dart';
 import '../../features/transactions/domain/models/transaction_model.dart';
 import 'route_guard.dart';
 import 'routes.dart';
@@ -80,29 +85,29 @@ GoRouter appRouter(AppRouterRef ref) {
         ],
       ),
 
-      // ─── Admin shell ───────────────────────────────────────────────
+      // ─── Admin shell ────────────────────────────────────────────────
       ShellRoute(
         builder: (context, state, child) => AdminShell(child: child),
         routes: [
           GoRoute(
             path: AppRoutes.adminHome,
-            builder: (c, s) => const AdminHomePlaceholder(),
+            builder: (c, s) => const AdminHomeScreen(),
           ),
           GoRoute(
             path: AppRoutes.adminPartners,
-            builder: (c, s) => const AdminPartnersPlaceholder(),
+            builder: (c, s) => const AdminPartnersScreen(),
           ),
           GoRoute(
             path: AppRoutes.adminSites,
-            builder: (c, s) => const AdminSitesPlaceholder(),
+            builder: (c, s) => const AdminSitesScreen(),
           ),
           GoRoute(
             path: AppRoutes.adminTransactions,
-            builder: (c, s) => const AdminTransactionsPlaceholder(),
+            builder: (c, s) => const AdminTransactionsScreen(),
           ),
           GoRoute(
             path: AppRoutes.adminProfile,
-            builder: (c, s) => const AdminProfilePlaceholder(),
+            builder: (c, s) => const AdminProfileScreen(),
           ),
           GoRoute(
             path: AppRoutes.superAdminUsers,
