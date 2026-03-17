@@ -161,7 +161,7 @@
 | Requirement | Phase | Status |
 |-------------|-------|--------|
 | AUTH-01–06 | Phase 2 | Complete |
-| RBAC-01–09 | Phase 3 | Pending |
+| RBAC-01–09 | Phase 3 | Complete |
 | TXN-01–10 | Phase 5 | Pending |
 | SITE-01–05 | Phase 6 | Pending |
 | USER-01–09 | Phase 7 | Pending |
