@@ -11,7 +11,7 @@
 | # | Phase | Goal | Requirements | Success Criteria |
 |---|-------|------|--------------|-----------------|
 | 1 | Project Setup & Architecture | Flutter project scaffold with clean architecture, theming, and reusable widgets | TECH-01–08 | App builds; layer structure exists; theme applies |
-| 2 | Firebase Integration & Auth | Firebase connected; Google Sign-In works; unauthorized users blocked | AUTH-01–06 | Login flow complete; unauthorized denied |
+| 2 | Firebase Integration & Auth | Complete    | 2026-03-17 | Login flow complete; unauthorized denied |
 | 3 | Role-Based Routing & Guards | go_router with role-based navigation guards routing users to correct home | RBAC-01–09 | Each role sees correct navigation |
 | 4 | Firestore Schema & Repositories | Data models and repository layer for all collections | TECH-01–04 | Repositories read/write to Firestore correctly |
 | 5 | Partner MVP Screens | All partner-facing screens functional end-to-end | TXN-01–05, DASH-01–02, PROF-01–03, AUDIT-01–03, LOC-01–05 | Partner can log in, create transactions, view list/detail, see home dashboard |
