@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Users Management - Shree Giriraj Engineering</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ec5b13",
+                        "background-light": "#f8f6f6",
+                        "background-dark": "#221610",
+                    },
+                    fontFamily: {
+                        "display": ["Public Sans", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased">
+<div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
+<!-- Header Section -->
+<header class="sticky top-0 z-20 border-b border-primary/10 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md px-4 py-4">
+<div class="flex items-center justify-between max-w-5xl mx-auto w-full">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-3xl">engineering</span>
+<div>
+<h1 class="text-xl font-bold tracking-tight">Users</h1>
+<p class="text-xs text-slate-500 dark:text-slate-400">Shree Giriraj Engineering</p>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="p-2 rounded-full hover:bg-primary/10 text-slate-600 dark:text-slate-300">
+<span class="material-symbols-outlined">search</span>
+</button>
+<button class="p-2 rounded-full hover:bg-primary/10 text-slate-600 dark:text-slate-300">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Tab Navigation -->
+<div class="bg-background-light dark:bg-background-dark sticky top-[73px] z-10 border-b border-primary/10">
+<div class="max-w-5xl mx-auto px-4 flex gap-6 overflow-x-auto no-scrollbar">
+<a class="flex flex-col items-center justify-center border-b-2 border-primary text-primary pb-3 pt-4 px-2 shrink-0" href="#">
+<span class="text-sm font-bold tracking-wide">All Users</span>
+</a>
+<a class="flex flex-col items-center justify-center border-b-2 border-transparent text-slate-500 dark:text-slate-400 hover:text-primary pb-3 pt-4 px-2 shrink-0" href="#">
+<span class="text-sm font-bold tracking-wide">Admins</span>
+</a>
+<a class="flex flex-col items-center justify-center border-b-2 border-transparent text-slate-500 dark:text-slate-400 hover:text-primary pb-3 pt-4 px-2 shrink-0" href="#">
+<span class="text-sm font-bold tracking-wide">Partners</span>
+</a>
+</div>
+</div>
+<main class="flex-1 max-w-5xl mx-auto w-full p-4 space-y-4">
+<!-- User Card 1 (Self/Super Admin) -->
+<div class="bg-white dark:bg-slate-800/50 rounded-xl p-4 shadow-sm border border-primary/5">
+<div class="flex items-center justify-between mb-3">
+<div class="flex items-center gap-4">
+<div class="size-14 rounded-full bg-primary/20 flex items-center justify-center overflow-hidden border-2 border-primary/30">
+<img class="w-full h-full object-cover" data-alt="Professional headshot of Rajesh Kumar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA3sPG8DMIMrJBjZGLP-Jm4Uwvj13PiCFXODoTz2yyRR0SGge32mKPeW89mHnXitcgEC6_6_AI0nGrb9boA4py-UKrMNyTSNPceHHnGeVGOFJPeW_vqWCNl6PkaFruNg-sAZJ8QT1fwW9HY2kQqvbago_3LufgdfcZV_2ajKj7zYwEJKdAvF0UIi4uxlmsCQqDxjNU-RfHqVQPo9VRcRGGFprxXqPDV2kl1UCHJiUOi_umNFfMiUyArvLp9Eq0x5sFp9UmRqM4K2g"/>
+</div>
+<div class="flex flex-col">
+<p class="text-base font-semibold">Rajesh Kumar</p>
+<p class="text-sm text-slate-500 dark:text-slate-400">rajesh@giriraj.com</p>
+</div>
+</div>
+<div class="flex flex-col items-end gap-1">
+<span class="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-widest text-emerald-500 dark:text-emerald-400">
+<span class="size-1.5 rounded-full bg-emerald-500"></span>
+                            Active
+                        </span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-2 border-t border-slate-100 dark:border-slate-700/50">
+<div class="inline-flex items-center px-3 py-1 rounded-full bg-primary text-white text-xs font-bold">
+                        Super Admin
+                    </div>
+<button class="text-slate-400 hover:text-primary">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</div>
+<!-- User Card 2 -->
+<div class="bg-white dark:bg-slate-800/50 rounded-xl p-4 shadow-sm border border-primary/5">
+<div class="flex items-center justify-between mb-3">
+<div class="flex items-center gap-4">
+<div class="size-14 rounded-full bg-primary/10 flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Portrait of Priya Sharma" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBov-NzDCVAx2VZAblQu3yp22X5ZZPNi-83zdJC84j8HbweFMh54s-8kHI1Dluk7k8BM7IafkEol-gyGfAnIpLoyJ_GHbXw-Fl1x1LORQBF9kbtNI_u3evq_YPEdGC7ptUEGgTRmxTAI4uQFQTHrvRo-IeaM-026FDVgFf7eceLBlF2EOIrqGxWOrZspIwB-2w-hQUvA-Nm0lvlULko9jrPh2d7DxYXFyv-djYYCXsPaF65U7wOclu3PhlyXweBFVcZctYpRlAFaw"/>
+</div>
+<div class="flex flex-col">
+<p class="text-base font-semibold">Priya Sharma</p>
+<p class="text-sm text-slate-500 dark:text-slate-400">priya.s@giriraj.com</p>
+</div>
+</div>
+<div class="flex flex-col items-end gap-1">
+<span class="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-widest text-emerald-500 dark:text-emerald-400">
+<span class="size-1.5 rounded-full bg-emerald-500"></span>
+                            Active
+                        </span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-2 border-t border-slate-100 dark:border-slate-700/50">
+<div class="inline-flex items-center px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold border border-primary/20">
+                        Admin
+                    </div>
+<button class="text-slate-400 hover:text-primary">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</div>
+<!-- User Card 3 (Inactive) -->
+<div class="bg-white dark:bg-slate-800/50 rounded-xl p-4 shadow-sm border border-primary/5 opacity-80">
+<div class="flex items-center justify-between mb-3">
+<div class="flex items-center gap-4">
+<div class="size-14 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center overflow-hidden grayscale">
+<img class="w-full h-full object-cover" data-alt="Portrait of Amit Patel" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB4H1WirFIpcN9mQ3KQCPJecht2kkasO8waNI21OtX2k3N13xdwtRdOX8Pt3Qhj8LhUTdCY3WcaP4dzbTcU6CTzwLQsvJOp3dPz2Wi2nsAxcsLVSQa9jfBLDEC-3v_qhBpUu1YLn-9-mF2Fa_1QRkrXSV3AuB4XMKmaS-m3r4Fek_WzOLzvl1P700JkymnOaWKewm3F-xAN4MQUwZml7EjfDfKIplWkN7CgX-Qldf0wgku1JF-Ha-o_qiqJA2YB0hir0YbUlLp01w"/>
+</div>
+<div class="flex flex-col">
+<p class="text-base font-semibold text-slate-600 dark:text-slate-300">Amit Patel</p>
+<p class="text-sm text-slate-500 dark:text-slate-500">amit.p@partner.com</p>
+</div>
+</div>
+<div class="flex flex-col items-end gap-1">
+<span class="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-widest text-slate-400">
+<span class="size-1.5 rounded-full bg-slate-400"></span>
+                            Inactive
+                        </span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-2 border-t border-slate-100 dark:border-slate-700/50">
+<div class="inline-flex items-center px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-400 text-xs font-bold border border-slate-200 dark:border-slate-600">
+                        Partner
+                    </div>
+<button class="text-slate-400 hover:text-primary">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</div>
+<!-- User Card 4 -->
+<div class="bg-white dark:bg-slate-800/50 rounded-xl p-4 shadow-sm border border-primary/5">
+<div class="flex items-center justify-between mb-3">
+<div class="flex items-center gap-4">
+<div class="size-14 rounded-full bg-primary/10 flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Portrait of Meera Iyer" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDciDwQGIRfmTgxVqNwk-7nAfzmlGfcqjhKL-HGUsuMn4v59WtltaUJs3uLdlvFHo5sCbKhyhAYndNayq4HBLKalY8YGBk0JoNRZNBXRVA3ySCqaGlVccdpRSz4LusQO8i3twYOweWsSm_toP82t7MFaNfbkZk1XMjacPLbouGnGcuxvV88E4OJw_xnLvu9HRnEZoeC9RAhPBSqohlKtExYf7LgT7ya-97ikUuZ0X7r0P_R2lrtznT_tNkIRdqdtQSWnj--mCDgxw"/>
+</div>
+<div class="flex flex-col">
+<p class="text-base font-semibold">Meera Iyer</p>
+<p class="text-sm text-slate-500 dark:text-slate-400">meera@engineering.com</p>
+</div>
+</div>
+<div class="flex flex-col items-end gap-1">
+<span class="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-widest text-emerald-500 dark:text-emerald-400">
+<span class="size-1.5 rounded-full bg-emerald-500"></span>
+                            Active
+                        </span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-2 border-t border-slate-100 dark:border-slate-700/50">
+<div class="inline-flex items-center px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold border border-primary/20">
+                        Partner
+                    </div>
+<button class="text-slate-400 hover:text-primary">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</div>
+</main>
+<!-- Floating Action Button -->
+<button class="fixed bottom-24 right-6 size-14 bg-primary text-white rounded-full shadow-lg shadow-primary/40 flex items-center justify-center hover:scale-105 transition-transform z-30">
+<span class="material-symbols-outlined text-3xl">add</span>
+</button>
+<!-- Bottom Navigation Bar -->
+<nav class="sticky bottom-0 z-40 bg-white dark:bg-background-dark border-t border-primary/10 px-4 pb-6 pt-2">
+<div class="max-w-xl mx-auto flex justify-between">
+<a class="flex flex-col items-center gap-1 text-slate-400 dark:text-slate-500 group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">dashboard</span>
+<span class="text-[10px] font-medium uppercase tracking-wider">Dashboard</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-primary" href="#">
+<span class="material-symbols-outlined fill-[1]">group</span>
+<span class="text-[10px] font-bold uppercase tracking-wider">Users</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400 dark:text-slate-500 group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">database</span>
+<span class="text-[10px] font-medium uppercase tracking-wider">Projects</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400 dark:text-slate-500 group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors">settings</span>
+<span class="text-[10px] font-medium uppercase tracking-wider">Settings</span>
+</a>
+</div>
+</nav>
+</div>
+<style>
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</body></html>

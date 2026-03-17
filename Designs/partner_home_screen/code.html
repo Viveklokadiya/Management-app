@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Partner Home Screen - Financial Management</title>
+<!-- Tailwind CSS v3 CDN with Plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              primary: '#6200EE', // Classic Flutter/Material Primary
+              secondary: '#03DAC6',
+              income: '#4CAF50',
+              expense: '#212121',
+            }
+          },
+          borderRadius: {
+            'xl': '1rem',
+            '2xl': '1.5rem',
+          }
+        }
+      }
+    }
+  </script>
+<style data-purpose="custom-styling">
+    /* Custom shadow for Flutter-like depth */
+    .flutter-shadow {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+    /* Hide scrollbar for cleaner mobile look */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-900 font-sans antialiased pb-24">
+<!-- BEGIN: HeaderSection -->
+<header class="bg-white px-6 pt-12 pb-6 flex justify-between items-center" data-purpose="main-header">
+<div>
+<h1 class="text-2xl font-bold text-gray-800">Hello, Alex</h1>
+<p class="text-sm text-gray-500">Welcome back to your dashboard</p>
+</div>
+<!-- Profile Avatar -->
+<div class="w-12 h-12 rounded-full overflow-hidden border-2 border-brand-primary" data-purpose="user-avatar">
+<img alt="Profile Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB6posk5uMxveEJa5CzoSO3Cw_83Yv5tFFpFIdRGrPmY0CnLwM-F34brWw-2iVRe7jqw2nQ5_NLyZ4-TUnjxNKU3CuM9tSxoW0S9jcQESqEuyHJIgCTr-5mi-JiG0kfU3n2HNbFd4owZzO58uVRatxAy-GuKQcRwto_qLL5mECC4BXmtiiJhg-UcXCP9lxDk-9Rs9ejBkzU8gKyDN1fQqW610rK_NgTfBF1hWUG2mArUpgmkAR-L0GcVzqHxZofBOlUNmcKso8GBg"/>
+</div>
+</header>
+<!-- END: HeaderSection -->
+<!-- BEGIN: SummaryCards -->
+<section class="px-6 mb-8" data-purpose="summary-stats">
+<div class="grid grid-cols-2 gap-4 mb-4">
+<!-- Today Income Card -->
+<div class="bg-white p-4 rounded-2xl flutter-shadow border-l-4 border-brand-income" data-purpose="stat-card">
+<p class="text-xs text-gray-500 uppercase font-semibold">Today Income</p>
+<p class="text-xl font-bold text-brand-income mt-1">$4,250.00</p>
+</div>
+<!-- Today Expense Card -->
+<div class="bg-white p-4 rounded-2xl flutter-shadow border-l-4 border-brand-expense" data-purpose="stat-card">
+<p class="text-xs text-gray-500 uppercase font-semibold">Today Expense</p>
+<p class="text-xl font-bold text-gray-800 mt-1">$1,120.00</p>
+</div>
+</div>
+<!-- Total Transactions Card (Wide) -->
+<div class="bg-brand-primary p-5 rounded-2xl flutter-shadow text-white flex justify-between items-center" data-purpose="stat-card-wide">
+<div>
+<p class="text-xs opacity-80 uppercase font-semibold">Total Transactions</p>
+<p class="text-2xl font-bold">128</p>
+</div>
+<div class="bg-white/20 p-2 rounded-lg">
+<svg class="h-6 w-6" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+</div>
+</section>
+<!-- END: SummaryCards -->
+<!-- BEGIN: QuickActions -->
+<section class="px-6 mb-8" data-purpose="quick-actions">
+<h2 class="text-lg font-bold text-gray-800 mb-4">Quick Actions</h2>
+<div class="grid grid-cols-2 gap-4">
+<!-- Add Income Button -->
+<button class="bg-green-50 p-6 rounded-2xl border border-green-100 flex flex-col items-center justify-center transition-transform active:scale-95" data-purpose="action-add-income">
+<div class="bg-brand-income p-3 rounded-full mb-3 text-white">
+<svg class="h-6 w-6" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 4v16m8-8H4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<span class="font-semibold text-brand-income">Add Income</span>
+</button>
+<!-- Add Expense Button -->
+<button class="bg-gray-100 p-6 rounded-2xl border border-gray-200 flex flex-col items-center justify-center transition-transform active:scale-95" data-purpose="action-add-expense">
+<div class="bg-gray-800 p-3 rounded-full mb-3 text-white">
+<svg class="h-6 w-6" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M20 12H4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<span class="font-semibold text-gray-800">Add Expense</span>
+</button>
+</div>
+</section>
+<!-- END: QuickActions -->
+<!-- BEGIN: RecentTransactions -->
+<section class="px-6 mb-12" data-purpose="recent-transactions">
+<div class="flex justify-between items-center mb-4">
+<h2 class="text-lg font-bold text-gray-800">Recent Transactions</h2>
+<button class="text-brand-primary text-sm font-semibold">View All</button>
+</div>
+<div class="space-y-4">
+<!-- Transaction Item 1 -->
+<div class="bg-white p-4 rounded-xl flutter-shadow flex items-center justify-between" data-purpose="transaction-item">
+<div class="flex items-center">
+<div class="w-10 h-10 bg-green-100 text-green-600 rounded-lg flex items-center justify-center mr-4">
+<svg class="h-5 w-5" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z" fill-rule="evenodd"></path>
+</svg>
+</div>
+<div>
+<p class="font-bold text-gray-800">Client Payment</p>
+<p class="text-xs text-gray-400">Main Site • Oct 24, 2023</p>
+</div>
+</div>
+<p class="font-bold text-brand-income">+$1,200.00</p>
+</div>
+<!-- Transaction Item 2 -->
+<div class="bg-white p-4 rounded-xl flutter-shadow flex items-center justify-between" data-purpose="transaction-item">
+<div class="flex items-center">
+<div class="w-10 h-10 bg-red-100 text-red-600 rounded-lg flex items-center justify-center mr-4">
+<svg class="h-5 w-5" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+<path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z"></path>
+<path clip-rule="evenodd" d="M18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z" fill-rule="evenodd"></path>
+</svg>
+</div>
+<div>
+<p class="font-bold text-gray-800">Office Supplies</p>
+<p class="text-xs text-gray-400">Amazon • Oct 23, 2023</p>
+</div>
+</div>
+<p class="font-bold text-gray-800">-$45.20</p>
+</div>
+<!-- Transaction Item 3 -->
+<div class="bg-white p-4 rounded-xl flutter-shadow flex items-center justify-between" data-purpose="transaction-item">
+<div class="flex items-center">
+<div class="w-10 h-10 bg-green-100 text-green-600 rounded-lg flex items-center justify-center mr-4">
+<svg class="h-5 w-5" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z" fill-rule="evenodd"></path>
+</svg>
+</div>
+<div>
+<p class="font-bold text-gray-800">Consultation Fee</p>
+<p class="text-xs text-gray-400">Branch B • Oct 22, 2023</p>
+</div>
+</div>
+<p class="font-bold text-brand-income">+$350.00</p>
+</div>
+<!-- Transaction Item 4 -->
+<div class="bg-white p-4 rounded-xl flutter-shadow flex items-center justify-between" data-purpose="transaction-item">
+<div class="flex items-center">
+<div class="w-10 h-10 bg-red-100 text-red-600 rounded-lg flex items-center justify-center mr-4">
+<svg class="h-5 w-5" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+<path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z"></path>
+<path clip-rule="evenodd" d="M18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z" fill-rule="evenodd"></path>
+</svg>
+</div>
+<div>
+<p class="font-bold text-gray-800">Utility Bill</p>
+<p class="text-xs text-gray-400">City Power • Oct 21, 2023</p>
+</div>
+</div>
+<p class="font-bold text-gray-800">-$120.00</p>
+</div>
+<!-- Transaction Item 5 -->
+<div class="bg-white p-4 rounded-xl flutter-shadow flex items-center justify-between" data-purpose="transaction-item">
+<div class="flex items-center">
+<div class="w-10 h-10 bg-green-100 text-green-600 rounded-lg flex items-center justify-center mr-4">
+<svg class="h-5 w-5" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z" fill-rule="evenodd"></path>
+</svg>
+</div>
+<div>
+<p class="font-bold text-gray-800">Product Sale</p>
+<p class="text-xs text-gray-400">Online Store • Oct 20, 2023</p>
+</div>
+</div>
+<p class="font-bold text-brand-income">+$890.00</p>
+</div>
+</div>
+</section>
+<!-- END: RecentTransactions -->
+<!-- BEGIN: FloatingActionButton -->
+<div class="fixed bottom-24 right-6 z-50">
+<button class="w-16 h-16 bg-brand-primary text-white rounded-full flex items-center justify-center shadow-lg hover:bg-indigo-700 transition-colors focus:outline-none focus:ring-4 focus:ring-brand-primary/50" data-purpose="fab-add-transaction">
+<svg class="h-8 w-8" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 4v16m8-8H4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path>
+</svg>
+</button>
+</div>
+<!-- END: FloatingActionButton -->
+<!-- BEGIN: BottomNavigation -->
+<nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 h-20 flex items-center justify-around px-6 z-40" data-purpose="bottom-nav">
+<!-- Home Tab -->
+<a class="flex flex-col items-center text-brand-primary" data-purpose="nav-item" href="#">
+<svg class="h-6 w-6" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+<path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
+</svg>
+<span class="text-[10px] mt-1 font-bold uppercase tracking-wider">Home</span>
+</a>
+<!-- Transactions Tab -->
+<a class="flex flex-col items-center text-gray-400" data-purpose="nav-item" href="#">
+<svg class="h-6 w-6" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span class="text-[10px] mt-1 font-semibold uppercase tracking-wider">Activity</span>
+</a>
+<!-- Profile Tab -->
+<a class="flex flex-col items-center text-gray-400" data-purpose="nav-item" href="#">
+<svg class="h-6 w-6" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span class="text-[10px] mt-1 font-semibold uppercase tracking-wider">Profile</span>
+</a>
+</nav>
+<!-- END: BottomNavigation -->
+</body></html>

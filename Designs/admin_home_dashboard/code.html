@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Shree Giriraj Engineering - Admin Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ec5b13",
+                        "background-light": "#f8f6f6",
+                        "background-dark": "#221610",
+                    },
+                    fontFamily: {
+                        "display": ["Public Sans"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Public Sans', sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex flex-col">
+<!-- Header Section -->
+<header class="sticky top-0 z-50 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
+<div class="flex items-center p-4 justify-between max-w-5xl mx-auto w-full">
+<div class="flex items-center gap-3">
+<div class="size-10 shrink-0 overflow-hidden rounded-full border-2 border-primary">
+<img alt="Admin Avatar" class="w-full h-full object-cover" data-alt="Professional male portrait avatar for admin profile" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDdmtUC6aeQXqDtt-cjf_qzW-MFuqBcs_4RNmVseAQq5E9pempLT4XZzdwL9RnoXR3T0ZnCRL0HOgjeepvkpF9AtBF5Oe7KiLkjYLPRyvEdZ2C9Sm4oBTTMoC1ztC0tqvzLU_DQQYZNsHHRk1gJFnk_GAiokIttyvJQwaGsT04KlEWq42RaFxEv1IXT95NOALDXEXLwDqjbGAFUT4OWJ8iYPLRkhHFTNNYTnbLh0M1zPGKMoB7AYfktvunPekYbPO0ZHujwXZEMmA"/>
+</div>
+<div>
+<h2 class="text-slate-900 dark:text-slate-100 text-lg font-bold leading-tight">Hello, Admin Alex</h2>
+<p class="text-slate-500 dark:text-slate-400 text-xs">Shree Giriraj Engineering</p>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="flex size-10 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+<span class="material-symbols-outlined">search</span>
+</button>
+<button class="relative flex size-10 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 size-2 bg-primary rounded-full"></span>
+</button>
+</div>
+</div>
+</header>
+<main class="flex-1 max-w-5xl mx-auto w-full pb-24">
+<!-- Main Summary Cards -->
+<div class="flex flex-wrap gap-4 p-4">
+<div class="flex min-w-[280px] flex-1 flex-col gap-3 rounded-xl p-6 bg-primary text-white shadow-lg shadow-primary/20">
+<div class="flex justify-between items-start">
+<p class="text-white/80 text-sm font-medium uppercase tracking-wider">Net Balance</p>
+<span class="material-symbols-outlined opacity-80">account_balance_wallet</span>
+</div>
+<p class="text-white tracking-tight text-3xl font-bold leading-tight">₹32,500.00</p>
+<div class="flex items-center gap-1 text-xs bg-white/20 w-fit px-2 py-1 rounded-full">
+<span class="material-symbols-outlined text-[14px]">trending_up</span>
+<span>+8% from last month</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4 w-full md:w-auto md:flex-1">
+<div class="flex flex-col gap-2 rounded-xl p-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm">
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Today Income</p>
+<p class="text-emerald-600 dark:text-emerald-400 text-xl font-bold">₹45,000</p>
+<p class="text-emerald-500 text-xs font-medium flex items-center">
+<span class="material-symbols-outlined text-[14px]">arrow_upward</span> 12%
+                    </p>
+</div>
+<div class="flex flex-col gap-2 rounded-xl p-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm">
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Today Expense</p>
+<p class="text-rose-600 dark:text-rose-400 text-xl font-bold">₹12,500</p>
+<p class="text-rose-500 text-xs font-medium flex items-center">
+<span class="material-symbols-outlined text-[14px]">arrow_downward</span> 5%
+                    </p>
+</div>
+</div>
+</div>
+<!-- Quick Actions -->
+<div class="px-4 py-2">
+<h3 class="text-slate-900 dark:text-slate-100 text-base font-bold mb-4">Quick Actions</h3>
+<div class="grid grid-cols-2 gap-4">
+<button class="flex items-center justify-center gap-2 rounded-xl bg-primary/10 dark:bg-primary/20 border border-primary/20 py-4 px-4 text-primary font-bold">
+<span class="material-symbols-outlined">add_circle</span>
+                    Add Income
+                </button>
+<button class="flex items-center justify-center gap-2 rounded-xl bg-slate-900 dark:bg-slate-700 py-4 px-4 text-white font-bold">
+<span class="material-symbols-outlined">remove_circle</span>
+                    Add Expense
+                </button>
+</div>
+</div>
+<!-- Secondary Info Grid -->
+<div class="grid grid-cols-2 gap-4 p-4">
+<div class="flex flex-1 gap-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800/50 p-4 flex-col">
+<div class="text-primary bg-primary/10 w-10 h-10 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined">receipt_long</span>
+</div>
+<div class="flex flex-col gap-1">
+<h2 class="text-slate-900 dark:text-slate-100 text-sm font-bold">Total Transactions</h2>
+<p class="text-slate-500 dark:text-slate-400 text-xs">24 items today</p>
+</div>
+</div>
+<div class="flex flex-1 gap-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800/50 p-4 flex-col">
+<div class="text-primary bg-primary/10 w-10 h-10 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined">factory</span>
+</div>
+<div class="flex flex-col gap-1">
+<h2 class="text-slate-900 dark:text-slate-100 text-sm font-bold">Active Sites</h2>
+<p class="text-slate-500 dark:text-slate-400 text-xs">8 project locations</p>
+</div>
+</div>
+</div>
+<!-- Recent Transactions -->
+<div class="px-4 py-2">
+<div class="flex justify-between items-center mb-4">
+<h3 class="text-slate-900 dark:text-slate-100 text-base font-bold">Recent Transactions</h3>
+<a class="text-primary text-sm font-medium" href="#">View All</a>
+</div>
+<div class="flex flex-col gap-3">
+<!-- Transaction Item -->
+<div class="flex items-center gap-4 bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
+<div class="bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 size-12 rounded-full flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined">south_west</span>
+</div>
+<div class="flex-1">
+<p class="text-slate-900 dark:text-slate-100 font-bold text-sm">Project Payment - Site A</p>
+<p class="text-slate-500 dark:text-slate-400 text-xs">Today, 2:45 PM</p>
+</div>
+<div class="text-right">
+<p class="text-emerald-600 font-bold">+₹15,000</p>
+<p class="text-slate-400 text-[10px]">Bank Transfer</p>
+</div>
+</div>
+<!-- Transaction Item -->
+<div class="flex items-center gap-4 bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
+<div class="bg-rose-100 dark:bg-rose-900/30 text-rose-600 size-12 rounded-full flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined">north_east</span>
+</div>
+<div class="flex-1">
+<p class="text-slate-900 dark:text-slate-100 font-bold text-sm">Material Purchase - Steel</p>
+<p class="text-slate-500 dark:text-slate-400 text-xs">Today, 11:20 AM</p>
+</div>
+<div class="text-right">
+<p class="text-rose-600 font-bold">-₹8,200</p>
+<p class="text-slate-400 text-[10px]">Cash</p>
+</div>
+</div>
+<!-- Transaction Item -->
+<div class="flex items-center gap-4 bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
+<div class="bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 size-12 rounded-full flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined">south_west</span>
+</div>
+<div class="flex-1">
+<p class="text-slate-900 dark:text-slate-100 font-bold text-sm">Service Fee - Site B</p>
+<p class="text-slate-500 dark:text-slate-400 text-xs">Yesterday, 4:10 PM</p>
+</div>
+<div class="text-right">
+<p class="text-emerald-600 font-bold">+₹2,500</p>
+<p class="text-slate-400 text-[10px]">UPI</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 right-0 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 pb-safe z-50">
+<div class="flex max-w-5xl mx-auto px-4 py-2">
+<a class="flex flex-1 flex-col items-center justify-center gap-1 text-primary" href="#">
+<span class="material-symbols-outlined">home</span>
+<p class="text-[10px] font-bold">Home</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-center gap-1 text-slate-400 dark:text-slate-500" href="#">
+<span class="material-symbols-outlined">apartment</span>
+<p class="text-[10px] font-medium">Sites</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-center gap-1 text-slate-400 dark:text-slate-500" href="#">
+<span class="material-symbols-outlined">bar_chart</span>
+<p class="text-[10px] font-medium">Reports</p>
+</a>
+<a class="flex flex-1 flex-col items-center justify-center gap-1 text-slate-400 dark:text-slate-500" href="#">
+<span class="material-symbols-outlined">person</span>
+<p class="text-[10px] font-medium">Profile</p>
+</a>
+</div>
+</nav>
+</body></html>

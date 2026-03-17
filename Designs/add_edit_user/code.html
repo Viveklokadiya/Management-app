@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Add/Edit User - Shree Giriraj Engineering</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ec5b13",
+                        "background-light": "#f8f6f6",
+                        "background-dark": "#221610",
+                    },
+                    fontFamily: {
+                        "display": ["Public Sans"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen">
+<div class="max-w-2xl mx-auto min-h-screen flex flex-col shadow-sm bg-white dark:bg-slate-900/50">
+<!-- Top Navigation -->
+<div class="flex items-center p-4 border-b border-slate-200 dark:border-slate-800 sticky top-0 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md z-10">
+<button class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors mr-2">
+<span class="material-symbols-outlined align-middle">arrow_back</span>
+</button>
+<div class="flex flex-col">
+<h1 class="text-xl font-bold tracking-tight">Add/Edit User</h1>
+<p class="text-xs text-slate-500 dark:text-slate-400">Shree Giriraj Engineering Management</p>
+</div>
+</div>
+<form class="flex-1 p-6 space-y-8">
+<!-- Basic Information Section -->
+<section class="space-y-4">
+<div class="flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-2">
+<span class="material-symbols-outlined text-primary">person</span>
+<h2 class="text-sm font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">User Profile</h2>
+</div>
+<div class="grid grid-cols-1 gap-6">
+<label class="flex flex-col gap-2">
+<span class="text-sm font-medium">Full Name</span>
+<input class="w-full rounded-xl border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 focus:border-primary focus:ring-primary transition-all p-3.5 text-base" placeholder="e.g. Rajesh Kumar" type="text" value="Rajesh Kumar"/>
+</label>
+<label class="flex flex-col gap-2">
+<span class="text-sm font-medium">Email (Google Account)</span>
+<div class="relative">
+<input class="w-full rounded-xl border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 focus:border-primary focus:ring-primary transition-all p-3.5 pr-12 text-base" placeholder="rajesh.kumar@gmail.com" type="email"/>
+<div class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400">
+<span class="material-symbols-outlined">mail</span>
+</div>
+</div>
+<p class="text-xs text-slate-500 italic mt-1">Used for SSO authentication</p>
+</label>
+</div>
+</section>
+<!-- Access Control Section -->
+<section class="space-y-4">
+<div class="flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-2">
+<span class="material-symbols-outlined text-primary">admin_panel_settings</span>
+<h2 class="text-sm font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Access &amp; Permissions</h2>
+</div>
+<div class="grid grid-cols-1 gap-6">
+<label class="flex flex-col gap-2">
+<span class="text-sm font-medium">Role</span>
+<select class="w-full rounded-xl border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 focus:border-primary focus:ring-primary transition-all p-3.5 text-base appearance-none">
+<option value="">Select user role</option>
+<option value="admin">Administrator</option>
+<option selected="" value="manager">Site Manager</option>
+<option value="engineer">Field Engineer</option>
+<option value="viewer">Guest Viewer</option>
+</select>
+</label>
+<div class="flex flex-col gap-2">
+<span class="text-sm font-medium">Assigned Sites</span>
+<div class="p-3 border border-slate-300 dark:border-slate-700 rounded-xl bg-slate-50 dark:bg-slate-800/50 space-y-2">
+<label class="flex items-center gap-3 p-2 hover:bg-white dark:hover:bg-slate-800 rounded-lg cursor-pointer transition-colors">
+<input checked="" class="rounded text-primary focus:ring-primary w-5 h-5 border-slate-300" type="checkbox"/>
+<span class="text-sm">Ahmedabad North Project</span>
+</label>
+<label class="flex items-center gap-3 p-2 hover:bg-white dark:hover:bg-slate-800 rounded-lg cursor-pointer transition-colors">
+<input checked="" class="rounded text-primary focus:ring-primary w-5 h-5 border-slate-300" type="checkbox"/>
+<span class="text-sm">Surat Industrial Hub</span>
+</label>
+<label class="flex items-center gap-3 p-2 hover:bg-white dark:hover:bg-slate-800 rounded-lg cursor-pointer transition-colors">
+<input class="rounded text-primary focus:ring-primary w-5 h-5 border-slate-300" type="checkbox"/>
+<span class="text-sm">Vadodara Tech Park</span>
+</label>
+<label class="flex items-center gap-3 p-2 hover:bg-white dark:hover:bg-slate-800 rounded-lg cursor-pointer transition-colors">
+<input class="rounded text-primary focus:ring-primary w-5 h-5 border-slate-300" type="checkbox"/>
+<span class="text-sm">Rajkot Manufacturing Plant</span>
+</label>
+</div>
+</div>
+</div>
+</section>
+<!-- Status Toggle Section -->
+<section class="p-4 bg-primary/5 dark:bg-primary/10 rounded-xl border border-primary/10">
+<div class="flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-semibold text-slate-800 dark:text-slate-100">User Status</span>
+<span class="text-sm text-slate-600 dark:text-slate-400">Enable or disable user access to the platform</span>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-14 h-7 bg-slate-300 peer-focus:outline-none rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+<span class="ml-3 text-sm font-medium text-primary uppercase">Active</span>
+</label>
+</div>
+</section>
+</form>
+<!-- Fixed Footer Actions -->
+<div class="p-4 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 flex gap-4 mt-auto">
+<button class="flex-1 py-3.5 px-6 rounded-xl border border-slate-300 dark:border-slate-700 font-semibold hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                Cancel
+            </button>
+<button class="flex-[2] py-3.5 px-6 rounded-xl bg-primary hover:bg-primary/90 text-white font-bold flex items-center justify-center gap-2 transition-all shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined">save</span>
+                Save User
+            </button>
+</div>
+</div>
+</body></html>

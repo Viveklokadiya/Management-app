@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Partners - Shree Giriraj Engineering</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ec5b13",
+                        "background-light": "#f8f6f6",
+                        "background-dark": "#221610",
+                    },
+                    fontFamily: {
+                        "display": ["Public Sans"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Public Sans', sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .active-icon {
+            font-variation-settings: 'FILL' 1;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display">
+<div class="relative flex min-h-screen flex-col overflow-x-hidden">
+<!-- Header -->
+<header class="sticky top-0 z-10 flex items-center bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md p-4 justify-between border-b border-slate-200 dark:border-slate-800">
+<div class="flex items-center gap-3">
+<div class="p-2 rounded-lg bg-primary/10 text-primary">
+<span class="material-symbols-outlined block">engineering</span>
+</div>
+<h1 class="text-xl font-bold leading-tight tracking-tight">Partners</h1>
+</div>
+<button class="flex size-10 items-center justify-center rounded-full bg-primary text-white shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined">add</span>
+</button>
+</header>
+<!-- Search & Filters -->
+<div class="px-4 pt-4 pb-2 space-y-4">
+<div class="relative group">
+<div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-slate-400 group-focus-within:text-primary transition-colors">
+<span class="material-symbols-outlined text-xl">search</span>
+</div>
+<input class="block w-full pl-11 pr-4 py-3 bg-white dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-all placeholder:text-slate-400" placeholder="Search partners by name or ID" type="text"/>
+</div>
+<div class="flex gap-2 overflow-x-auto pb-1 no-scrollbar">
+<button class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-full bg-primary text-white px-4 text-sm font-semibold shadow-sm">
+                    All Partners
+                </button>
+<button class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-4 text-sm font-medium text-slate-600 dark:text-slate-300">
+                    Active
+                    <span class="material-symbols-outlined text-sm">expand_more</span>
+</button>
+<button class="flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-4 text-sm font-medium text-slate-600 dark:text-slate-300">
+                    High Priority
+                    <span class="material-symbols-outlined text-sm">expand_more</span>
+</button>
+</div>
+</div>
+<!-- Partner List -->
+<main class="flex-1 px-4 py-2 space-y-4 pb-24">
+<!-- Partner Card 1 -->
+<div class="bg-white dark:bg-slate-800/40 rounded-xl border border-slate-200 dark:border-slate-700 p-4 shadow-sm">
+<div class="flex gap-4">
+<div class="size-16 shrink-0 rounded-xl bg-slate-100 dark:bg-slate-700 overflow-hidden border border-slate-200 dark:border-slate-600">
+<img class="w-full h-full object-cover" data-alt="Professional portrait of a male partner" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAvMo0HKSBj3WPf4IhN_sz2KSfovT7yIjr2hQjf2CZsNBkC467hN6V1p-rFiQQz2N549zZ-zbSKNT8G3IAEuRTLClcbLPyzIobP3MszhRJP3_wnBr0Hs8npkHrjO2lsJsZLjyJSTmXVju0_sZOUhR2E6Gy4Deh9aQQetVkriqPO1V5PLFbG6-w8LKWFuXco8E-9KhdstS2Ee_bu4NGQobrtBz-OusrTzyk92FgncXq1tPJa95Qlx6M3v0yjJoGsd9Fddgdeh4hBsA"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-bold text-slate-900 dark:text-white truncate">Rajesh Kumar</h3>
+<p class="text-xs text-primary font-medium">ID: SGE-P001</p>
+</div>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 uppercase tracking-wider">
+                                Online
+                            </span>
+</div>
+<div class="mt-2 space-y-1">
+<div class="flex items-center gap-2 text-slate-500 dark:text-slate-400">
+<span class="material-symbols-outlined text-sm">call</span>
+<span class="text-sm">+91 98765 43210</span>
+</div>
+<div class="flex items-center gap-2 text-slate-500 dark:text-slate-400">
+<span class="material-symbols-outlined text-sm">location_on</span>
+<span class="text-sm truncate" data-location="Ahmedabad, Gujarat">Ahmedabad Industrial Zone</span>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-4 pt-4 border-t border-slate-100 dark:border-slate-700 flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary text-lg">factory</span>
+<span class="text-sm font-semibold">12 Assigned Sites</span>
+</div>
+<button class="text-primary text-sm font-bold flex items-center gap-1">
+                        View Details
+                        <span class="material-symbols-outlined text-base">chevron_right</span>
+</button>
+</div>
+</div>
+<!-- Partner Card 2 -->
+<div class="bg-white dark:bg-slate-800/40 rounded-xl border border-slate-200 dark:border-slate-700 p-4 shadow-sm">
+<div class="flex gap-4">
+<div class="size-16 shrink-0 rounded-xl bg-slate-100 dark:bg-slate-700 overflow-hidden border border-slate-200 dark:border-slate-600">
+<img class="w-full h-full object-cover" data-alt="Professional portrait of a female partner" src="https://lh3.googleusercontent.com/aida-public/AB6AXuACqEhPH3ERhRPo-AwkxTn61nx0KoXIf8s1t6Gxn-rTWjx6nr01_Ej7Ai9RKUKLTQcyhe31X5vE_EI2poILf1fwDaJD4nC-Dbgu9Nm6krDk0Zj9Kwij2_7JHNCZuVvtkJqN3hdCu3Zf-2Fmko4654RaEjw42lRVz-zHjx8W61yoNx2ke4GZ6jf5l_thxxSceJymioJrRF3tqtPT3rPh_TQCfdPXJ5Ot3Sea9QZPkWjEGOUL5ONOLxyhMS5cT1gfeF7FW4_pqae2Aw"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-bold text-slate-900 dark:text-white truncate">Anjali Sharma</h3>
+<p class="text-xs text-primary font-medium">ID: SGE-P042</p>
+</div>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-400 uppercase tracking-wider">
+                                2h ago
+                            </span>
+</div>
+<div class="mt-2 space-y-1">
+<div class="flex items-center gap-2 text-slate-500 dark:text-slate-400">
+<span class="material-symbols-outlined text-sm">call</span>
+<span class="text-sm">+91 99887 76655</span>
+</div>
+<div class="flex items-center gap-2 text-slate-500 dark:text-slate-400">
+<span class="material-symbols-outlined text-sm">location_on</span>
+<span class="text-sm truncate" data-location="Surat, Gujarat">Surat GIDC Estate</span>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-4 pt-4 border-t border-slate-100 dark:border-slate-700 flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary text-lg">factory</span>
+<span class="text-sm font-semibold">08 Assigned Sites</span>
+</div>
+<button class="text-primary text-sm font-bold flex items-center gap-1">
+                        View Details
+                        <span class="material-symbols-outlined text-base">chevron_right</span>
+</button>
+</div>
+</div>
+<!-- Partner Card 3 -->
+<div class="bg-white dark:bg-slate-800/40 rounded-xl border border-slate-200 dark:border-slate-700 p-4 shadow-sm opacity-90">
+<div class="flex gap-4">
+<div class="size-16 shrink-0 rounded-xl bg-slate-100 dark:bg-slate-700 overflow-hidden border border-slate-200 dark:border-slate-600 grayscale">
+<img class="w-full h-full object-cover" data-alt="Profile photo of a male engineer" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBim36cRc_NojSKjTLzac_nesAZR700JiNKmvN2IZeVdd55HQuF60Or46WMJCXstmSFPC7NkJHaERv9mLCmXpafo3DYKUtN2WDli7oAjlpiBVZ76mYhqt7coxRG_P_ys-nWRr1awhJ5LCzuahwtSbnHaKqx4Prg8RzTJqOLMk3fjlsOR9puA00Q6Guz0rJaq4zwV8yy6kjH4zkhMFbea5OIIrTVXwoHUZqvOsVbRh1lXwUhTvJ7DTZM53CIkEO35L6BNeq5e47ezw"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-bold text-slate-900 dark:text-white truncate">Vikram Singh</h3>
+<p class="text-xs text-primary font-medium">ID: SGE-P015</p>
+</div>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400 uppercase tracking-wider">
+                                Offline
+                            </span>
+</div>
+<div class="mt-2 space-y-1">
+<div class="flex items-center gap-2 text-slate-500 dark:text-slate-400">
+<span class="material-symbols-outlined text-sm">call</span>
+<span class="text-sm">+91 91234 56789</span>
+</div>
+<div class="flex items-center gap-2 text-slate-500 dark:text-slate-400">
+<span class="material-symbols-outlined text-sm">location_on</span>
+<span class="text-sm truncate" data-location="Vadodara, Gujarat">Vadodara Center</span>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-4 pt-4 border-t border-slate-100 dark:border-slate-700 flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary text-lg">factory</span>
+<span class="text-sm font-semibold">05 Assigned Sites</span>
+</div>
+<button class="text-primary text-sm font-bold flex items-center gap-1">
+                        View Details
+                        <span class="material-symbols-outlined text-base">chevron_right</span>
+</button>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation -->
+<nav class="fixed bottom-0 left-0 right-0 bg-white/95 dark:bg-slate-900/95 backdrop-blur-lg border-t border-slate-200 dark:border-slate-800 flex justify-around items-center px-2 py-2 pb-6 z-20">
+<a class="flex flex-col items-center gap-1 px-4 py-1 text-slate-400" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="text-[10px] font-bold uppercase tracking-tight">Home</span>
+</a>
+<a class="flex flex-col items-center gap-1 px-4 py-1 text-primary" href="#">
+<span class="material-symbols-outlined active-icon">group</span>
+<span class="text-[10px] font-bold uppercase tracking-tight">Partners</span>
+</a>
+<a class="flex flex-col items-center gap-1 px-4 py-1 text-slate-400" href="#">
+<span class="material-symbols-outlined">domain</span>
+<span class="text-[10px] font-bold uppercase tracking-tight">Sites</span>
+</a>
+<a class="flex flex-col items-center gap-1 px-4 py-1 text-slate-400" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="text-[10px] font-bold uppercase tracking-tight">Profile</span>
+</a>
+</nav>
+</div>
+</body></html>

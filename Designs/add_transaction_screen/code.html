@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>Add Transaction</title>
+<!-- Tailwind CSS v3 with plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- BEGIN: Custom Configuration -->
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'flutter-blue': '#027DFD',
+            'flutter-grey': '#F5F5F7',
+            'expense-red': '#E53935',
+            'income-green': '#43A047'
+          }
+        }
+      }
+    }
+  </script>
+<!-- END: Custom Configuration -->
+<style data-purpose="custom-layout">
+    body {
+      background-color: #F5F5F7;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+    /* Hide number input spinners */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    .safe-area-bottom {
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+<!-- BEGIN: Header -->
+<header class="bg-flutter-blue text-white p-4 shadow-md flex items-center sticky top-0 z-10">
+<button class="p-2 -ml-2" data-purpose="back-button">
+<svg class="h-6 w-6" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M10 19l-7-7m0 0l7-7m-7 7h18" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</button>
+<h1 class="text-xl font-semibold ml-4">Add Transaction</h1>
+</header>
+<!-- END: Header -->
+<!-- BEGIN: Main Content -->
+<main class="flex-grow p-4 md:max-w-md md:mx-auto w-full">
+<form class="space-y-6" id="transaction-form">
+<!-- BEGIN: Transaction Type Toggle -->
+<div class="flex bg-gray-200 rounded-xl p-1" data-purpose="transaction-type-selector">
+<button class="flex-1 py-3 px-4 rounded-lg font-medium transition-all duration-200 bg-white shadow-sm text-expense-red" id="expense-toggle" onclick="setType('expense')" type="button">
+          Expense
+        </button>
+<button class="flex-1 py-3 px-4 rounded-lg font-medium transition-all duration-200 text-gray-600" id="income-toggle" onclick="setType('income')" type="button">
+          Income
+        </button>
+</div>
+<!-- END: Transaction Type Toggle -->
+<!-- BEGIN: Amount Input -->
+<div class="space-y-2">
+<label class="block text-sm font-medium text-gray-700" for="amount">Amount</label>
+<div class="relative">
+<span class="absolute left-4 top-1/2 -translate-y-1/2 text-xl font-bold text-gray-500">₹</span>
+<input class="block w-full pl-10 pr-4 py-4 text-3xl font-bold bg-white border-none rounded-2xl shadow-sm focus:ring-2 focus:ring-flutter-blue" id="amount" name="amount" placeholder="0.00" required="" step="0.01" type="number"/>
+</div>
+</div>
+<!-- END: Amount Input -->
+<!-- BEGIN: Site Dropdown -->
+<div class="space-y-2">
+<label class="block text-sm font-medium text-gray-700" for="site">Site / Location</label>
+<select class="block w-full px-4 py-3 bg-white border-none rounded-xl shadow-sm focus:ring-2 focus:ring-flutter-blue appearance-none" id="site" name="site">
+<option value="">Select Site</option>
+<option value="main-office">Main Office</option>
+<option value="project-a">Project Site A</option>
+<option value="project-b">Project Site B</option>
+<option value="warehouse">Warehouse</option>
+</select>
+</div>
+<!-- END: Site Dropdown -->
+<!-- BEGIN: Payment Method -->
+<div class="space-y-3">
+<label class="block text-sm font-medium text-gray-700">Payment Method</label>
+<div class="grid grid-cols-2 gap-3" data-purpose="payment-method-grid">
+<label class="relative">
+<input checked="" class="peer sr-only" name="payment_method" type="radio" value="cash"/>
+<div class="p-3 text-center border-2 border-transparent bg-white rounded-xl shadow-sm peer-checked:border-flutter-blue peer-checked:text-flutter-blue transition-all cursor-pointer">
+              Cash
+            </div>
+</label>
+<label class="relative">
+<input class="peer sr-only" name="payment_method" type="radio" value="upi"/>
+<div class="p-3 text-center border-2 border-transparent bg-white rounded-xl shadow-sm peer-checked:border-flutter-blue peer-checked:text-flutter-blue transition-all cursor-pointer">
+              UPI
+            </div>
+</label>
+<label class="relative">
+<input class="peer sr-only" name="payment_method" type="radio" value="bank"/>
+<div class="p-3 text-center border-2 border-transparent bg-white rounded-xl shadow-sm peer-checked:border-flutter-blue peer-checked:text-flutter-blue transition-all cursor-pointer">
+              Bank
+            </div>
+</label>
+<label class="relative">
+<input class="peer sr-only" name="payment_method" type="radio" value="other"/>
+<div class="p-3 text-center border-2 border-transparent bg-white rounded-xl shadow-sm peer-checked:border-flutter-blue peer-checked:text-flutter-blue transition-all cursor-pointer">
+              Other
+            </div>
+</label>
+</div>
+</div>
+<!-- END: Payment Method -->
+<!-- BEGIN: Date Picker -->
+<div class="space-y-2">
+<label class="block text-sm font-medium text-gray-700" for="date">Date</label>
+<input class="block w-full px-4 py-3 bg-white border-none rounded-xl shadow-sm focus:ring-2 focus:ring-flutter-blue" id="date" name="date" type="date"/>
+</div>
+<!-- END: Date Picker -->
+<!-- BEGIN: Remarks -->
+<div class="space-y-2">
+<label class="block text-sm font-medium text-gray-700" for="remarks">Remarks (Optional)</label>
+<textarea class="block w-full px-4 py-3 bg-white border-none rounded-xl shadow-sm focus:ring-2 focus:ring-flutter-blue resize-none" id="remarks" name="remarks" placeholder="What was this for?" rows="3"></textarea>
+</div>
+<!-- END: Remarks -->
+<!-- Spacing for button -->
+<div class="h-20"></div>
+</form>
+</main>
+<!-- END: Main Content -->
+<!-- BEGIN: Sticky Footer Button -->
+<footer class="fixed bottom-0 left-0 right-0 p-4 bg-white/80 backdrop-blur-md border-t border-gray-200 md:max-w-md md:mx-auto safe-area-bottom">
+<button class="w-full bg-flutter-blue hover:bg-blue-600 text-white font-bold py-4 px-6 rounded-2xl shadow-lg transform transition active:scale-[0.98]" data-purpose="save-button" form="transaction-form" type="submit">
+      Save Transaction
+    </button>
+</footer>
+<!-- END: Sticky Footer Button -->
+<script data-purpose="toggle-logic">
+    // Script to handle the Expense/Income toggle styling
+    function setType(type) {
+      const expenseBtn = document.getElementById('expense-toggle');
+      const incomeBtn = document.getElementById('income-toggle');
+      
+      if (type === 'expense') {
+        expenseBtn.classList.add('bg-white', 'shadow-sm', 'text-expense-red');
+        expenseBtn.classList.remove('text-gray-600');
+        incomeBtn.classList.remove('bg-white', 'shadow-sm', 'text-income-green');
+        incomeBtn.classList.add('text-gray-600');
+      } else {
+        incomeBtn.classList.add('bg-white', 'shadow-sm', 'text-income-green');
+        incomeBtn.classList.remove('text-gray-600');
+        expenseBtn.classList.remove('bg-white', 'shadow-sm', 'text-expense-red');
+        expenseBtn.classList.add('text-gray-600');
+      }
+    }
+
+    // Set default date to today
+    window.onload = () => {
+      const today = new Date().toISOString().split('T')[0];
+      document.getElementById('date').value = today;
+    };
+  </script>
+</body></html>

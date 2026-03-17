@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Profile Screen</title>
+<!-- Tailwind CSS with plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration for custom colors -->
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            navy: {
+              DEFAULT: '#1B263B',
+              light: '#415A77',
+              dark: '#0D1B2A'
+            },
+            lightgrey: {
+              DEFAULT: '#E0E1DD',
+              light: '#F8F9FA'
+            }
+          }
+        }
+      }
+    }
+  </script>
+<!-- BEGIN: Custom Styles -->
+<style data-purpose="base-layout">
+    body {
+      background-color: #F8F9FA;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .profile-card-shadow {
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+  </style>
+<!-- END: Custom Styles -->
+</head>
+<body class="font-sans text-navy">
+<!-- BEGIN: Header Section -->
+<header class="bg-navy text-white pt-12 pb-8 px-6 rounded-b-[2.5rem] profile-card-shadow" data-purpose="header-section">
+<div class="flex flex-col items-center">
+<!-- Profile Image Container -->
+<div class="relative mb-4">
+<div class="w-32 h-32 rounded-full border-4 border-lightgrey overflow-hidden bg-lightgrey flex items-center justify-center">
+<img alt="Profile Picture" class="w-full h-full object-cover" id="profile-avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAl80og8arX2qCEq7d8yASjvlwo45BQNst3WmY1yCwLGtM3l7d5-NzLjrcH2AIj2Qh6fYysRSg654pDGFJX1wqKNentdXHHINb_cAbuuUgbXfct35udPbqqSgJFI_7ebLAWxmxdFG0FhTB9f4csl8GbO-0E_jl67lsXliVPQfnV1__DeHnBnPwCgaeyCXw1vjMbztRlQDAFL9Y0tFBqvKXz1L5cD_pSyVXmfOpv05zj8IE1914o5e319hComHf6TqESc1A9HEuFtw"/>
+</div>
+</div>
+<!-- User Info -->
+<h1 class="text-2xl font-bold tracking-tight">Alex Thompson</h1>
+<span class="mt-1 px-4 py-1 bg-navy-light/50 rounded-full text-sm font-medium uppercase tracking-wider border border-white/20">
+        Partner
+      </span>
+</div>
+</header>
+<!-- END: Header Section -->
+<!-- BEGIN: Details Section -->
+<main class="px-6 -mt-4" data-purpose="profile-details">
+<div class="bg-white rounded-2xl p-6 profile-card-shadow space-y-6">
+<!-- Email Detail -->
+<div class="flex items-center space-x-4" data-purpose="detail-item">
+<div class="bg-lightgrey p-3 rounded-xl text-navy">
+<svg class="h-6 w-6" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<div class="flex-1">
+<p class="text-xs text-gray-500 font-semibold uppercase tracking-wide">Email</p>
+<p class="text-navy font-medium">alex.thompson@partner.com</p>
+</div>
+</div>
+<!-- Phone Detail -->
+<div class="flex items-center space-x-4" data-purpose="detail-item">
+<div class="bg-lightgrey p-3 rounded-xl text-navy">
+<svg class="h-6 w-6" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<div class="flex-1">
+<p class="text-xs text-gray-500 font-semibold uppercase tracking-wide">Phone Number</p>
+<p class="text-navy font-medium">+1 (555) 123-4567</p>
+</div>
+</div>
+<!-- Location Detail -->
+<div class="flex items-center space-x-4" data-purpose="detail-item">
+<div class="bg-lightgrey p-3 rounded-xl text-navy">
+<svg class="h-6 w-6" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+<path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<div class="flex-1">
+<p class="text-xs text-gray-500 font-semibold uppercase tracking-wide">Last Location Updated</p>
+<p class="text-navy font-medium">New York, NY - 2 mins ago</p>
+</div>
+</div>
+</div>
+</main>
+<!-- END: Details Section -->
+<!-- BEGIN: Settings Section -->
+<section class="mt-8 px-6 space-y-4" data-purpose="settings-section">
+<h2 class="text-lg font-bold text-navy px-2">Settings</h2>
+<div class="bg-white rounded-2xl overflow-hidden profile-card-shadow">
+<!-- Language Dropdown -->
+<div class="flex items-center justify-between p-4 border-b border-lightgrey" data-purpose="setting-item-language">
+<div class="flex items-center space-x-3">
+<span class="text-navy">
+<svg class="h-5 w-5" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</span>
+<span class="font-medium">Preferred Language</span>
+</div>
+<select class="form-select border-0 text-sm text-navy-light focus:ring-0 bg-transparent pr-8 py-0">
+<option value="en">English</option>
+<option value="es">Español</option>
+<option value="fr">Français</option>
+<option value="de">Deutsch</option>
+</select>
+</div>
+<!-- Privacy Policy Link -->
+<button class="w-full flex items-center justify-between p-4 hover:bg-lightgrey/30 transition-colors" data-purpose="setting-item-privacy">
+<div class="flex items-center space-x-3">
+<span class="text-navy">
+<svg class="h-5 w-5" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04c0 4.835 1.503 9.359 4.07 13.11a11.515 11.515 0 0013.146 0c2.567-3.751 4.07-8.275 4.07-13.11z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</span>
+<span class="font-medium text-navy">Privacy Policy</span>
+</div>
+<svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</button>
+</div>
+</section>
+<!-- END: Settings Section -->
+<!-- BEGIN: Footer/Action Section -->
+<footer class="mt-12 mb-10 px-6" data-purpose="footer-actions">
+<button class="w-full bg-navy text-white font-bold py-4 rounded-2xl shadow-lg active:scale-[0.98] transition-all flex items-center justify-center space-x-2" id="logout-btn">
+<svg class="h-5 w-5" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+<span>Logout</span>
+</button>
+</footer>
+<!-- END: Footer/Action Section -->
+<script data-purpose="event-handlers">
+    // Handle logout button feedback
+    document.getElementById('logout-btn').addEventListener('click', function() {
+      if(confirm('Are you sure you want to logout?')) {
+        console.log('User logging out...');
+      }
+    });
+  </script>
+</body></html>

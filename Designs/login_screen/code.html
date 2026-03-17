@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Login - Shree Giriraj Engineering</title>
+<!-- Tailwind CSS v3 CDN with plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts: Inter -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<style data-purpose="typography">
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+  </style>
+<style data-purpose="layout">
+    /* Ensure the main container fills the mobile screen properly */
+    .login-container {
+      min-height: -webkit-fill-available;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 text-slate-900">
+<!-- BEGIN: MainContainer -->
+<main class="login-container flex flex-col items-center justify-between min-h-screen p-6 max-w-md mx-auto" data-purpose="login-screen-layout">
+<!-- BEGIN: BrandSection -->
+<section class="flex flex-col items-center mt-16 w-full" data-purpose="brand-identity">
+<!-- Logo Placeholder -->
+<div class="w-24 h-24 mb-8 bg-white rounded-2xl shadow-sm flex items-center justify-center border border-gray-100" data-purpose="logo-container">
+<img alt="Shree Giriraj Engineering Logo" class="w-16 h-16 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDhiVC3P7rRbLJ3CsAjwm6H2F3G88Cv5eVSqr2eDpMIQ75C2dK9v5br9AjNmMD8PKzF0nROJUemGlgEfGibtm4LG7X2t42EJ9-OE0_R_2imwIpnbsW7Qs5_GZ3GTtgcNChzPp567rqnNWI3Ine99W2iRKzmzhV5ZpmD5OJcVLvQHgPjNmNlGYK-h9GI-v-f0U4oU43Digc5js7RN-DIE79c3OUqxW1rF1ufquaSttXcMWnhBauNxWT2yxx65L5zyfNjwAw-NE-qVA"/>
+</div>
+<!-- App Name and Subtitle -->
+<div class="text-center space-y-2">
+<h1 class="text-2xl font-bold tracking-tight text-gray-900">
+          Shree Giriraj Engineering
+        </h1>
+<p class="text-sm text-gray-500 font-medium">
+          Internal transaction management system
+        </p>
+</div>
+</section>
+<!-- END: BrandSection -->
+<!-- BEGIN: ActionSection -->
+<section class="w-full space-y-4" data-purpose="login-actions">
+<!-- Continue with Google Button -->
+<button class="w-full flex items-center justify-center gap-3 bg-white border border-gray-300 rounded-lg px-4 py-3 text-sm font-semibold text-gray-700 shadow-sm hover:bg-gray-50 active:scale-[0.98] transition-all duration-200" data-purpose="google-login-button" type="button">
+<!-- Google "G" Icon -->
+<svg class="w-5 h-5" viewbox="0 0 24 24">
+<path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path>
+<path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"></path>
+<path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"></path>
+<path d="M12 5.38c1.62 0 3.06.56 4.21 1.66l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"></path>
+</svg>
+<span>Continue with Google</span>
+</button>
+<!-- Optional Help Text -->
+<p class="text-center text-xs text-gray-400">
+        Only authorized personnel can access this system.
+      </p>
+</section>
+<!-- END: ActionSection -->
+<!-- BEGIN: FooterSection -->
+<footer class="mb-8 w-full text-center" data-purpose="footer-links">
+<a class="text-xs text-gray-400 hover:text-gray-600 underline underline-offset-4 decoration-gray-200" href="#">
+        Privacy Policy
+      </a>
+<p class="mt-4 text-[10px] text-gray-300 uppercase tracking-widest">
+        © 2023 Shree Giriraj Engineering
+      </p>
+</footer>
+<!-- END: FooterSection -->
+</main>
+<!-- END: MainContainer -->
+</body></html>

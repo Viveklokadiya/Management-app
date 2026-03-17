@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ec5b13",
+                        "background-light": "#f8f6f6",
+                        "background-dark": "#221610",
+                    },
+                    fontFamily: {
+                        "display": ["Public Sans"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen pb-24">
+<!-- Header Section -->
+<header class="sticky top-0 z-50 bg-background-light dark:bg-background-dark border-b border-slate-200 dark:border-slate-800 shadow-sm">
+<div class="flex items-center justify-between p-4">
+<div class="flex items-center gap-3">
+<div class="p-2 rounded-lg bg-primary/10 text-primary">
+<span class="material-symbols-outlined">menu</span>
+</div>
+<div>
+<h1 class="text-xl font-bold tracking-tight">Transactions</h1>
+<p class="text-xs text-slate-500 dark:text-slate-400">Shree Giriraj Engineering</p>
+</div>
+</div>
+<button class="flex items-center justify-center size-10 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+<span class="material-symbols-outlined">filter_list</span>
+</button>
+</div>
+<!-- Tab Navigation -->
+<div class="flex px-4 overflow-x-auto no-scrollbar">
+<a class="flex flex-col items-center justify-center border-b-2 border-primary px-4 pb-3 pt-2" href="#">
+<span class="text-primary text-sm font-bold">All</span>
+</a>
+<a class="flex flex-col items-center justify-center border-b-2 border-transparent px-4 pb-3 pt-2 text-slate-500" href="#">
+<span class="text-sm font-semibold">Income</span>
+</a>
+<a class="flex flex-col items-center justify-center border-b-2 border-transparent px-4 pb-3 pt-2 text-slate-500" href="#">
+<span class="text-sm font-semibold">Expense</span>
+</a>
+<a class="flex flex-col items-center justify-center border-b-2 border-transparent px-4 pb-3 pt-2 text-slate-500" href="#">
+<span class="text-sm font-semibold">Pending</span>
+</a>
+</div>
+</header>
+<!-- Content Area -->
+<main class="p-4 space-y-4">
+<!-- Summary Card -->
+<div class="bg-primary rounded-xl p-5 text-white shadow-lg shadow-primary/20">
+<div class="flex justify-between items-start mb-4">
+<p class="text-primary/10 bg-white/20 px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider">Monthly Balance</p>
+<span class="material-symbols-outlined text-white/70">account_balance_wallet</span>
+</div>
+<h3 class="text-3xl font-bold mb-1">₹8,42,500</h3>
+<div class="flex items-center gap-2 text-sm text-white/80">
+<span class="material-symbols-outlined text-xs">trending_up</span>
+<span>+12.5% from last month</span>
+</div>
+</div>
+<!-- Date Separator -->
+<div class="pt-2 pb-1">
+<p class="text-xs font-bold text-slate-400 uppercase tracking-widest">Today, Oct 24</p>
+</div>
+<!-- Transaction Card 1 -->
+<div class="flex items-center gap-4 rounded-xl bg-white dark:bg-slate-900 p-4 shadow-sm border border-slate-100 dark:border-slate-800">
+<div class="size-12 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center text-green-600">
+<span class="material-symbols-outlined">north_east</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<h4 class="font-bold text-slate-900 dark:text-slate-100">₹45,000</h4>
+<span class="text-[10px] px-2 py-0.5 rounded-full bg-green-100 text-green-700 font-bold uppercase">Income</span>
+</div>
+<p class="text-sm text-slate-600 dark:text-slate-400 font-medium">Partner: Rajesh Metals</p>
+<p class="text-xs text-slate-400 dark:text-slate-500 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">location_on</span> Sky High Residency Site
+                </p>
+</div>
+</div>
+<!-- Transaction Card 2 -->
+<div class="flex items-center gap-4 rounded-xl bg-white dark:bg-slate-900 p-4 shadow-sm border border-slate-100 dark:border-slate-800">
+<div class="size-12 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center text-red-600">
+<span class="material-symbols-outlined">south_west</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<h4 class="font-bold text-slate-900 dark:text-slate-100">₹12,500</h4>
+<span class="text-[10px] px-2 py-0.5 rounded-full bg-red-100 text-red-700 font-bold uppercase">Expense</span>
+</div>
+<p class="text-sm text-slate-600 dark:text-slate-400 font-medium">Material: Steel TMT Bars</p>
+<p class="text-xs text-slate-400 dark:text-slate-500 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">location_on</span> Galaxy Mall Project
+                </p>
+</div>
+</div>
+<!-- Date Separator -->
+<div class="pt-4 pb-1">
+<p class="text-xs font-bold text-slate-400 uppercase tracking-widest">Yesterday, Oct 23</p>
+</div>
+<!-- Transaction Card 3 -->
+<div class="flex items-center gap-4 rounded-xl bg-white dark:bg-slate-900 p-4 shadow-sm border border-slate-100 dark:border-slate-800">
+<div class="size-12 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center text-red-600">
+<span class="material-symbols-outlined">south_west</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<h4 class="font-bold text-slate-900 dark:text-slate-100">₹8,200</h4>
+<span class="text-[10px] px-2 py-0.5 rounded-full bg-red-100 text-red-700 font-bold uppercase">Expense</span>
+</div>
+<p class="text-sm text-slate-600 dark:text-slate-400 font-medium">Labor: Weekly Wages</p>
+<p class="text-xs text-slate-400 dark:text-slate-500 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">location_on</span> City Center Hub
+                </p>
+</div>
+</div>
+<!-- Transaction Card 4 -->
+<div class="flex items-center gap-4 rounded-xl bg-white dark:bg-slate-900 p-4 shadow-sm border border-slate-100 dark:border-slate-800">
+<div class="size-12 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center text-green-600">
+<span class="material-symbols-outlined">north_east</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start">
+<h4 class="font-bold text-slate-900 dark:text-slate-100">₹1,20,000</h4>
+<span class="text-[10px] px-2 py-0.5 rounded-full bg-green-100 text-green-700 font-bold uppercase">Income</span>
+</div>
+<p class="text-sm text-slate-600 dark:text-slate-400 font-medium">Partner: Ambuja Cement Ltd</p>
+<p class="text-xs text-slate-400 dark:text-slate-500 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">location_on</span> Corporate Office Site
+                </p>
+</div>
+</div>
+</main>
+<!-- Floating Action Button -->
+<button class="fixed bottom-24 right-6 size-14 rounded-full bg-primary text-white shadow-xl shadow-primary/30 flex items-center justify-center active:scale-95 transition-transform z-50">
+<span class="material-symbols-outlined text-3xl">add</span>
+</button>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 right-0 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 px-4 pb-6 pt-3 flex justify-between items-center z-40">
+<a class="flex flex-col items-center gap-1 text-slate-400" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="text-[10px] font-medium">Home</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-primary" href="#">
+<span class="material-symbols-outlined fill-1">receipt_long</span>
+<span class="text-[10px] font-bold">Transactions</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400" href="#">
+<span class="material-symbols-outlined">apartment</span>
+<span class="text-[10px] font-medium">Sites</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400" href="#">
+<span class="material-symbols-outlined">groups</span>
+<span class="text-[10px] font-medium">Partners</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="text-[10px] font-medium">Profile</span>
+</a>
+</nav>
+<style>
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .fill-1 {
+            font-variation-settings: 'FILL' 1;
+        }
+    </style>
+</body></html>
