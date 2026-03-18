@@ -34,6 +34,14 @@ class LoginScreen extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Spacer(),
+              // Logo
+              Image.asset(
+                'assets/logo/shree giriraj logo.jpg',
+                width: 130,
+                height: 130,
+                fit: BoxFit.contain,
+              ),
+              const SizedBox(height: 24),
               const Text(
                 'Shree Giriraj',
                 textAlign: TextAlign.center,
