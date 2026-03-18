@@ -1,0 +1,129 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ─── Helper Functions ─────────────────────────────────────────────
+
+    // Check if user is authenticated
+    function isAuthed() {
+      return request.auth != null;
+    }
+
+    // Get the caller's user document
+    function getUserData() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
+    }
+
+    // Check caller's role
+    function hasRole(role) {
+      return isAuthed() && getUserData().role == role;
+    }
+
+    function isPartner() {
+      return hasRole('partner');
+    }
+
+    function isAdmin() {
+      return hasRole('admin');
+    }
+
+    function isSuperAdmin() {
+      return hasRole('superAdmin');
+    }
+
+    function isAdminOrAbove() {
+      return isAdmin() || isSuperAdmin();
+    }
+
+    // Check if the calling user is assigned to a specific site
+    // Checks site_users collection for a document where siteId matches and userId matches caller
+    function isAssignedToSite(siteId) {
+      return isAuthed() && exists(
+        /databases/$(database)/documents/site_users/$(siteId + '_' + request.auth.uid)
+      );
+    }
+
+    // ─── users collection ─────────────────────────────────────────────
+    // - Partners can read their own doc
+    // - Admins/Super Admins can read all user docs
+    // - Super Admin can create or update any user doc
+    // - Any authenticated user can update their own location fields (app-owned fields)
+
+    match /users/{userId} {
+      allow read: if isAuthed() && (
+        request.auth.uid == userId ||
+        isAdminOrAbove()
+      );
+
+      // Super admin full write access
+      allow create: if isSuperAdmin();
+
+      // Super admin can update any field; authenticated users can only update their own location fields
+      allow update: if isSuperAdmin() ||
+        (isAuthed() &&
+         request.auth.uid == userId &&
+         request.resource.data.diff(resource.data).affectedKeys()
+           .hasOnly(['lastLatitude', 'lastLongitude', 'lastLocationAt']));
+
+      allow delete: if isSuperAdmin();
+    }
+
+    // ─── sites collection ─────────────────────────────────────────────
+    // - Any authenticated user can read sites (needed for dropdowns)
+    // - Admins/Super Admins can create, update, delete sites
+
+    match /sites/{siteId} {
+      allow read: if isAuthed();
+      allow create, update, delete: if isAdminOrAbove();
+    }
+
+    // ─── site_users collection ────────────────────────────────────────
+    // - Partners can read entries where userId == their UID (to know their sites)
+    // - Admins can read all site_user entries
+    // - Admins can write (assign/remove partners from sites)
+
+    match /site_users/{siteUserId} {
+      allow read: if isAuthed() && (
+        resource.data.userId == request.auth.uid ||
+        isAdminOrAbove()
+      );
+      allow create, update, delete: if isAdminOrAbove();
+    }
+
+    // ─── transactions collection ──────────────────────────────────────
+    // - Partners can read only their own transactions (createdByUserId == uid)
+    // - Partners can create transactions (app enforces site assignment in UI)
+    // - Admins can read/create/update/delete all transactions
+
+    match /transactions/{transactionId} {
+      allow read: if isAuthed() && (
+        resource.data.createdByUserId == request.auth.uid ||
+        isAdminOrAbove()
+      );
+
+      allow create: if isAuthed() && (
+        (isPartner() && request.resource.data.createdByUserId == request.auth.uid) ||
+        isAdminOrAbove()
+      );
+
+      // Only admins can edit or delete transactions
+      allow update, delete: if isAdminOrAbove();
+    }
+
+    // ─── audit_logs collection ────────────────────────────────────────
+    // - Any authenticated user can create audit log entries (partners and admins)
+    // - Nobody can read, update, or delete audit logs from the client
+
+    match /audit_logs/{logId} {
+      allow create: if isAuthed();
+      allow read, update, delete: if false;
+    }
+
+    // ─── Catch-all: deny everything else ─────────────────────────────
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+  }
+}
