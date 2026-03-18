@@ -1,0 +1,36 @@
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "shreegirirajsteel-a758a",
+          "appId": "1:103378846246:android:17866ce0cda51747665ce7",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "shreegirirajsteel-a758a",
+          "configurations": {
+            "android": "1:103378846246:android:17866ce0cda51747665ce7",
+            "web": "1:103378846246:web:ddccac913ddb07d2665ce7"
+          }
+        }
+      }
+    }
+  },
+  "hosting": {
+    "public": "build/web",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}

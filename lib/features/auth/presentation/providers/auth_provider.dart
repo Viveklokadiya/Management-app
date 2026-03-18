@@ -14,7 +14,7 @@ part 'auth_provider.g.dart';
 AuthRepository authRepository(AuthRepositoryRef ref) {
   return AuthRepositoryImpl(
     FirebaseAuth.instance,
-    GoogleSignIn(),
+    GoogleSignIn(clientId: '103378846246-0k8s5q4utn435fejei3a0vej07cj82v8.apps.googleusercontent.com'),
     UserRemoteDataSource(FirebaseFirestore.instance),
   );
 }
