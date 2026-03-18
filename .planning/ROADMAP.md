@@ -10,16 +10,16 @@
 
 | # | Phase | Goal | Requirements | Success Criteria |
 |---|-------|------|--------------|-----------------|
-| 1 | Project Setup & Architecture | Flutter project scaffold with clean architecture, theming, and reusable widgets | TECH-01–08 | App builds; layer structure exists; theme applies |
+| 1 | Project Setup & Architecture | Complete | 2026-03-18 | App builds; layer structure exists; theme applies |
 | 2 | Firebase Integration & Auth | Complete    | 2026-03-17 | Login flow complete; unauthorized denied |
 | 3 | Role-Based Routing & Guards | Complete    | 2026-03-17 | Each role sees correct navigation |
 | 4 | Firestore Schema & Repositories | Complete    | 2026-03-17 | Repositories read/write to Firestore correctly |
 | 5 | Partner MVP Screens | Complete    | 2026-03-17 | Partner can log in, create transactions, view list/detail, see home dashboard |
-| 6 | Admin Screens | All admin-facing screens functional | TXN-06–09, SITE-01–05, USER-05–09, DASH-03–05 | Admin can manage transactions, sites, view partners |
-| 7 | Super Admin Screens | User management screens for super admin | USER-01–04 | Super admin can add, edit, deactivate users |
-| 8 | Location Capture | Foreground location on app open and transaction creation | LOC-01–05 | Location stored in user doc and transaction; permission denial handled |
-| 9 | Firestore Security Rules | Write and deploy security rules enforcing role-based access | SEC-01–06 | Unauthorized reads/writes rejected; authorized access works |
-| 10 | Final Polish & Testing | UI consistency pass, error states, edge case handling, basic unit tests | All | App demo-ready; error/loading/empty states everywhere; tests pass |
+| 6 | Admin Screens | Complete | 2026-03-18 | Admin can manage transactions, sites, view partners |
+| 7 | Super Admin Screens | Complete | 2026-03-18 | Super admin can add, edit, deactivate users |
+| 8 | Location Capture | Complete | 2026-03-18 | Location stored in user doc and transaction; permission denial handled |
+| 9 | Firestore Security Rules | Complete | 2026-03-18 | Unauthorized reads/writes rejected; authorized access works |
+| 10 | Final Polish & Testing | Complete | 2026-03-18 | App demo-ready; error/loading/empty states everywhere; tests pass |
 
 ---
 

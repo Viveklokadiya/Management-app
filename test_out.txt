@@ -1,0 +1,40 @@
+﻿00:00 +0: loading D:/project/Management-app/test/widget_test.dart
+flutter : 
+lib/features/super_admin/presentation/screens/add_edit_user_screen.dart:455:17: 
+Error: No named parameter with the name 'activeThumbColor'.
+At line:1 char:1
++ flutter test test/widget_test.dart 2>&1 | Out-File -FilePath "test_ou ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (lib/features/su...iveThumbColor'.:Str 
+   ing) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+                activeThumbColor: AppColors.primary,
+                ^^^^^^^^^^^^^^^^
+/C:/flutter/packages/flutter/lib/src/material/checkbox_list_tile.dart:173:9: 
+Context: Found this candidate, but the arguments don't match.
+  const CheckboxListTile({
+        ^^^^^^^^^^^^^^^^
+lib/features/super_admin/presentation/screens/add_edit_user_screen.dart:460:16: 
+Error: The argument type 'List<dynamic>' can't be assigned to the parameter type 
+'List<Widget>'.
+ - 'List' is from 'dart:core'.
+ - 'Widget' is from 'package:flutter/src/widgets/framework.dart' 
+('/C:/flutter/packages/flutter/lib/src/widgets/framework.dart').
+            }).toList(),
+               ^
+00:00 +0 -1: loading D:/project/Management-app/test/widget_test.dart [E]
+  Failed to load "D:/project/Management-app/test/widget_test.dart":
+  Compilation failed for testPath=D:/project/Management-app/test/widget_test.dart: lib/features/super_admin/presentation/screens/add_edit_user_screen.dart:455:17: Error: No named parameter with the name 'activeThumbColor'.
+                  activeThumbColor: AppColors.primary,
+                  ^^^^^^^^^^^^^^^^
+  /C:/flutter/packages/flutter/lib/src/material/checkbox_list_tile.dart:173:9: Context: Found this candidate, but the arguments don't match.
+    const CheckboxListTile({
+          ^^^^^^^^^^^^^^^^
+  lib/features/super_admin/presentation/screens/add_edit_user_screen.dart:460:16: Error: The argument type 'List<dynamic>' can't be assigned to the parameter type 'List<Widget>'.
+   - 'List' is from 'dart:core'.
+   - 'Widget' is from 'package:flutter/src/widgets/framework.dart' ('/C:/flutter/packages/flutter/lib/src/widgets/framework.dart').
+              }).toList(),
+                 ^
+  .
+00:00 +0 -1: Some tests failed.
