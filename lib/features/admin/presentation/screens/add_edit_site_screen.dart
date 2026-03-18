@@ -72,8 +72,8 @@ class _AddEditSiteScreenState extends ConsumerState<AddEditSiteScreen> {
             ),
           ],
         ),
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(1),
+        bottom: const PreferredSize(
+          preferredSize: Size.fromHeight(1),
           child: Divider(height: 1, color: AppColors.border),
         ),
       ),
@@ -83,7 +83,7 @@ class _AddEditSiteScreenState extends ConsumerState<AddEditSiteScreen> {
           padding: const EdgeInsets.all(24),
           children: [
             // ─── Site Info ────────────────────────────────────────────────
-            _SectionHeader(icon: Icons.location_city_outlined, label: 'Site Information'),
+            const _SectionHeader(icon: Icons.location_city_outlined, label: 'Site Information'),
             const SizedBox(height: 16),
             _field(
               ctrl: _nameCtrl,
@@ -153,7 +153,7 @@ class _AddEditSiteScreenState extends ConsumerState<AddEditSiteScreen> {
                     children: [
                       Switch.adaptive(
                         value: _isActive,
-                        activeColor: AppColors.primary,
+                        activeThumbColor: AppColors.primary,
                         onChanged: (v) => setState(() => _isActive = v),
                       ),
                       const SizedBox(width: 4),
@@ -178,7 +178,7 @@ class _AddEditSiteScreenState extends ConsumerState<AddEditSiteScreen> {
       bottomNavigationBar: SafeArea(
         child: Container(
           padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             color: Colors.white,
             border: Border(top: BorderSide(color: AppColors.border)),
           ),
@@ -190,7 +190,7 @@ class _AddEditSiteScreenState extends ConsumerState<AddEditSiteScreen> {
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(14)),
-                    side: BorderSide(color: AppColors.border),
+                    side: const BorderSide(color: AppColors.border),
                   ),
                   onPressed: () => Navigator.pop(context),
                   child: const Text('Cancel'),
@@ -251,11 +251,11 @@ class _AddEditSiteScreenState extends ConsumerState<AddEditSiteScreen> {
             fillColor: Colors.white,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(14),
-              borderSide: BorderSide(color: AppColors.border),
+              borderSide: const BorderSide(color: AppColors.border),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(14),
-              borderSide: BorderSide(color: AppColors.border),
+              borderSide: const BorderSide(color: AppColors.border),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(14),
@@ -348,7 +348,7 @@ class _SectionHeader extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 8),
-        Expanded(child: Divider(color: AppColors.border)),
+        const Expanded(child: Divider(color: AppColors.border)),
       ],
     );
   }

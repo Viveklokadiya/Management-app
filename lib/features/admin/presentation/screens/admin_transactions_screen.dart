@@ -63,7 +63,7 @@ class _AdminTransactionsScreenState
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(AppLocalizations.of(context)!.transactions),
+            Text(AppLocalizations.of(context).transactions),
             Text(
               'Shree Giriraj Engineering',
               style: AppTextStyles.labelSmall
@@ -85,9 +85,9 @@ class _AdminTransactionsScreenState
           labelStyle:
               AppTextStyles.labelMedium.copyWith(fontWeight: FontWeight.w700),
           tabs: [
-            Tab(text: AppLocalizations.of(context)!.all),
-            Tab(text: AppLocalizations.of(context)!.income),
-            Tab(text: AppLocalizations.of(context)!.expense),
+            Tab(text: AppLocalizations.of(context).all),
+            Tab(text: AppLocalizations.of(context).income),
+            Tab(text: AppLocalizations.of(context).expense),
           ],
         ),
       ),
@@ -142,7 +142,7 @@ class _AdminTransactionsScreenState
                               borderRadius: BorderRadius.circular(4),
                             ),
                             child: Text(
-                              AppLocalizations.of(context)!.netBalance,
+                              AppLocalizations.of(context).netBalance,
                               style: AppTextStyles.labelSmall
                                   .copyWith(
                                       color: Colors.white, fontSize: 9),
@@ -161,7 +161,7 @@ class _AdminTransactionsScreenState
                                   color: Colors.white70, size: 14),
                               const SizedBox(width: 4),
                               Text(
-                                AppLocalizations.of(context)!.totalTransactionsCount(filtered.length),
+                                AppLocalizations.of(context).totalTransactionsCount(filtered.length),
                                 style: AppTextStyles.bodySmall
                                     .copyWith(color: Colors.white70),
                               ),
@@ -183,8 +183,8 @@ class _AdminTransactionsScreenState
               Expanded(
                 child: filtered.isEmpty
                     ? EmptyStateWidget(
-                        title: AppLocalizations.of(context)!.noTransactions,
-                        message: AppLocalizations.of(context)!.nothingToShowFilter,
+                        title: AppLocalizations.of(context).noTransactions,
+                        message: AppLocalizations.of(context).nothingToShowFilter,
                         icon: Icons.receipt_long_outlined,
                       )
                     : ListView.builder(
@@ -285,7 +285,7 @@ class _AdminTxnTile extends StatelessWidget {
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: Text(
-                        isIncome ? AppLocalizations.of(context)!.income.toUpperCase() : AppLocalizations.of(context)!.expense.toUpperCase(),
+                        isIncome ? AppLocalizations.of(context).income.toUpperCase() : AppLocalizations.of(context).expense.toUpperCase(),
                         style: AppTextStyles.labelSmall.copyWith(
                           color: isIncome ? AppColors.income : AppColors.expense,
                           fontSize: 9,
@@ -297,7 +297,7 @@ class _AdminTxnTile extends StatelessWidget {
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  AppLocalizations.of(context)!.byUser(txn.createdByName ?? ''),
+                  AppLocalizations.of(context).byUser(txn.createdByName),
                   style: AppTextStyles.bodySmall
                       .copyWith(color: AppColors.textSecondary),
                 ),

@@ -69,7 +69,7 @@ class _AddTransactionScreenState
   }
 
   Future<void> _submit(BuildContext context) async {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     if (!_formKey.currentState!.validate()) return;
     if (_selectedSiteId == null) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -102,13 +102,13 @@ class _AddTransactionScreenState
       await ref
           .read(transactionRepositoryProvider)
           .createTransaction(txn);
-      if (mounted) Navigator.of(context).pop();
+      if (!context.mounted) return;
+      Navigator.of(context).pop();
     } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('${l10n.errorPrefix}$e')),
-        );
-      }
+      if (!context.mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('${l10n.errorPrefix}$e')),
+      );
     } finally {
       if (mounted) setState(() => _isSubmitting = false);
     }
@@ -116,7 +116,7 @@ class _AddTransactionScreenState
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     final isIncome = _type == TransactionType.income;
     final typeColor = isIncome ? AppColors.income : AppColors.expense;
     final amountText = _amountController.text.replaceAll(',', '');
@@ -225,7 +225,7 @@ class _AddTransactionScreenState
               _loadingSites
                   ? const Center(child: CircularProgressIndicator())
                   : DropdownButtonFormField<String>(
-                      value: _selectedSiteId,
+                      initialValue: _selectedSiteId,
                       isExpanded: true,
                       decoration: _dropdownDecoration(l10n.selectSite),
                       items: _sites
@@ -342,7 +342,7 @@ class _AddTransactionScreenState
         child: Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.95),
+            color: Colors.white.withValues(alpha: 0.95),
             border: const Border(top: BorderSide(color: AppColors.border)),
           ),
           child: FilledButton(
@@ -410,7 +410,7 @@ class _TypeButton extends StatelessWidget {
           boxShadow: selected
               ? [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.08),
+                    color: Colors.black.withValues(alpha: 0.08),
                     blurRadius: 4,
                   ),
                 ]
@@ -441,7 +441,7 @@ class _PaymentMethodTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     final label = switch (method) {
       PaymentMethod.cash => l10n.cash,
       PaymentMethod.upi => l10n.upi,

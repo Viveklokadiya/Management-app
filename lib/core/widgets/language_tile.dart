@@ -16,7 +16,7 @@ class LanguageTile extends ConsumerWidget {
     final currentLocale = ref.watch(localeProvider);
     final displayName =
         localeDisplayNames[currentLocale.languageCode] ?? 'English';
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
 
     return InkWell(
       onTap: () => _showLanguageSheet(context, ref, currentLocale.languageCode),
@@ -62,7 +62,7 @@ class LanguageTile extends ConsumerWidget {
 
   void _showLanguageSheet(
       BuildContext context, WidgetRef ref, String currentCode) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     showModalBottomSheet(
       context: context,
       shape: const RoundedRectangleBorder(

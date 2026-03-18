@@ -46,7 +46,7 @@ class _AdminShellState extends ConsumerState<AdminShell>
         .indexWhere((t) => location.startsWith(t))
         .clamp(0, tabs.length - 1);
 
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     
     return Scaffold(
       body: Column(

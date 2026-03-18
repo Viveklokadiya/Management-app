@@ -23,7 +23,7 @@ class _PartnerProfileScreenState
   @override
   Widget build(BuildContext context) {
     final user = ref.watch(authStateProvider).value;
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     if (user == null) return const SizedBox.shrink();
 
     return Scaffold(
@@ -46,7 +46,7 @@ class _PartnerProfileScreenState
                   // Avatar
                   CircleAvatar(
                     radius: 44,
-                    backgroundColor: Colors.white.withOpacity(0.2),
+                    backgroundColor: Colors.white.withValues(alpha: 0.2),
                     child: Text(
                       user.name.isNotEmpty
                           ? user.name[0].toUpperCase()
@@ -66,10 +66,10 @@ class _PartnerProfileScreenState
                     padding: const EdgeInsets.symmetric(
                         horizontal: 16, vertical: 4),
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.15),
+                      color: Colors.white.withValues(alpha: 0.15),
                       borderRadius: BorderRadius.circular(20),
                       border: Border.all(
-                          color: Colors.white.withOpacity(0.3)),
+                          color: Colors.white.withValues(alpha: 0.3)),
                     ),
                     child: Text(
                       l10n.partner.toUpperCase(),
@@ -152,7 +152,7 @@ class _PartnerProfileScreenState
                     ),
                   ],
                 ),
-                child: LanguageTile(),
+                child: const LanguageTile(),
               ),
             ),
 
@@ -193,7 +193,7 @@ class _PartnerProfileScreenState
   }
 
   Future<void> _signOut(BuildContext context) async {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(

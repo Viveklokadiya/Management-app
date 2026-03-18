@@ -23,7 +23,7 @@ class _AdminProfileScreenState extends ConsumerState<AdminProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final user = ref.watch(authStateProvider).value;
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     if (user == null) return const SizedBox.shrink();
 
     final isSuperAdmin = user.role == UserRole.superAdmin;
@@ -211,7 +211,7 @@ class _AdminProfileScreenState extends ConsumerState<AdminProfileScreen> {
   }
 
   Future<void> _signOut(BuildContext context) async {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(

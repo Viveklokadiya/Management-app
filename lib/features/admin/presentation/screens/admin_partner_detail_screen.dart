@@ -55,8 +55,8 @@ class _AdminPartnerDetailScreenState
           onPressed: () => Navigator.pop(context),
         ),
         title: const Text('Partner Details'),
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(1),
+        bottom: const PreferredSize(
+          preferredSize: Size.fromHeight(1),
           child: Divider(height: 1, color: AppColors.border),
         ),
       ),
@@ -323,7 +323,7 @@ class _InfoCard extends StatelessWidget {
                 style: AppTextStyles.bodyMedium
                     .copyWith(fontWeight: FontWeight.w700)),
           ),
-          Divider(height: 1, color: AppColors.border),
+          const Divider(height: 1, color: AppColors.border),
           Padding(
             padding: const EdgeInsets.all(12),
             child: Column(children: children),
@@ -421,7 +421,7 @@ class _AssignedSitesCard extends ConsumerWidget {
                   ],
                 ),
               ),
-              Divider(height: 1, color: AppColors.border),
+              const Divider(height: 1, color: AppColors.border),
               if (sites.isEmpty)
                 Padding(
                   padding: const EdgeInsets.all(16),
@@ -743,7 +743,7 @@ class _LocationTabState extends State<_LocationTab> {
           padding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
           decoration: BoxDecoration(
             color: Colors.white,
-            border: Border(top: BorderSide(color: AppColors.border)),
+            border: const Border(top: BorderSide(color: AppColors.border)),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withValues(alpha: 0.05),
@@ -861,7 +861,7 @@ class _TabBarDelegate extends SliverPersistentHeaderDelegate {
       color: Colors.white,
       child: Column(
         children: [
-          Divider(height: 1, color: AppColors.border),
+          const Divider(height: 1, color: AppColors.border),
           tabBar,
         ],
       ),

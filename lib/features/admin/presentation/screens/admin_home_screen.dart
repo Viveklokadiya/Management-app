@@ -76,7 +76,7 @@ class AdminHomeScreen extends ConsumerWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              '${AppLocalizations.of(context)!.hello}, ${user.name.split(' ').first}',
+                              '${AppLocalizations.of(context).hello}, ${user.name.split(' ').first}',
                               style: AppTextStyles.headlineSmall,
                             ),
                             Text(
@@ -143,7 +143,7 @@ class AdminHomeScreen extends ConsumerWidget {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    AppLocalizations.of(context)!.netBalance,
+                                    AppLocalizations.of(context).netBalance,
                                     style: AppTextStyles.labelSmall.copyWith(
                                       color: Colors.white.withValues(alpha: 0.8),
                                       letterSpacing: 1,
@@ -177,7 +177,7 @@ class AdminHomeScreen extends ConsumerWidget {
                                         color: Colors.white, size: 14),
                                     const SizedBox(width: 4),
                                     Text(
-                                      AppLocalizations.of(context)!.totalTransactionsCount(allTxns.length),
+                                      AppLocalizations.of(context).totalTransactionsCount(allTxns.length),
                                       style: AppTextStyles.labelSmall
                                           .copyWith(color: Colors.white),
                                     ),
@@ -193,7 +193,7 @@ class AdminHomeScreen extends ConsumerWidget {
                           children: [
                             Expanded(
                               child: _MiniStatCard(
-                                label: AppLocalizations.of(context)!.todayIncome,
+                                label: AppLocalizations.of(context).todayIncome,
                                 amount: todayIncome,
                                 isIncome: true,
                               ),
@@ -201,7 +201,7 @@ class AdminHomeScreen extends ConsumerWidget {
                             const SizedBox(width: 12),
                             Expanded(
                               child: _MiniStatCard(
-                                label: AppLocalizations.of(context)!.todayExpense,
+                                label: AppLocalizations.of(context).todayExpense,
                                 amount: todayExpense,
                                 isIncome: false,
                               ),
@@ -220,14 +220,14 @@ class AdminHomeScreen extends ConsumerWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(AppLocalizations.of(context)!.quickActions,
+                        Text(AppLocalizations.of(context).quickActions,
                             style: AppTextStyles.headlineSmall),
                         const SizedBox(height: 12),
                         Row(
                           children: [
                             Expanded(
                               child: _QuickActionButton(
-                                label: AppLocalizations.of(context)!.addIncome,
+                                label: AppLocalizations.of(context).addIncome,
                                 icon: Icons.add_circle_outline,
                                 onTap: () => context.push(
                                   AppRoutes.addTransaction,
@@ -241,7 +241,7 @@ class AdminHomeScreen extends ConsumerWidget {
                             const SizedBox(width: 12),
                             Expanded(
                               child: _QuickActionButton(
-                                label: AppLocalizations.of(context)!.addExpense,
+                                label: AppLocalizations.of(context).addExpense,
                                 icon: Icons.remove_circle_outline,
                                 onTap: () => context.push(
                                   AppRoutes.addTransaction,
@@ -268,8 +268,8 @@ class AdminHomeScreen extends ConsumerWidget {
                         Expanded(
                           child: _InfoTile(
                             icon: Icons.receipt_long_outlined,
-                            title: AppLocalizations.of(context)!.totalTransactions,
-                            subtitle: AppLocalizations.of(context)!.itemsCount(allTxns.length),
+                            title: AppLocalizations.of(context).totalTransactions,
+                            subtitle: AppLocalizations.of(context).itemsCount(allTxns.length),
                           ),
                         ),
                         const SizedBox(width: 12),
@@ -282,8 +282,8 @@ class AdminHomeScreen extends ConsumerWidget {
                               final count = snapshot.data?.length ?? 0;
                               return _InfoTile(
                                 icon: Icons.factory_outlined,
-                                title: AppLocalizations.of(context)!.activeSites,
-                                subtitle: AppLocalizations.of(context)!.locationsCount(count),
+                                title: AppLocalizations.of(context).activeSites,
+                                subtitle: AppLocalizations.of(context).locationsCount(count),
                               );
                             },
                           ),
@@ -300,13 +300,13 @@ class AdminHomeScreen extends ConsumerWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(AppLocalizations.of(context)!.recentTransactions,
+                        Text(AppLocalizations.of(context).recentTransactions,
                             style: AppTextStyles.headlineSmall),
                         TextButton(
                           onPressed: () =>
                               context.go(AppRoutes.adminTransactions),
                           child: Text(
-                            AppLocalizations.of(context)!.viewAll,
+                            AppLocalizations.of(context).viewAll,
                             style: AppTextStyles.labelMedium
                                 .copyWith(color: AppColors.primary),
                           ),
@@ -321,8 +321,8 @@ class AdminHomeScreen extends ConsumerWidget {
                     child: Padding(
                       padding: const EdgeInsets.all(16),
                       child: EmptyStateWidget(
-                        title: AppLocalizations.of(context)!.noTransactionsYet,
-                        message: AppLocalizations.of(context)!.addYourFirstTransaction,
+                        title: AppLocalizations.of(context).noTransactionsYet,
+                        message: AppLocalizations.of(context).addYourFirstTransaction,
                         icon: Icons.receipt_long_outlined,
                       ),
                     ),
@@ -396,7 +396,7 @@ class _MiniStatCard extends StatelessWidget {
               ),
               const SizedBox(width: 2),
               Text(
-                isIncome ? AppLocalizations.of(context)!.income : AppLocalizations.of(context)!.expense,
+                isIncome ? AppLocalizations.of(context).income : AppLocalizations.of(context).expense,
                 style: AppTextStyles.labelSmall.copyWith(
                   color: isIncome ? AppColors.income : AppColors.expense,
                   fontSize: 9,
@@ -560,7 +560,7 @@ class _RecentTxnTile extends StatelessWidget {
                   Text(
                     txn.remarks?.isNotEmpty == true
                         ? txn.remarks!
-                        : '${isIncome ? AppLocalizations.of(context)!.income : AppLocalizations.of(context)!.expense} · ${txn.siteId}',
+                        : '${isIncome ? AppLocalizations.of(context).income : AppLocalizations.of(context).expense} · ${txn.siteId}',
                     style: AppTextStyles.bodySmall.copyWith(
                         fontWeight: FontWeight.w600,
                         color: AppColors.textPrimary),
@@ -603,9 +603,9 @@ class _RecentTxnTile extends StatelessWidget {
   }
 
   String _paymentLabel(PaymentMethod m, BuildContext context) => switch (m) {
-        PaymentMethod.upi => AppLocalizations.of(context)!.upi,
-        PaymentMethod.bank => AppLocalizations.of(context)!.bank,
-        PaymentMethod.cash => AppLocalizations.of(context)!.cash,
-        PaymentMethod.other => AppLocalizations.of(context)!.other,
+        PaymentMethod.upi => AppLocalizations.of(context).upi,
+        PaymentMethod.bank => AppLocalizations.of(context).bank,
+        PaymentMethod.cash => AppLocalizations.of(context).cash,
+        PaymentMethod.other => AppLocalizations.of(context).other,
       };
 }

@@ -69,7 +69,7 @@ class _AdminSitesScreenState extends ConsumerState<AdminSitesScreen> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(AppLocalizations.of(context)!.constructionSites),
+                Text(AppLocalizations.of(context).constructionSites),
                 Text(
                   'Shree Giriraj Engineering',
                   style: AppTextStyles.labelSmall.copyWith(
@@ -124,7 +124,7 @@ class _AdminSitesScreenState extends ConsumerState<AdminSitesScreen> {
                       controller: _searchCtrl,
                       onChanged: (v) => setState(() => _query = v),
                       decoration: InputDecoration(
-                        hintText: AppLocalizations.of(context)!.searchSites,
+                        hintText: AppLocalizations.of(context).searchSites,
                         prefixIcon: const Icon(Icons.search,
                             color: AppColors.textSecondary),
                         filled: true,
@@ -144,21 +144,21 @@ class _AdminSitesScreenState extends ConsumerState<AdminSitesScreen> {
                       child: Row(
                         children: [
                           _FilterChip(
-                            label: AppLocalizations.of(context)!.allProjects,
+                            label: AppLocalizations.of(context).allProjects,
                             selected: _activeFilter == null,
                             onTap: () =>
                                 setState(() => _activeFilter = null),
                           ),
                           const SizedBox(width: 8),
                           _FilterChip(
-                            label: AppLocalizations.of(context)!.active,
+                            label: AppLocalizations.of(context).active,
                             selected: _activeFilter == true,
                             onTap: () =>
                                 setState(() => _activeFilter = true),
                           ),
                           const SizedBox(width: 8),
                           _FilterChip(
-                            label: AppLocalizations.of(context)!.inactive,
+                            label: AppLocalizations.of(context).inactive,
                             selected: _activeFilter == false,
                             onTap: () =>
                                 setState(() => _activeFilter = false),
@@ -174,10 +174,10 @@ class _AdminSitesScreenState extends ConsumerState<AdminSitesScreen> {
               Expanded(
                 child: filtered.isEmpty
                     ? EmptyStateWidget(
-                        title: AppLocalizations.of(context)!.noSitesFound,
+                        title: AppLocalizations.of(context).noSitesFound,
                         message: _query.isNotEmpty
-                            ? AppLocalizations.of(context)!.tryDifferentSearch
-                            : AppLocalizations.of(context)!.tapToAddSite,
+                            ? AppLocalizations.of(context).tryDifferentSearch
+                            : AppLocalizations.of(context).tapToAddSite,
                         icon: Icons.factory_outlined,
                       )
                     : ListView.separated(
@@ -309,7 +309,7 @@ class _SiteCard extends StatelessWidget {
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Text(
-                    site.isActive ? AppLocalizations.of(context)!.active.toUpperCase() : AppLocalizations.of(context)!.onHold.toUpperCase(),
+                    site.isActive ? AppLocalizations.of(context).active.toUpperCase() : AppLocalizations.of(context).onHold.toUpperCase(),
                     style: AppTextStyles.labelSmall
                         .copyWith(color: Colors.white),
                   ),
@@ -329,7 +329,7 @@ class _SiteCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        AppLocalizations.of(context)!.siteIdUppercase,
+                        AppLocalizations.of(context).siteIdUppercase,
                         style: AppTextStyles.labelSmall
                             .copyWith(fontSize: 9, color: AppColors.textHint),
                       ),
@@ -359,7 +359,7 @@ class _SiteCard extends StatelessWidget {
                           builder: (_) => AdminSiteDetailScreen(site: site)),
                     );
                   },
-                  child: Text(AppLocalizations.of(context)!.manage,
+                  child: Text(AppLocalizations.of(context).manage,
                       style: AppTextStyles.labelSmall
                           .copyWith(color: Colors.white)),
                 ),

@@ -212,7 +212,7 @@ class _AddEditUserScreenState extends ConsumerState<AddEditUserScreen> {
                     children: [
                       Switch.adaptive(
                         value: _isActive,
-                        activeColor: AppColors.primary,
+                        activeThumbColor: AppColors.primary,
                         onChanged: (v) => setState(() => _isActive = v),
                       ),
                       const SizedBox(width: 4),

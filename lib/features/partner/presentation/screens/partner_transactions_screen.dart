@@ -51,7 +51,7 @@ class _PartnerTransactionsScreenState
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
+    final l10n = AppLocalizations.of(context);
     final user = ref.watch(authStateProvider).value;
     if (user == null) return const SizedBox.shrink();
 
@@ -266,7 +266,7 @@ class _TotalBadge extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.08),
+        color: color.withValues(alpha: 0.08),
         borderRadius: BorderRadius.circular(10),
       ),
       child: Row(
@@ -305,7 +305,7 @@ class _FilterChip extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
         decoration: BoxDecoration(
-          color: selected ? active.withOpacity(0.1) : AppColors.surface,
+          color: selected ? active.withValues(alpha: 0.1) : AppColors.surface,
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
             color: selected ? active : AppColors.border,

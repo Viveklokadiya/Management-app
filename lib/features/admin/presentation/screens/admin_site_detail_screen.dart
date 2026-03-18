@@ -81,7 +81,7 @@ class _AdminSiteDetailScreenState extends ConsumerState<AdminSiteDetailScreen>
           preferredSize: const Size.fromHeight(49),
           child: Column(
             children: [
-              Divider(height: 1, color: AppColors.border),
+              const Divider(height: 1, color: AppColors.border),
               TabBar(
                 controller: _tabController,
                 labelColor: AppColors.primary,
