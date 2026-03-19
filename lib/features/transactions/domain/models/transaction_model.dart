@@ -12,6 +12,8 @@ class TransactionModel {
   final TransactionType type;
   final int amountPaise; // stored as paise (rupees × 100)
   final PaymentMethod paymentMethod;
+  final String? projectName;
+  final String? clientName;
   final String? remarks;
   final double? latitude;
   final double? longitude;
@@ -27,6 +29,8 @@ class TransactionModel {
     required this.type,
     required this.amountPaise,
     required this.paymentMethod,
+    this.projectName,
+    this.clientName,
     this.remarks,
     this.latitude,
     this.longitude,
@@ -50,6 +54,8 @@ class TransactionModel {
           : TransactionType.expense,
       amountPaise: (data['amountPaise'] as num?)?.toInt() ?? 0,
       paymentMethod: _parsePaymentMethod(data['paymentMethod'] as String?),
+      projectName: data['projectName'] as String?,
+      clientName: data['clientName'] as String?,
       remarks: data['remarks'] as String?,
       latitude: (data['latitude'] as num?)?.toDouble(),
       longitude: (data['longitude'] as num?)?.toDouble(),
@@ -69,6 +75,8 @@ class TransactionModel {
         'type': type.name,
         'amountPaise': amountPaise,
         'paymentMethod': paymentMethod.name,
+        'projectName': projectName,
+        'clientName': clientName,
         'remarks': remarks,
         'latitude': latitude,
         'longitude': longitude,
@@ -92,6 +100,8 @@ class TransactionModel {
     TransactionType? type,
     int? amountPaise,
     PaymentMethod? paymentMethod,
+    String? projectName,
+    String? clientName,
     String? remarks,
     double? latitude,
     double? longitude,
@@ -107,6 +117,8 @@ class TransactionModel {
         type: type ?? this.type,
         amountPaise: amountPaise ?? this.amountPaise,
         paymentMethod: paymentMethod ?? this.paymentMethod,
+        projectName: projectName ?? this.projectName,
+        clientName: clientName ?? this.clientName,
         remarks: remarks ?? this.remarks,
         latitude: latitude ?? this.latitude,
         longitude: longitude ?? this.longitude,

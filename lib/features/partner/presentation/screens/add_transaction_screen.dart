@@ -27,6 +27,8 @@ class _AddTransactionScreenState
   final _formKey = GlobalKey<FormState>();
   final _amountController = TextEditingController();
   final _remarksController = TextEditingController();
+  final _projectNameController = TextEditingController();
+  final _clientNameController = TextEditingController();
 
   late TransactionType _type;
   PaymentMethod _paymentMethod = PaymentMethod.cash;
@@ -65,6 +67,8 @@ class _AddTransactionScreenState
   void dispose() {
     _amountController.dispose();
     _remarksController.dispose();
+    _projectNameController.dispose();
+    _clientNameController.dispose();
     super.dispose();
   }
 
@@ -95,6 +99,12 @@ class _AddTransactionScreenState
         remarks: _remarksController.text.trim().isEmpty
             ? null
             : _remarksController.text.trim(),
+        projectName: _projectNameController.text.trim().isEmpty
+            ? null
+            : _projectNameController.text.trim(),
+        clientName: _clientNameController.text.trim().isEmpty
+            ? null
+            : _clientNameController.text.trim(),
         transactionDate: _selectedDate,
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),
@@ -240,6 +250,50 @@ class _AddTransactionScreenState
                       validator: (v) =>
                           v == null ? l10n.pleaseSelectSite : null,
                     ),
+              const SizedBox(height: 20),
+
+              // ─── Project Name ─────────────────────────────────────
+              const _FieldLabel('Project Name'),
+              const SizedBox(height: 6),
+              TextFormField(
+                controller: _projectNameController,
+                textCapitalization: TextCapitalization.words,
+                decoration: InputDecoration(
+                  hintText: 'Enter project name',
+                  hintStyle: AppTextStyles.bodyMedium
+                      .copyWith(color: AppColors.textHint),
+                  filled: true,
+                  fillColor: Colors.white,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide.none,
+                  ),
+                  contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 16, vertical: 16),
+                ),
+              ),
+              const SizedBox(height: 20),
+
+              // ─── Client Name ──────────────────────────────────────
+              const _FieldLabel('Client Name'),
+              const SizedBox(height: 6),
+              TextFormField(
+                controller: _clientNameController,
+                textCapitalization: TextCapitalization.words,
+                decoration: InputDecoration(
+                  hintText: 'Enter client name',
+                  hintStyle: AppTextStyles.bodyMedium
+                      .copyWith(color: AppColors.textHint),
+                  filled: true,
+                  fillColor: Colors.white,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide.none,
+                  ),
+                  contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 16, vertical: 16),
+                ),
+              ),
               const SizedBox(height: 20),
 
               // ─── Payment Method ───────────────────────────────────
