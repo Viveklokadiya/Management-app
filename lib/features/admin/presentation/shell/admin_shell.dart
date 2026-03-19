@@ -5,7 +5,6 @@ import '../../../../core/router/routes.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/widgets/location_banner.dart';
 import '../../../../l10n/app_localizations.dart';
-import '../../../auth/domain/models/app_user.dart';
 import '../../../auth/presentation/providers/auth_provider.dart';
 
 class AdminShell extends ConsumerStatefulWidget {
@@ -29,8 +28,6 @@ class _AdminShellState extends ConsumerState<AdminShell>
 
   @override
   Widget build(BuildContext context) {
-    final user = ref.watch(authStateProvider).value;
-    final isSuperAdmin = user?.role == UserRole.superAdmin;
 
     final tabs = [
       AppRoutes.adminHome,
@@ -38,7 +35,6 @@ class _AdminShellState extends ConsumerState<AdminShell>
       AppRoutes.adminSites,
       AppRoutes.adminTransactions,
       AppRoutes.adminProfile,
-      if (isSuperAdmin) AppRoutes.superAdminUsers,
     ];
 
     final location = GoRouterState.of(context).matchedLocation;
@@ -87,12 +83,6 @@ class _AdminShellState extends ConsumerState<AdminShell>
             selectedIcon: const Icon(Icons.person),
             label: l10n.profile,
           ),
-          if (isSuperAdmin)
-            NavigationDestination(
-              icon: const Icon(Icons.manage_accounts_outlined),
-              selectedIcon: const Icon(Icons.manage_accounts),
-              label: l10n.users,
-            ),
         ],
       ),
     );
