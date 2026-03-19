@@ -126,48 +126,53 @@ class _SuperAdminUsersScreenState extends ConsumerState<SuperAdminUsersScreen>
         error: (e, _) => ErrorStateWidget(message: e.toString()),
         data: (users) {
           final filtered = _filter(users);
-          return Column(
-            children: [
-              // Search bar
-              Padding(
-                padding: const EdgeInsets.all(16),
-                child: TextField(
-                  controller: _searchCtrl,
-                  onChanged: (v) => setState(() => _query = v),
-                  decoration: InputDecoration(
-                    hintText: 'Search by name or email...',
-                    prefixIcon: const Icon(Icons.search,
-                        color: AppColors.textSecondary),
-                    filled: true,
-                    fillColor: Colors.white,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(14),
-                      borderSide: BorderSide.none,
+          return RefreshIndicator(
+            color: AppColors.primary,
+            onRefresh: () async =>
+                ref.invalidate(allUsersStreamProvider),
+            child: Column(
+              children: [
+                // Search bar
+                Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: TextField(
+                    controller: _searchCtrl,
+                    onChanged: (v) => setState(() => _query = v),
+                    decoration: InputDecoration(
+                      hintText: 'Search by name or email...',
+                      prefixIcon: const Icon(Icons.search,
+                          color: AppColors.textSecondary),
+                      filled: true,
+                      fillColor: Colors.white,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(14),
+                        borderSide: BorderSide.none,
+                      ),
+                      contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 14),
                     ),
-                    contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 14),
                   ),
                 ),
-              ),
-              Expanded(
-                child: filtered.isEmpty
-                    ? EmptyStateWidget(
-                        title: 'No users found',
-                        message: _query.isNotEmpty
-                            ? 'Try a different search'
-                            : 'Tap + to add a user',
-                        icon: Icons.people_outline,
-                      )
-                    : ListView.separated(
-                        padding: const EdgeInsets.fromLTRB(16, 0, 16, 100),
-                        itemCount: filtered.length,
-                        separatorBuilder: (_, __) =>
-                            const SizedBox(height: 12),
-                        itemBuilder: (ctx, i) =>
-                            _UserCard(user: filtered[i]),
-                      ),
-              ),
-            ],
+                Expanded(
+                  child: filtered.isEmpty
+                      ? EmptyStateWidget(
+                          title: 'No users found',
+                          message: _query.isNotEmpty
+                              ? 'Try a different search'
+                              : 'Tap + to add a user',
+                          icon: Icons.people_outline,
+                        )
+                      : ListView.separated(
+                          padding: const EdgeInsets.fromLTRB(16, 0, 16, 100),
+                          itemCount: filtered.length,
+                          separatorBuilder: (_, __) =>
+                              const SizedBox(height: 12),
+                          itemBuilder: (ctx, i) =>
+                              _UserCard(user: filtered[i]),
+                        ),
+                ),
+              ],
+            ),
           );
         },
       ),

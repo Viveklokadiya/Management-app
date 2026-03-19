@@ -112,84 +112,89 @@ class _AdminSitesScreenState extends ConsumerState<AdminSitesScreen> {
           }
           final filtered = _applyFilter(snapshot.data ?? []);
 
-          return Column(
-            children: [
-              // Search + filter chips
-              Padding(
-                padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-                child: Column(
-                  children: [
-                    // Search bar
-                    TextField(
-                      controller: _searchCtrl,
-                      onChanged: (v) => setState(() => _query = v),
-                      decoration: InputDecoration(
-                        hintText: AppLocalizations.of(context).searchSites,
-                        prefixIcon: const Icon(Icons.search,
-                            color: AppColors.textSecondary),
-                        filled: true,
-                        fillColor: Colors.white,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(14),
-                          borderSide: BorderSide.none,
+          return RefreshIndicator(
+            color: AppColors.primary,
+            onRefresh: () async =>
+                ref.invalidate(siteRepositoryProvider),
+            child: Column(
+              children: [
+                // Search + filter chips
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+                  child: Column(
+                    children: [
+                      // Search bar
+                      TextField(
+                        controller: _searchCtrl,
+                        onChanged: (v) => setState(() => _query = v),
+                        decoration: InputDecoration(
+                          hintText: AppLocalizations.of(context).searchSites,
+                          prefixIcon: const Icon(Icons.search,
+                              color: AppColors.textSecondary),
+                          filled: true,
+                          fillColor: Colors.white,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(14),
+                            borderSide: BorderSide.none,
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 14),
                         ),
-                        contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 14),
                       ),
-                    ),
-                    const SizedBox(height: 12),
-                    // Filter chips
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: [
-                          _FilterChip(
-                            label: AppLocalizations.of(context).allProjects,
-                            selected: _activeFilter == null,
-                            onTap: () =>
-                                setState(() => _activeFilter = null),
-                          ),
-                          const SizedBox(width: 8),
-                          _FilterChip(
-                            label: AppLocalizations.of(context).active,
-                            selected: _activeFilter == true,
-                            onTap: () =>
-                                setState(() => _activeFilter = true),
-                          ),
-                          const SizedBox(width: 8),
-                          _FilterChip(
-                            label: AppLocalizations.of(context).inactive,
-                            selected: _activeFilter == false,
-                            onTap: () =>
-                                setState(() => _activeFilter = false),
-                          ),
-                        ],
+                      const SizedBox(height: 12),
+                      // Filter chips
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            _FilterChip(
+                              label: AppLocalizations.of(context).allProjects,
+                              selected: _activeFilter == null,
+                              onTap: () =>
+                                  setState(() => _activeFilter = null),
+                            ),
+                            const SizedBox(width: 8),
+                            _FilterChip(
+                              label: AppLocalizations.of(context).active,
+                              selected: _activeFilter == true,
+                              onTap: () =>
+                                  setState(() => _activeFilter = true),
+                            ),
+                            const SizedBox(width: 8),
+                            _FilterChip(
+                              label: AppLocalizations.of(context).inactive,
+                              selected: _activeFilter == false,
+                              onTap: () =>
+                                  setState(() => _activeFilter = false),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              const SizedBox(height: 8),
-              // Sites list
-              Expanded(
-                child: filtered.isEmpty
-                    ? EmptyStateWidget(
-                        title: AppLocalizations.of(context).noSitesFound,
-                        message: _query.isNotEmpty
-                            ? AppLocalizations.of(context).tryDifferentSearch
-                            : AppLocalizations.of(context).tapToAddSite,
-                        icon: Icons.factory_outlined,
-                      )
-                    : ListView.separated(
-                        padding: const EdgeInsets.all(16),
-                        itemCount: filtered.length,
-                        separatorBuilder: (_, __) =>
-                            const SizedBox(height: 14),
-                        itemBuilder: (context, i) =>
-                            _SiteCard(site: filtered[i]),
-                      ),
-              ),
-            ],
+                const SizedBox(height: 8),
+                // Sites list
+                Expanded(
+                  child: filtered.isEmpty
+                      ? EmptyStateWidget(
+                          title: AppLocalizations.of(context).noSitesFound,
+                          message: _query.isNotEmpty
+                              ? AppLocalizations.of(context).tryDifferentSearch
+                              : AppLocalizations.of(context).tapToAddSite,
+                          icon: Icons.factory_outlined,
+                        )
+                      : ListView.separated(
+                          padding: const EdgeInsets.all(16),
+                          itemCount: filtered.length,
+                          separatorBuilder: (_, __) =>
+                              const SizedBox(height: 14),
+                          itemBuilder: (context, i) =>
+                              _SiteCard(site: filtered[i]),
+                        ),
+                ),
+              ],
+            ),
           );
         },
       ),

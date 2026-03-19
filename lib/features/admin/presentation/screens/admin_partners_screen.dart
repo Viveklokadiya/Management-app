@@ -75,72 +75,77 @@ class _AdminPartnersScreenState extends ConsumerState<AdminPartnersScreen> {
         data: (users) {
           final filtered = _filter(users);
 
-          return Column(
-            children: [
-              // Search + filter
-              Padding(
-                padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-                child: Column(
-                  children: [
-                    TextField(
-                      controller: _searchCtrl,
-                      onChanged: (v) => setState(() => _query = v),
-                      decoration: InputDecoration(
-                        hintText: AppLocalizations.of(context).searchPartners,
-                        prefixIcon: const Icon(Icons.search,
-                            color: AppColors.textSecondary),
-                        filled: true,
-                        fillColor: Colors.white,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(14),
-                          borderSide: BorderSide.none,
+          return RefreshIndicator(
+            color: AppColors.primary,
+            onRefresh: () async =>
+                ref.invalidate(allPartnersStreamProvider),
+            child: Column(
+              children: [
+                // Search + filter
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+                  child: Column(
+                    children: [
+                      TextField(
+                        controller: _searchCtrl,
+                        onChanged: (v) => setState(() => _query = v),
+                        decoration: InputDecoration(
+                          hintText: AppLocalizations.of(context).searchPartners,
+                          prefixIcon: const Icon(Icons.search,
+                              color: AppColors.textSecondary),
+                          filled: true,
+                          fillColor: Colors.white,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(14),
+                            borderSide: BorderSide.none,
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 14),
                         ),
-                        contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 14),
                       ),
-                    ),
-                    const SizedBox(height: 8),
-                    // Partner count strip
-                    Row(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 14, vertical: 8),
-                          decoration: BoxDecoration(
-                            color: AppColors.primary,
-                            borderRadius: BorderRadius.circular(20),
+                      const SizedBox(height: 8),
+                      // Partner count strip
+                      Row(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 14, vertical: 8),
+                            decoration: BoxDecoration(
+                              color: AppColors.primary,
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Text(
+                              AppLocalizations.of(context).allPartnersCount(filtered.length),
+                              style: AppTextStyles.labelSmall
+                                  .copyWith(color: Colors.white),
+                            ),
                           ),
-                          child: Text(
-                            AppLocalizations.of(context).allPartnersCount(filtered.length),
-                            style: AppTextStyles.labelSmall
-                                .copyWith(color: Colors.white),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              const SizedBox(height: 8),
-              Expanded(
-                child: filtered.isEmpty
-                    ? EmptyStateWidget(
-                        title: AppLocalizations.of(context).noPartnersFound,
-                        message: _query.isNotEmpty
-                            ? AppLocalizations.of(context).tryDifferentSearch
-                            : AppLocalizations.of(context).noPartnersRegistered,
-                        icon: Icons.people_outline,
-                      )
-                    : ListView.separated(
-                        padding: const EdgeInsets.all(16),
-                        itemCount: filtered.length,
-                        separatorBuilder: (_, __) =>
-                            const SizedBox(height: 14),
-                        itemBuilder: (context, i) =>
-                            _PartnerCard(user: filtered[i]),
-                      ),
-              ),
-            ],
+                const SizedBox(height: 8),
+                Expanded(
+                  child: filtered.isEmpty
+                      ? EmptyStateWidget(
+                          title: AppLocalizations.of(context).noPartnersFound,
+                          message: _query.isNotEmpty
+                              ? AppLocalizations.of(context).tryDifferentSearch
+                              : AppLocalizations.of(context).noPartnersRegistered,
+                          icon: Icons.people_outline,
+                        )
+                      : ListView.separated(
+                          padding: const EdgeInsets.all(16),
+                          itemCount: filtered.length,
+                          separatorBuilder: (_, __) =>
+                              const SizedBox(height: 14),
+                          itemBuilder: (context, i) =>
+                              _PartnerCard(user: filtered[i]),
+                        ),
+                ),
+              ],
+            ),
           );
         },
       ),

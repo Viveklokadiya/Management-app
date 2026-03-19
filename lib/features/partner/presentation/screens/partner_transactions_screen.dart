@@ -78,73 +78,78 @@ class _PartnerTransactionsScreenState
           ),
         ],
       ),
-      body: StreamBuilder<List<TransactionModel>>(
-        stream: txnStream,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const LoadingWidget();
-          }
-          if (snapshot.hasError) {
-            return ErrorStateWidget(message: snapshot.error.toString());
-          }
-          final filtered = _applyFilters(snapshot.data ?? []);
-          final totalIncome = filtered
-              .where((t) => t.type == TransactionType.income)
-              .fold(0.0, (s, t) => s + t.amountRupees);
-          final totalExpense = filtered
-              .where((t) => t.type == TransactionType.expense)
-              .fold(0.0, (s, t) => s + t.amountRupees);
+      body: RefreshIndicator(
+        color: AppColors.primary,
+        onRefresh: () async =>
+            ref.invalidate(transactionRepositoryProvider),
+        child: StreamBuilder<List<TransactionModel>>(
+          stream: txnStream,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const LoadingWidget();
+            }
+            if (snapshot.hasError) {
+              return ErrorStateWidget(message: snapshot.error.toString());
+            }
+            final filtered = _applyFilters(snapshot.data ?? []);
+            final totalIncome = filtered
+                .where((t) => t.type == TransactionType.income)
+                .fold(0.0, (s, t) => s + t.amountRupees);
+            final totalExpense = filtered
+                .where((t) => t.type == TransactionType.expense)
+                .fold(0.0, (s, t) => s + t.amountRupees);
 
-          return Column(
-            children: [
-              // Totals strip
-              Container(
-                color: AppColors.surface,
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 16, vertical: 12),
-                child: Row(
-                  children: [
-                    Expanded(
-                        child: _TotalBadge(
-                            'Income', totalIncome, AppColors.income)),
-                    const SizedBox(width: 12),
-                    Expanded(
-                        child: _TotalBadge(
-                            'Expense', totalExpense, AppColors.expense)),
-                  ],
+            return Column(
+              children: [
+                // Totals strip
+                Container(
+                  color: AppColors.surface,
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 16, vertical: 12),
+                  child: Row(
+                    children: [
+                      Expanded(
+                          child: _TotalBadge(
+                              'Income', totalIncome, AppColors.income)),
+                      const SizedBox(width: 12),
+                      Expanded(
+                          child: _TotalBadge(
+                              'Expense', totalExpense, AppColors.expense)),
+                    ],
+                  ),
                 ),
-              ),
-              const Divider(height: 1, color: AppColors.border),
-              // List
-              Expanded(
-                child: filtered.isEmpty
-                    ? EmptyStateWidget(
-                        title: 'No transactions',
-                        message: _typeFilter != null || _dateRange != null
-                            ? 'Try adjusting your filters'
-                            : 'Tap + to add your first transaction',
-                        icon: Icons.receipt_long_outlined,
-                        actionLabel:
-                            _typeFilter != null || _dateRange != null
-                                ? 'Clear Filters'
-                                : null,
-                        onAction: () => setState(() {
-                          _typeFilter = null;
-                          _dateRange = null;
-                        }),
-                      )
-                    : ListView.separated(
-                        padding: const EdgeInsets.all(16),
-                        itemCount: filtered.length,
-                        separatorBuilder: (_, __) =>
-                            const SizedBox(height: 12),
-                        itemBuilder: (context, i) =>
-                            _TransactionCard(txn: filtered[i]),
-                      ),
-              ),
-            ],
-          );
-        },
+                const Divider(height: 1, color: AppColors.border),
+                // List
+                Expanded(
+                  child: filtered.isEmpty
+                      ? EmptyStateWidget(
+                          title: 'No transactions',
+                          message: _typeFilter != null || _dateRange != null
+                              ? 'Try adjusting your filters'
+                              : 'Tap + to add your first transaction',
+                          icon: Icons.receipt_long_outlined,
+                          actionLabel:
+                              _typeFilter != null || _dateRange != null
+                                  ? 'Clear Filters'
+                                  : null,
+                          onAction: () => setState(() {
+                            _typeFilter = null;
+                            _dateRange = null;
+                          }),
+                        )
+                      : ListView.separated(
+                          padding: const EdgeInsets.all(16),
+                          itemCount: filtered.length,
+                          separatorBuilder: (_, __) =>
+                              const SizedBox(height: 12),
+                          itemBuilder: (context, i) =>
+                              _TransactionCard(txn: filtered[i]),
+                        ),
+                ),
+              ],
+            );
+          },
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppColors.primary,
