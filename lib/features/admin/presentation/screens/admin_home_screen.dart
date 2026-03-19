@@ -520,83 +520,92 @@ class _RecentTxnTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isIncome = txn.type == TransactionType.income;
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 0, 16, 10),
-      child: Container(
-        padding: const EdgeInsets.all(14),
-        decoration: BoxDecoration(
-          color: AppColors.surface,
-          borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: AppColors.border),
-          boxShadow: const [
-            BoxShadow(
-                color: AppColors.shadowLight, blurRadius: 4)
-          ],
-        ),
-        child: Row(
-          children: [
-            Container(
-              width: 44,
-              height: 44,
-              decoration: BoxDecoration(
-                color: isIncome
-                    ? AppColors.incomeLight
-                    : AppColors.expenseLight,
-                shape: BoxShape.circle,
+    return GestureDetector(
+      onTap: () => context.push(
+        '/admin/transaction/${txn.id}',
+        extra: {'siteId': txn.siteId},
+      ),
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(16, 0, 16, 10),
+        child: Container(
+          padding: const EdgeInsets.all(14),
+          decoration: BoxDecoration(
+            color: AppColors.surface,
+            borderRadius: BorderRadius.circular(14),
+            border: Border.all(color: AppColors.border),
+            boxShadow: const [
+              BoxShadow(
+                  color: AppColors.shadowLight, blurRadius: 4)
+            ],
+          ),
+          child: Row(
+            children: [
+              Container(
+                width: 44,
+                height: 44,
+                decoration: BoxDecoration(
+                  color: isIncome
+                      ? AppColors.incomeLight
+                      : AppColors.expenseLight,
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  isIncome
+                      ? Icons.south_west_rounded
+                      : Icons.north_east_rounded,
+                  color: isIncome ? AppColors.income : AppColors.expense,
+                  size: 20,
+                ),
               ),
-              child: Icon(
-                isIncome
-                    ? Icons.south_west_rounded
-                    : Icons.north_east_rounded,
-                color: isIncome ? AppColors.income : AppColors.expense,
-                size: 20,
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      txn.remarks?.isNotEmpty == true
+                          ? txn.remarks!
+                          : '${isIncome ? AppLocalizations.of(context).income : AppLocalizations.of(context).expense} · ${txn.siteId}',
+                      style: AppTextStyles.bodySmall.copyWith(
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.textPrimary),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    Text(
+                      DateFormat('d MMM · h:mm a')
+                          .format(txn.transactionDate),
+                      style: AppTextStyles.bodySmall
+                          .copyWith(color: AppColors.textHint),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
-                    txn.remarks?.isNotEmpty == true
-                        ? txn.remarks!
-                        : '${isIncome ? AppLocalizations.of(context).income : AppLocalizations.of(context).expense} · ${txn.siteId}',
-                    style: AppTextStyles.bodySmall.copyWith(
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.textPrimary),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+                    '${isIncome ? '+' : '-'}${CurrencyFormatter.formatCompact(txn.amountRupees)}',
+                    style: AppTextStyles.labelMedium.copyWith(
+                      color: isIncome ? AppColors.income : AppColors.expense,
+                      fontSize: 13,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                   Text(
-                    DateFormat('d MMM · h:mm a')
-                        .format(txn.transactionDate),
-                    style: AppTextStyles.bodySmall
-                        .copyWith(color: AppColors.textHint),
+                    _paymentLabel(txn.paymentMethod, context),
+                    style: AppTextStyles.labelSmall.copyWith(
+                      fontSize: 9,
+                      color: AppColors.textHint,
+                    ),
                   ),
                 ],
               ),
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text(
-                  '${isIncome ? '+' : '-'}${CurrencyFormatter.formatCompact(txn.amountRupees)}',
-                  style: AppTextStyles.labelMedium.copyWith(
-                    color: isIncome ? AppColors.income : AppColors.expense,
-                    fontSize: 13,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                Text(
-                  _paymentLabel(txn.paymentMethod, context),
-                  style: AppTextStyles.labelSmall.copyWith(
-                    fontSize: 9,
-                    color: AppColors.textHint,
-                  ),
-                ),
-              ],
-            ),
-          ],
+              const SizedBox(width: 4),
+              const Icon(Icons.chevron_right,
+                  size: 16, color: AppColors.textHint),
+            ],
+          ),
         ),
       ),
     );

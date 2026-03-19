@@ -26,4 +26,7 @@ final class AppRoutes {
   static const superAdminAddUser = '/admin/add-user';
   // Edit user: /admin/edit-user/:id
   static const superAdminEditUser = '/admin/edit-user/:id';
+
+  // Admin transaction detail
+  static const adminTransactionDetail = '/admin/transaction/:id';
 }

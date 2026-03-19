@@ -234,92 +234,101 @@ class _AdminTxnTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isIncome = txn.type == TransactionType.income;
-    return Container(
-      margin: const EdgeInsets.only(bottom: 10),
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: AppColors.border),
-        boxShadow: const [
-          BoxShadow(color: AppColors.shadowLight, blurRadius: 4)
-        ],
+    return GestureDetector(
+      onTap: () => context.push(
+        '/admin/transaction/${txn.id}',
+        extra: {'siteId': txn.siteId},
       ),
-      child: Row(
-        children: [
-          Container(
-            width: 44,
-            height: 44,
-            decoration: BoxDecoration(
-              color: isIncome ? AppColors.incomeLight : AppColors.expenseLight,
-              shape: BoxShape.circle,
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 10),
+        padding: const EdgeInsets.all(14),
+        decoration: BoxDecoration(
+          color: AppColors.surface,
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(color: AppColors.border),
+          boxShadow: const [
+            BoxShadow(color: AppColors.shadowLight, blurRadius: 4)
+          ],
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 44,
+              height: 44,
+              decoration: BoxDecoration(
+                color: isIncome ? AppColors.incomeLight : AppColors.expenseLight,
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                isIncome
+                    ? Icons.north_east_rounded
+                    : Icons.south_west_rounded,
+                color: isIncome ? AppColors.income : AppColors.expense,
+                size: 20,
+              ),
             ),
-            child: Icon(
-              isIncome
-                  ? Icons.north_east_rounded
-                  : Icons.south_west_rounded,
-              color: isIncome ? AppColors.income : AppColors.expense,
-              size: 20,
-            ),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      CurrencyFormatter.format(txn.amountRupees),
-                      style: AppTextStyles.bodyMedium.copyWith(
-                          fontWeight: FontWeight.w700),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 2),
-                      decoration: BoxDecoration(
-                        color: isIncome
-                            ? AppColors.incomeLight
-                            : AppColors.expenseLight,
-                        borderRadius: BorderRadius.circular(20),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        CurrencyFormatter.format(txn.amountRupees),
+                        style: AppTextStyles.bodyMedium.copyWith(
+                            fontWeight: FontWeight.w700),
                       ),
-                      child: Text(
-                        isIncome ? AppLocalizations.of(context).income.toUpperCase() : AppLocalizations.of(context).expense.toUpperCase(),
-                        style: AppTextStyles.labelSmall.copyWith(
-                          color: isIncome ? AppColors.income : AppColors.expense,
-                          fontSize: 9,
-                          letterSpacing: 0.5,
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 2),
+                        decoration: BoxDecoration(
+                          color: isIncome
+                              ? AppColors.incomeLight
+                              : AppColors.expenseLight,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Text(
+                          isIncome ? AppLocalizations.of(context).income.toUpperCase() : AppLocalizations.of(context).expense.toUpperCase(),
+                          style: AppTextStyles.labelSmall.copyWith(
+                            color: isIncome ? AppColors.income : AppColors.expense,
+                            fontSize: 9,
+                            letterSpacing: 0.5,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 2),
-                Text(
-                  AppLocalizations.of(context).byUser(txn.createdByName),
-                  style: AppTextStyles.bodySmall
-                      .copyWith(color: AppColors.textSecondary),
-                ),
-                Row(
-                  children: [
-                    const Icon(Icons.location_on_outlined,
-                        size: 12, color: AppColors.textHint),
-                    const SizedBox(width: 2),
-                    Expanded(
-                      child: Text(
-                        txn.siteId,
-                        style: AppTextStyles.bodySmall
-                            .copyWith(color: AppColors.textHint),
-                        overflow: TextOverflow.ellipsis,
+                    ],
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    AppLocalizations.of(context).byUser(txn.createdByName),
+                    style: AppTextStyles.bodySmall
+                        .copyWith(color: AppColors.textSecondary),
+                  ),
+                  Row(
+                    children: [
+                      const Icon(Icons.location_on_outlined,
+                          size: 12, color: AppColors.textHint),
+                      const SizedBox(width: 2),
+                      Expanded(
+                        child: Text(
+                          txn.siteId,
+                          style: AppTextStyles.bodySmall
+                              .copyWith(color: AppColors.textHint),
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                    ],
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+            const SizedBox(width: 4),
+            const Icon(Icons.chevron_right,
+                size: 16, color: AppColors.textHint),
+          ],
+        ),
       ),
     );
   }

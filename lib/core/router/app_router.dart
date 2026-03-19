@@ -73,9 +73,21 @@ GoRouter appRouter(AppRouterRef ref) {
         },
       ),
 
-      // ─── Transaction Detail (outside shell — full-screen) ──────────
+      // ─── Transaction Detail — Partner (outside shell) ──────────────
       GoRoute(
         path: '/partner/transaction/:id',
+        builder: (c, s) {
+          final extra = s.extra as Map<String, dynamic>?;
+          return TransactionDetailScreen(
+            transactionId: s.pathParameters['id']!,
+            siteId: extra?['siteId'] as String? ?? '',
+          );
+        },
+      ),
+
+      // ─── Transaction Detail — Admin/SuperAdmin (outside shell) ─────
+      GoRoute(
+        path: '/admin/transaction/:id',
         builder: (c, s) {
           final extra = s.extra as Map<String, dynamic>?;
           return TransactionDetailScreen(
