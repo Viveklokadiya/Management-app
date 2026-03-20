@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/providers/repository_providers.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../auth/domain/models/app_user.dart';
-import '../../../sites/domain/models/site_model.dart';
 
 class AddEditUserScreen extends ConsumerStatefulWidget {
   /// If [existingUser] is provided → Edit mode. Otherwise → Add mode.
@@ -21,13 +21,11 @@ class _AddEditUserScreenState extends ConsumerState<AddEditUserScreen> {
   final _formKey = GlobalKey<FormState>();
   final _nameCtrl = TextEditingController();
   final _emailCtrl = TextEditingController();
+  final _phoneCtrl = TextEditingController();
 
   UserRole _selectedRole = UserRole.partner;
   bool _isActive = true;
   bool _saving = false;
-
-  // site_users assignment
-  final Set<String> _selectedSiteIds = {};
 
   bool get _isEdit => widget.existingUser != null;
 
@@ -38,6 +36,7 @@ class _AddEditUserScreenState extends ConsumerState<AddEditUserScreen> {
       final u = widget.existingUser!;
       _nameCtrl.text = u.name;
       _emailCtrl.text = u.email;
+      _phoneCtrl.text = u.phone ?? '';
       _selectedRole = u.role;
       _isActive = u.isActive;
     }
@@ -47,16 +46,12 @@ class _AddEditUserScreenState extends ConsumerState<AddEditUserScreen> {
   void dispose() {
     _nameCtrl.dispose();
     _emailCtrl.dispose();
+    _phoneCtrl.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final sitesAsync = ref.watch(
-      // Use a simple StreamProvider inline via stream from site repo
-      _allSitesProvider,
-    );
-
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -118,6 +113,19 @@ class _AddEditUserScreenState extends ConsumerState<AddEditUserScreen> {
                 return null;
               },
             ),
+            const SizedBox(height: 16),
+            _buildField(
+              controller: _phoneCtrl,
+              label: 'Phone Number',
+              hint: 'e.g. 9876543210',
+              keyboardType: TextInputType.phone,
+              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+              validator: (v) {
+                if (v == null || v.trim().isEmpty) return null; // optional
+                if (v.trim().length < 10) return 'Enter a valid phone number';
+                return null;
+              },
+            ),
 
             const SizedBox(height: 32),
 
@@ -156,27 +164,6 @@ class _AddEditUserScreenState extends ConsumerState<AddEditUserScreen> {
                   },
                 ),
               ],
-            ),
-            const SizedBox(height: 16),
-
-            // Sites checkboxes
-            sitesAsync.when(
-              loading: () => const SizedBox(
-                height: 60,
-                child: Center(child: CircularProgressIndicator()),
-              ),
-              error: (_, __) => const SizedBox.shrink(),
-              data: (sites) => _SiteCheckboxList(
-                sites: sites,
-                selectedIds: _selectedSiteIds,
-                onChanged: (id, checked) => setState(() {
-                  if (checked) {
-                    _selectedSiteIds.add(id);
-                  } else {
-                    _selectedSiteIds.remove(id);
-                  }
-                }),
-              ),
             ),
 
             const SizedBox(height: 32),
@@ -294,6 +281,7 @@ class _AddEditUserScreenState extends ConsumerState<AddEditUserScreen> {
     required String label,
     required String hint,
     TextInputType? keyboardType,
+    List<TextInputFormatter>? inputFormatters,
     bool readOnly = false,
     String? helperText,
     String? Function(String?)? validator,
@@ -306,6 +294,7 @@ class _AddEditUserScreenState extends ConsumerState<AddEditUserScreen> {
         TextFormField(
           controller: controller,
           keyboardType: keyboardType,
+          inputFormatters: inputFormatters,
           readOnly: readOnly,
           validator: validator,
           decoration: _inputDecoration(hint: hint, helperText: helperText),
@@ -343,21 +332,23 @@ class _AddEditUserScreenState extends ConsumerState<AddEditUserScreen> {
     try {
       final db = ref.read(firestoreProvider);
       final now = Timestamp.now();
+      final phone = _phoneCtrl.text.trim().isEmpty
+          ? null
+          : _phoneCtrl.text.trim();
 
       if (_isEdit) {
-        // Update existing doc
         await db.collection('users').doc(widget.existingUser!.id).update({
           'name': _nameCtrl.text.trim(),
+          'phone': phone,
           'role': _selectedRole.name,
           'isActive': _isActive,
           'updatedAt': now,
         });
       } else {
-        // Create new user doc
         await db.collection('users').add({
           'name': _nameCtrl.text.trim(),
           'email': _emailCtrl.text.trim().toLowerCase(),
-          'phone': null,
+          'phone': phone,
           'role': _selectedRole.name,
           'isActive': _isActive,
           'createdAt': now,
@@ -415,57 +406,3 @@ class _SectionHeader extends StatelessWidget {
     );
   }
 }
-
-class _SiteCheckboxList extends StatelessWidget {
-  const _SiteCheckboxList({
-    required this.sites,
-    required this.selectedIds,
-    required this.onChanged,
-  });
-  final List<SiteModel> sites;
-  final Set<String> selectedIds;
-  final void Function(String id, bool checked) onChanged;
-
-  @override
-  Widget build(BuildContext context) {
-    if (sites.isEmpty) {
-      return const Padding(
-        padding: EdgeInsets.symmetric(vertical: 8),
-        child: Text('No sites available',
-            style: TextStyle(color: Colors.grey)),
-      );
-    }
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text('Assigned Sites', style: AppTextStyles.bodyMedium),
-        const SizedBox(height: 8),
-        Container(
-          decoration: BoxDecoration(
-            border: Border.all(color: AppColors.border),
-            borderRadius: BorderRadius.circular(14),
-          ),
-          child: Column(
-            children: sites.map((site) {
-              final selected = selectedIds.contains(site.id);
-              return CheckboxListTile(
-                value: selected,
-                onChanged: (v) => onChanged(site.id, v ?? false),
-                title: Text(site.name, style: AppTextStyles.bodySmall),
-                activeColor: AppColors.primary,
-                controlAffinity: ListTileControlAffinity.leading,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(14)),
-              );
-            }).toList(),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-// Local provider for all sites (reuses site repository)
-final _allSitesProvider = StreamProvider<List<SiteModel>>((ref) {
-  return ref.read(siteRepositoryProvider).getAllSites();
-});
