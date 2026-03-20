@@ -53,16 +53,10 @@ final allPartnersStreamProvider = StreamProvider<List<AppUser>>((ref) {
 });
 
 /// Stream of ALL transactions across all sites (admin view).
-/// Uses the flat root `transactions` collection (mirrored on create/update/delete)
-/// — no collectionGroup index required.
+/// Uses the single root `transactions` collection.
 final allTransactionsStreamProvider =
     StreamProvider<List<TransactionModel>>((ref) {
-  final db = ref.read(firestoreProvider);
-  return db.collection('transactions').snapshots().map((q) {
-    final list = q.docs.map(TransactionModel.fromFirestore).toList();
-    list.sort((a, b) => b.transactionDate.compareTo(a.transactionDate));
-    return list;
-  });
+  return ref.read(transactionRepositoryProvider).getAllTransactions();
 });
 
 // ─── Super Admin: All Users ───────────────────────────────────────────────────

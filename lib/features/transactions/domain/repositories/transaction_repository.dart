@@ -7,6 +7,9 @@ abstract class TransactionRepository {
   /// Real-time stream of transactions created by a specific user (across all sites)
   Stream<List<TransactionModel>> getTransactionsByUser(String userId);
 
+  /// Real-time stream of ALL transactions (admin view)
+  Stream<List<TransactionModel>> getAllTransactions();
+
   /// Create a new transaction — returns the new document ID
   Future<String> createTransaction(TransactionModel transaction);
 
@@ -15,15 +18,11 @@ abstract class TransactionRepository {
 
   /// Delete a transaction (admin only)
   Future<void> deleteTransaction({
-    required String siteId,
     required String transactionId,
     required String userId,
     required String userName,
   });
 
   /// Fetch a single transaction by ID
-  Future<TransactionModel?> getTransactionById({
-    required String siteId,
-    required String transactionId,
-  });
+  Future<TransactionModel?> getTransactionById(String transactionId);
 }

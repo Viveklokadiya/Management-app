@@ -338,10 +338,7 @@ class _TransactionCard extends StatelessWidget {
       color: AppColors.surface,
       borderRadius: BorderRadius.circular(16),
       child: InkWell(
-        onTap: () => context.push(
-          '/partner/transaction/${txn.id}',
-          extra: {'siteId': txn.siteId},
-        ),
+        onTap: () => context.push('/partner/transaction/${txn.id}'),
         borderRadius: BorderRadius.circular(16),
         child: Padding(
           padding: const EdgeInsets.all(20),

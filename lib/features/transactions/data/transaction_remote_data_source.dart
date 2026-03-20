@@ -6,15 +6,13 @@ class TransactionRemoteDataSource {
   final FirebaseFirestore _db;
   TransactionRemoteDataSource(this._db);
 
-  // Subcollection path: sites/{siteId}/transactions/{txnId}
-  CollectionReference<Map<String, dynamic>> _txnCol(String siteId) =>
-      _db.collection('sites').doc(siteId).collection('transactions');
-
-  // Root flat mirror: transactions/{txnId}  — used for watchByUser (no index needed)
-  CollectionReference<Map<String, dynamic>> get _rootTxnCol =>
+  // Single root collection — no dual-write, no subcollection
+  CollectionReference<Map<String, dynamic>> get _col =>
       _db.collection('transactions');
 
-  Stream<List<TransactionModel>> watchBySite(String siteId) => _txnCol(siteId)
+  /// Real-time stream of all transactions for a specific site (by siteId field)
+  Stream<List<TransactionModel>> watchBySite(String siteId) => _col
+      .where('siteId', isEqualTo: siteId)
       .snapshots()
       .map((snap) {
         final list = snap.docs.map(TransactionModel.fromFirestore).toList();
@@ -22,9 +20,8 @@ class TransactionRemoteDataSource {
         return list;
       });
 
-  /// Query the flat root `transactions` collection by userId — no collectionGroup,
-  /// no composite index required.
-  Stream<List<TransactionModel>> watchByUser(String userId) => _rootTxnCol
+  /// Real-time stream of all transactions created by a specific user
+  Stream<List<TransactionModel>> watchByUser(String userId) => _col
       .where('createdByUserId', isEqualTo: userId)
       .snapshots()
       .map((snap) {
@@ -33,11 +30,17 @@ class TransactionRemoteDataSource {
         return list;
       });
 
+  /// Real-time stream of ALL transactions (admin view)
+  Stream<List<TransactionModel>> watchAll() => _col
+      .snapshots()
+      .map((snap) {
+        final list = snap.docs.map(TransactionModel.fromFirestore).toList();
+        list.sort((a, b) => b.transactionDate.compareTo(a.transactionDate));
+        return list;
+      });
+
   Future<String> create(TransactionModel txn) async {
-    // Write to subcollection
-    final ref = await _txnCol(txn.siteId).add(txn.toMap());
-    // Mirror to root collection with same ID
-    await _rootTxnCol.doc(ref.id).set(txn.toMap());
+    final ref = await _col.add(txn.toMap());
     await _writeAuditLog(
       entityType: 'transaction',
       entityId: ref.id,
@@ -51,13 +54,11 @@ class TransactionRemoteDataSource {
   }
 
   Future<void> update(TransactionModel txn) async {
-    final ref = _txnCol(txn.siteId).doc(txn.id);
+    final ref = _col.doc(txn.id);
     final before = await ref.get();
     final beforeData = before.data() ?? {};
     final updated = {...txn.toMap(), 'updatedAt': FieldValue.serverTimestamp()};
     await ref.update(updated);
-    // Mirror to root collection
-    await _rootTxnCol.doc(txn.id).update(updated);
     await _writeAuditLog(
       entityType: 'transaction',
       entityId: txn.id,
@@ -70,17 +71,14 @@ class TransactionRemoteDataSource {
   }
 
   Future<void> delete({
-    required String siteId,
     required String transactionId,
     required String userId,
     required String userName,
   }) async {
-    final ref = _txnCol(siteId).doc(transactionId);
+    final ref = _col.doc(transactionId);
     final snap = await ref.get();
     final beforeData = snap.data() ?? {};
     await ref.delete();
-    // Remove from root mirror too (ignore if missing)
-    await _rootTxnCol.doc(transactionId).delete().catchError((_) {});
     await _writeAuditLog(
       entityType: 'transaction',
       entityId: transactionId,
@@ -92,11 +90,8 @@ class TransactionRemoteDataSource {
     );
   }
 
-  Future<TransactionModel?> getById({
-    required String siteId,
-    required String transactionId,
-  }) async {
-    final doc = await _txnCol(siteId).doc(transactionId).get();
+  Future<TransactionModel?> getById(String transactionId) async {
+    final doc = await _col.doc(transactionId).get();
     return doc.exists ? TransactionModel.fromFirestore(doc) : null;
   }
 

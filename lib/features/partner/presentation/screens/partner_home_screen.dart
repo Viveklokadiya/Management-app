@@ -420,10 +420,7 @@ class _TransactionListTile extends StatelessWidget {
       color: AppColors.surface,
       borderRadius: BorderRadius.circular(14),
       child: InkWell(
-        onTap: () => context.push(
-          '/partner/transaction/${txn.id}',
-          extra: {'siteId': txn.siteId},
-        ),
+        onTap: () => context.push('/partner/transaction/${txn.id}'),
         borderRadius: BorderRadius.circular(14),
         child: Container(
           padding: const EdgeInsets.all(16),

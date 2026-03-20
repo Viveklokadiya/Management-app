@@ -521,10 +521,7 @@ class _RecentTxnTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final isIncome = txn.type == TransactionType.income;
     return GestureDetector(
-      onTap: () => context.push(
-        '/admin/transaction/${txn.id}',
-        extra: {'siteId': txn.siteId},
-      ),
+      onTap: () => context.push('/admin/transaction/${txn.id}'),
       child: Padding(
         padding: const EdgeInsets.fromLTRB(16, 0, 16, 10),
         child: Container(

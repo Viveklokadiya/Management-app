@@ -14,11 +14,9 @@ class TransactionDetailScreen extends ConsumerWidget {
   const TransactionDetailScreen({
     super.key,
     required this.transactionId,
-    required this.siteId,
   });
 
   final String transactionId;
-  final String siteId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -37,10 +35,9 @@ class TransactionDetailScreen extends ConsumerWidget {
         ),
       ),
       body: FutureBuilder<TransactionModel?>(
-        future: ref.read(transactionRepositoryProvider).getTransactionById(
-              siteId: siteId,
-              transactionId: transactionId,
-            ),
+        future: ref
+            .read(transactionRepositoryProvider)
+            .getTransactionById(transactionId),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const LoadingWidget();

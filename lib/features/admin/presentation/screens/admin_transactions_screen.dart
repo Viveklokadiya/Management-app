@@ -240,10 +240,7 @@ class _AdminTxnTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final isIncome = txn.type == TransactionType.income;
     return GestureDetector(
-      onTap: () => context.push(
-        '/admin/transaction/${txn.id}',
-        extra: {'siteId': txn.siteId},
-      ),
+      onTap: () => context.push('/admin/transaction/${txn.id}'),
       child: Container(
         margin: const EdgeInsets.only(bottom: 10),
         padding: const EdgeInsets.all(14),

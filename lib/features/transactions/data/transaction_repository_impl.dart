@@ -15,6 +15,10 @@ class TransactionRepositoryImpl implements TransactionRepository {
       _dataSource.watchByUser(userId);
 
   @override
+  Stream<List<TransactionModel>> getAllTransactions() =>
+      _dataSource.watchAll();
+
+  @override
   Future<String> createTransaction(TransactionModel transaction) =>
       _dataSource.create(transaction);
 
@@ -24,22 +28,17 @@ class TransactionRepositoryImpl implements TransactionRepository {
 
   @override
   Future<void> deleteTransaction({
-    required String siteId,
     required String transactionId,
     required String userId,
     required String userName,
   }) =>
       _dataSource.delete(
-        siteId: siteId,
         transactionId: transactionId,
         userId: userId,
         userName: userName,
       );
 
   @override
-  Future<TransactionModel?> getTransactionById({
-    required String siteId,
-    required String transactionId,
-  }) =>
-      _dataSource.getById(siteId: siteId, transactionId: transactionId);
+  Future<TransactionModel?> getTransactionById(String transactionId) =>
+      _dataSource.getById(transactionId);
 }
