@@ -385,7 +385,7 @@ class _TransactionCard extends StatelessWidget {
                         ),
                         const SizedBox(height: 2),
                         Text(
-                          txn.siteId,
+                          txn.siteName,
                           style: AppTextStyles.bodySmall
                               .copyWith(color: AppColors.textSecondary),
                         ),

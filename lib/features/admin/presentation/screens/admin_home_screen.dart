@@ -565,7 +565,7 @@ class _RecentTxnTile extends StatelessWidget {
                     Text(
                       txn.remarks?.isNotEmpty == true
                           ? txn.remarks!
-                          : '${isIncome ? AppLocalizations.of(context).income : AppLocalizations.of(context).expense} · ${txn.siteId}',
+                          : '${isIncome ? AppLocalizations.of(context).income : AppLocalizations.of(context).expense} · ${txn.siteName}',
                       style: AppTextStyles.bodySmall.copyWith(
                           fontWeight: FontWeight.w600,
                           color: AppColors.textPrimary),

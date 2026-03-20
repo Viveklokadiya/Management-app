@@ -125,7 +125,7 @@ class TransactionDetailScreen extends ConsumerWidget {
                         _DetailRow(
                             'Type', isIncome ? 'Income' : 'Expense'),
                         _Divider(),
-                        _DetailRow('Site Name', txn.siteId),
+                        _DetailRow('Site Name', txn.siteName),
                         if (txn.projectName != null &&
                             txn.projectName!.isNotEmpty) ...[
                           _Divider(),

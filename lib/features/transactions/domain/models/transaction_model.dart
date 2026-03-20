@@ -7,6 +7,7 @@ enum PaymentMethod { cash, upi, bank, other }
 class TransactionModel {
   final String id;
   final String siteId;
+  final String siteName;       // human-readable name stored at write time
   final String createdByUserId;
   final String createdByName;
   final TransactionType type;
@@ -24,6 +25,7 @@ class TransactionModel {
   const TransactionModel({
     required this.id,
     required this.siteId,
+    required this.siteName,
     required this.createdByUserId,
     required this.createdByName,
     required this.type,
@@ -44,9 +46,11 @@ class TransactionModel {
 
   factory TransactionModel.fromFirestore(DocumentSnapshot doc) {
     final data = doc.data() as Map<String, dynamic>? ?? {};
+    final siteId = data['siteId'] as String? ?? '';
     return TransactionModel(
       id: doc.id,
-      siteId: data['siteId'] as String? ?? '',
+      siteId: siteId,
+      siteName: data['siteName'] as String? ?? siteId, // fallback to id for old docs
       createdByUserId: data['createdByUserId'] as String? ?? '',
       createdByName: data['createdByName'] as String? ?? '',
       type: data['type'] == 'income'
@@ -70,6 +74,7 @@ class TransactionModel {
 
   Map<String, dynamic> toMap() => {
         'siteId': siteId,
+        'siteName': siteName,
         'createdByUserId': createdByUserId,
         'createdByName': createdByName,
         'type': type.name,
@@ -95,6 +100,7 @@ class TransactionModel {
   TransactionModel copyWith({
     String? id,
     String? siteId,
+    String? siteName,
     String? createdByUserId,
     String? createdByName,
     TransactionType? type,
@@ -112,6 +118,7 @@ class TransactionModel {
       TransactionModel(
         id: id ?? this.id,
         siteId: siteId ?? this.siteId,
+        siteName: siteName ?? this.siteName,
         createdByUserId: createdByUserId ?? this.createdByUserId,
         createdByName: createdByName ?? this.createdByName,
         type: type ?? this.type,

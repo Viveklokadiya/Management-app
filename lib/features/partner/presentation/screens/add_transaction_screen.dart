@@ -88,9 +88,11 @@ class _AddTransactionScreenState
     try {
       final amountRupees = double.parse(
           _amountController.text.replaceAll(',', ''));
+      final selectedSite = _sites.firstWhere((s) => s.id == _selectedSiteId);
       final txn = TransactionModel(
         id: '',
         siteId: _selectedSiteId!,
+        siteName: selectedSite.name,
         createdByUserId: user.id,
         createdByName: user.name,
         type: _type,

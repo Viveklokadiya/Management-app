@@ -470,7 +470,7 @@ class _TransactionListTile extends StatelessWidget {
                     ),
                     const SizedBox(height: 2),
                     Text(
-                      '${txn.siteId} • ${DateFormat('d MMM').format(txn.transactionDate)}',
+                      '${txn.siteName} • ${DateFormat('d MMM').format(txn.transactionDate)}',
                       style: AppTextStyles.bodySmall
                           .copyWith(color: AppColors.textHint),
                     ),

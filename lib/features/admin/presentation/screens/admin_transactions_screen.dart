@@ -318,7 +318,7 @@ class _AdminTxnTile extends StatelessWidget {
                       const SizedBox(width: 2),
                       Expanded(
                         child: Text(
-                          txn.siteId,
+                          txn.siteName,
                           style: AppTextStyles.bodySmall
                               .copyWith(color: AppColors.textHint),
                           overflow: TextOverflow.ellipsis,
