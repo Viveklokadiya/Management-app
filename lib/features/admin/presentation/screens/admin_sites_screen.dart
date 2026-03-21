@@ -256,122 +256,153 @@ class _SiteCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.border),
-        boxShadow: const [
-          BoxShadow(color: AppColors.shadowLight, blurRadius: 6)
-        ],
-      ),
-      child: Column(
-        children: [
-          // Site name header with status badge
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        site.name,
-                        style: AppTextStyles.headlineSmall,
-                      ),
-                      const SizedBox(height: 4),
-                      Row(
+    final isActive = site.isActive;
+    final accentColor = isActive ? const Color(0xFF22C55E) : AppColors.primary;
+    final initials = site.name
+        .trim()
+        .split(' ')
+        .take(2)
+        .map((w) => w.isNotEmpty ? w[0].toUpperCase() : '')
+        .join();
+    final location = [site.address, site.city, site.state]
+        .where((s) => s?.isNotEmpty == true)
+        .join(', ');
+
+    return Material(
+      color: AppColors.surface,
+      borderRadius: BorderRadius.circular(18),
+      child: InkWell(
+        onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (_) => AdminSiteDetailScreen(site: site)),
+        ),
+        borderRadius: BorderRadius.circular(18),
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(18),
+            border: Border.all(color: AppColors.border),
+            boxShadow: const [
+              BoxShadow(
+                  color: AppColors.shadowLight, blurRadius: 8, offset: Offset(0, 2))
+            ],
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(18),
+            child: IntrinsicHeight(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  // ── Coloured left accent bar ──
+                  Container(width: 5, color: accentColor),
+
+                  // ── Card body ──
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(14, 14, 14, 14),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          const Icon(Icons.location_on_outlined,
-                              size: 14, color: AppColors.textSecondary),
-                          const SizedBox(width: 4),
-                          Expanded(
-                            child: Text(
-                              [site.address, site.city, site.state]
-                                  .where((s) => s?.isNotEmpty == true)
-                                  .join(', '),
-                              style: AppTextStyles.bodySmall
-                                  .copyWith(color: AppColors.textSecondary),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
+                          // Avatar with initials
+                          Container(
+                            width: 46,
+                            height: 46,
+                            decoration: BoxDecoration(
+                              color: accentColor.withValues(alpha: 0.12),
+                              borderRadius: BorderRadius.circular(12),
                             ),
+                            alignment: Alignment.center,
+                            child: Text(
+                              initials,
+                              style: AppTextStyles.labelLarge.copyWith(
+                                color: accentColor,
+                                fontWeight: FontWeight.w800,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+
+                          // Site info
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  site.name,
+                                  style: AppTextStyles.bodyMedium.copyWith(
+                                      fontWeight: FontWeight.w700),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                if (location.isNotEmpty) ...[
+                                  const SizedBox(height: 4),
+                                  Row(
+                                    children: [
+                                      const Icon(Icons.location_on_outlined,
+                                          size: 12,
+                                          color: AppColors.textHint),
+                                      const SizedBox(width: 3),
+                                      Expanded(
+                                        child: Text(
+                                          location,
+                                          style: AppTextStyles.bodySmall
+                                              .copyWith(
+                                                  color: AppColors.textHint),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ],
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+
+                          // Right: status badge + chevron
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 4),
+                                decoration: BoxDecoration(
+                                  color: accentColor.withValues(alpha: 0.12),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: Text(
+                                  isActive
+                                      ? AppLocalizations.of(context)
+                                          .active
+                                          .toUpperCase()
+                                      : AppLocalizations.of(context)
+                                          .onHold
+                                          .toUpperCase(),
+                                  style: AppTextStyles.labelSmall.copyWith(
+                                    color: accentColor,
+                                    fontSize: 9,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              Icon(Icons.chevron_right,
+                                  size: 18, color: AppColors.textHint),
+                            ],
                           ),
                         ],
                       ),
-                    ],
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 10, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: site.isActive
-                        ? const Color(0xFF22C55E).withValues(alpha: 0.9)
-                        : AppColors.primary.withValues(alpha: 0.9),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Text(
-                    site.isActive ? AppLocalizations.of(context).active.toUpperCase() : AppLocalizations.of(context).onHold.toUpperCase(),
-                    style: AppTextStyles.labelSmall
-                        .copyWith(color: Colors.white),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const Divider(height: 1, color: AppColors.border),
-          // Footer: recent activity + manage
-          Padding(
-            padding: const EdgeInsets.symmetric(
-                horizontal: 16, vertical: 10),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        AppLocalizations.of(context).siteIdUppercase,
-                        style: AppTextStyles.labelSmall
-                            .copyWith(fontSize: 9, color: AppColors.textHint),
-                      ),
-                      Text(
-                        site.id,
-                        style: AppTextStyles.bodySmall.copyWith(
-                            color: AppColors.textSecondary),
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
-                  ),
-                ),
-                FilledButton(
-                  style: FilledButton.styleFrom(
-                    backgroundColor: AppColors.primary,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 8),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
                     ),
-                    minimumSize: Size.zero,
                   ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (_) => AdminSiteDetailScreen(site: site)),
-                    );
-                  },
-                  child: Text(AppLocalizations.of(context).manage,
-                      style: AppTextStyles.labelSmall
-                          .copyWith(color: Colors.white)),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
-        ],
+        ),
       ),
     );
   }
