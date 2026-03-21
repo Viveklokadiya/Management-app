@@ -163,6 +163,13 @@ class _PartnerCard extends StatelessWidget {
         DateTime.now().difference(user.lastLocationAt!).inMinutes < 30;
     final lastSeen = user.lastLocationAt;
 
+    // Role badge config
+    final (roleLabel, roleColor) = switch (user.role) {
+      UserRole.superAdmin => ('SUPER ADMIN', const Color(0xFF7C3AED)),
+      UserRole.admin      => ('ADMIN', AppColors.primary),
+      _                   => ('PARTNER', const Color(0xFF22C55E)),
+    };
+
     return Container(
       decoration: BoxDecoration(
         color: AppColors.surface,
@@ -184,17 +191,15 @@ class _PartnerCard extends StatelessWidget {
                   width: 64,
                   height: 64,
                   decoration: BoxDecoration(
-                    color: AppColors.primaryLight,
+                    color: roleColor.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(14),
-                    border: Border.all(color: AppColors.border),
+                    border: Border.all(color: roleColor.withValues(alpha: 0.2)),
                   ),
                   child: Center(
                     child: Text(
-                      user.name.isNotEmpty
-                          ? user.name[0].toUpperCase()
-                          : '?',
+                      user.name.isNotEmpty ? user.name[0].toUpperCase() : '?',
                       style: AppTextStyles.headlineMedium
-                          .copyWith(color: AppColors.primary),
+                          .copyWith(color: roleColor),
                     ),
                   ),
                 ),
@@ -209,28 +214,35 @@ class _PartnerCard extends StatelessWidget {
                         children: [
                           Expanded(
                             child: Column(
-                              crossAxisAlignment:
-                                  CrossAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
                                   user.name,
-                                  style: AppTextStyles.bodyMedium
-                                      .copyWith(
-                                          fontWeight: FontWeight.w700),
+                                  style: AppTextStyles.bodyMedium.copyWith(
+                                      fontWeight: FontWeight.w700),
                                 ),
-                                Text(
-                                  user.email.split('@').first
-                                      .toUpperCase()
-                                      .substring(0,
-                                          (user.id.length > 8 ? 8 : user.id.length)),
-                                  style: AppTextStyles.labelSmall.copyWith(
-                                    color: AppColors.primary,
-                                    fontSize: 10,
+                                const SizedBox(height: 2),
+                                // Role badge
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8, vertical: 2),
+                                  decoration: BoxDecoration(
+                                    color: roleColor.withValues(alpha: 0.1),
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  child: Text(
+                                    roleLabel,
+                                    style: AppTextStyles.labelSmall.copyWith(
+                                      color: roleColor,
+                                      fontSize: 9,
+                                      fontWeight: FontWeight.w700,
+                                    ),
                                   ),
                                 ),
                               ],
                             ),
                           ),
+                          // Online / last seen badge
                           Container(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 8, vertical: 3),
@@ -244,8 +256,7 @@ class _PartnerCard extends StatelessWidget {
                               isOnline
                                   ? AppLocalizations.of(context).online
                                   : lastSeen != null
-                                      ? DateFormat('h:mm a')
-                                          .format(lastSeen)
+                                      ? DateFormat('h:mm a').format(lastSeen)
                                       : AppLocalizations.of(context).offline,
                               style: AppTextStyles.labelSmall.copyWith(
                                 color: isOnline
@@ -262,11 +273,9 @@ class _PartnerCard extends StatelessWidget {
                         Row(
                           children: [
                             const Icon(Icons.phone_outlined,
-                                size: 14,
-                                color: AppColors.textSecondary),
+                                size: 14, color: AppColors.textSecondary),
                             const SizedBox(width: 4),
-                            Text(user.phone!,
-                                style: AppTextStyles.bodySmall),
+                            Text(user.phone!, style: AppTextStyles.bodySmall),
                           ],
                         ),
                         const SizedBox(height: 2),
@@ -279,7 +288,8 @@ class _PartnerCard extends StatelessWidget {
                           Expanded(
                             child: Text(
                               lastSeen != null
-                                  ? AppLocalizations.of(context).lastSeenDate(DateFormat('d MMM y').format(lastSeen))
+                                  ? AppLocalizations.of(context)
+                                      .lastSeenDate(DateFormat('d MMM y').format(lastSeen))
                                   : AppLocalizations.of(context).noLocationData,
                               style: AppTextStyles.bodySmall
                                   .copyWith(color: AppColors.textSecondary),

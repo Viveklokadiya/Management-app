@@ -36,18 +36,18 @@ final siteRepositoryProvider = Provider<SiteRepository>(
   (ref) => SiteRepositoryImpl(ref.read(siteDataSourceProvider)),
 );
 
-// ─── Admin: All Users (partners) ──────────────────────────────────────────────
+// ─── Admin: All Users as Partners ─────────────────────────────────────────────
 
-/// Stream of all partner users for admin management screens.
+/// Stream of ALL users regardless of role — because admins/superAdmins
+/// are also partners with additional privileges.
 final allPartnersStreamProvider = StreamProvider<List<AppUser>>((ref) {
   final db = ref.read(firestoreProvider);
   return db
       .collection('users')
-      .where('role', isEqualTo: 'partner')
       .snapshots()
       .map((q) {
         final list = q.docs.map(AppUser.fromFirestore).toList();
-        list.sort((a, b) => a.name.compareTo(b.name)); // sort client-side
+        list.sort((a, b) => a.name.compareTo(b.name));
         return list;
       });
 });
