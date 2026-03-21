@@ -115,111 +115,64 @@ class _AdminTransactionsScreenState
             color: AppColors.primary,
             onRefresh: () async =>
                 ref.invalidate(allTransactionsStreamProvider),
-            child: Column(
-              children: [
-                // Monthly Balance card
-                Container(
-                  margin: const EdgeInsets.all(16),
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: AppColors.primary,
-                    borderRadius: BorderRadius.circular(16),
-                    boxShadow: [
-                      BoxShadow(
-                        color: AppColors.primary.withValues(alpha: 0.3),
-                        blurRadius: 12,
-                        offset: const Offset(0, 4),
+            child: filtered.isEmpty
+                ? CustomScrollView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    slivers: [
+                      // Balance card scrolls too
+                      SliverToBoxAdapter(
+                        child: _buildBalanceCard(
+                            context, netBalance, totalIncome, totalExpense, filtered.length),
                       ),
-                    ],
-                  ),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 8, vertical: 2),
-                              decoration: BoxDecoration(
-                                color: Colors.white.withValues(alpha: 0.2),
-                                borderRadius: BorderRadius.circular(4),
-                              ),
-                              child: Text(
-                                AppLocalizations.of(context).netBalance,
-                                style: AppTextStyles.labelSmall
-                                    .copyWith(
-                                        color: Colors.white, fontSize: 9),
-                              ),
-                            ),
-                            const SizedBox(height: 6),
-                            Text(
-                              CurrencyFormatter.format(netBalance.abs()),
-                              style: AppTextStyles.amountLarge
-                                  .copyWith(color: Colors.white),
-                            ),
-                            const SizedBox(height: 4),
-                            Row(
-                              children: [
-                                const Icon(Icons.trending_up,
-                                    color: Colors.white70, size: 14),
-                                const SizedBox(width: 4),
-                                Text(
-                                  AppLocalizations.of(context).totalTransactionsCount(filtered.length),
-                                  style: AppTextStyles.bodySmall
-                                      .copyWith(color: Colors.white70),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                      const Icon(
-                        Icons.account_balance_wallet_outlined,
-                        color: Colors.white70,
-                        size: 28,
-                      ),
-                    ],
-                  ),
-                ),
-
-                // List
-                Expanded(
-                  child: filtered.isEmpty
-                      ? EmptyStateWidget(
+                      SliverFillRemaining(
+                        child: EmptyStateWidget(
                           title: AppLocalizations.of(context).noTransactions,
                           message: AppLocalizations.of(context).nothingToShowFilter,
                           icon: Icons.receipt_long_outlined,
-                        )
-                      : ListView.builder(
-                          padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
-                          itemCount: grouped.length,
-                          itemBuilder: (context, i) {
-                            final key = grouped.keys.elementAt(i);
-                            final items = grouped[key]!;
-                            return Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 8),
-                                  child: Text(
-                                    key.toUpperCase(),
-                                    style: AppTextStyles.labelSmall.copyWith(
-                                      color: AppColors.textSecondary,
-                                      letterSpacing: 0.8,
-                                      fontSize: 9,
+                        ),
+                      ),
+                    ],
+                  )
+                : CustomScrollView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    slivers: [
+                      // Balance card — scrolls with the list
+                      SliverToBoxAdapter(
+                        child: _buildBalanceCard(
+                            context, netBalance, totalIncome, totalExpense, filtered.length),
+                      ),
+                      // Transaction groups
+                      SliverPadding(
+                        padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
+                        sliver: SliverList(
+                          delegate: SliverChildBuilderDelegate(
+                            (context, i) {
+                              final key = grouped.keys.elementAt(i);
+                              final items = grouped[key]!;
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(vertical: 8),
+                                    child: Text(
+                                      key.toUpperCase(),
+                                      style: AppTextStyles.labelSmall.copyWith(
+                                        color: AppColors.textSecondary,
+                                        letterSpacing: 0.8,
+                                        fontSize: 9,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                ...items.map((t) => _AdminTxnTile(txn: t)),
-                              ],
-                            );
-                          },
+                                  ...items.map((t) => _AdminTxnTile(txn: t)),
+                                ],
+                              );
+                            },
+                            childCount: grouped.length,
+                          ),
                         ),
-                ),
-              ],
-            ),
+                      ),
+                    ],
+                  ),
           );
         },
       ),
@@ -230,6 +183,70 @@ class _AdminTransactionsScreenState
       ),
     );
   }
+
+  Widget _buildBalanceCard(BuildContext context, double netBalance,
+      double totalIncome, double totalExpense, int count) {
+    return Container(
+      margin: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: AppColors.primary,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.primary.withValues(alpha: 0.3),
+            blurRadius: 12,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.2),
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                  child: Text(
+                    AppLocalizations.of(context).netBalance,
+                    style: AppTextStyles.labelSmall
+                        .copyWith(color: Colors.white, fontSize: 9),
+                  ),
+                ),
+                const SizedBox(height: 6),
+                Text(
+                  CurrencyFormatter.format(netBalance.abs()),
+                  style: AppTextStyles.amountLarge.copyWith(color: Colors.white),
+                ),
+                const SizedBox(height: 4),
+                Row(
+                  children: [
+                    const Icon(Icons.trending_up, color: Colors.white70, size: 14),
+                    const SizedBox(width: 4),
+                    Text(
+                      AppLocalizations.of(context).totalTransactionsCount(count),
+                      style: AppTextStyles.bodySmall.copyWith(color: Colors.white70),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          const Icon(
+            Icons.account_balance_wallet_outlined,
+            color: Colors.white70,
+            size: 28,
+          ),
+        ],
+      ),
+    );
+  }
+
 }
 
 class _AdminTxnTile extends StatelessWidget {
