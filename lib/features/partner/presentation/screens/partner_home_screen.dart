@@ -457,9 +457,7 @@ class _TransactionListTile extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      txn.remarks?.isNotEmpty == true
-                          ? txn.remarks!
-                          : (isIncome ? AppLocalizations.of(context).income : AppLocalizations.of(context).expense),
+                      isIncome ? AppLocalizations.of(context).income : AppLocalizations.of(context).expense,
                       style: AppTextStyles.bodyMedium
                           .copyWith(fontWeight: FontWeight.w600),
                       maxLines: 1,
@@ -467,9 +465,13 @@ class _TransactionListTile extends StatelessWidget {
                     ),
                     const SizedBox(height: 2),
                     Text(
-                      '${txn.siteName} • ${DateFormat('d MMM').format(txn.transactionDate)}',
+                      txn.remarks?.isNotEmpty == true
+                          ? '${txn.remarks!} · ${txn.siteName} · ${DateFormat('d MMM').format(txn.transactionDate)}'
+                          : '${txn.siteName} • ${DateFormat('d MMM').format(txn.transactionDate)}',
                       style: AppTextStyles.bodySmall
                           .copyWith(color: AppColors.textHint),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ],
                 ),
