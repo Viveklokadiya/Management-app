@@ -59,6 +59,15 @@ final allTransactionsStreamProvider =
   return ref.read(transactionRepositoryProvider).getAllTransactions();
 });
 
+// ─── Sites: Assigned sites for a user ────────────────────────────────────────
+
+/// FutureProvider.family so the result is cached per-userId by Riverpod
+/// and not recreated on every build() call.
+final assignedSitesProvider = FutureProvider.family(
+  (ref, String userId) =>
+      ref.read(siteRepositoryProvider).getAssignedSites(userId),
+);
+
 // ─── Super Admin: All Users ───────────────────────────────────────────────────
 
 /// Stream of ALL users (any role) for super admin user management.

@@ -51,6 +51,13 @@ class PartnerHomeScreen extends ConsumerWidget {
             final todayExpense = today
                 .where((t) => t.type == TransactionType.expense)
                 .fold(0.0, (s, t) => s + t.amountRupees);
+            final totalIncome = all
+                .where((t) => t.type == TransactionType.income)
+                .fold(0.0, (s, t) => s + t.amountRupees);
+            final totalExpense = all
+                .where((t) => t.type == TransactionType.expense)
+                .fold(0.0, (s, t) => s + t.amountRupees);
+            final netBalance = totalIncome - totalExpense;
             final recent = all.take(5).toList();
 
             return CustomScrollView(
@@ -126,16 +133,21 @@ class PartnerHomeScreen extends ConsumerWidget {
                           ],
                         ),
                         const SizedBox(height: 12),
-                        // Total Transactions wide card
+                        // Net Balance card
                         Container(
                           width: double.infinity,
                           padding: const EdgeInsets.all(20),
                           decoration: BoxDecoration(
-                            color: AppColors.primary,
+                            color: netBalance >= 0
+                                ? AppColors.primary
+                                : AppColors.expense,
                             borderRadius: BorderRadius.circular(16),
                             boxShadow: [
                               BoxShadow(
-                                color: AppColors.primary.withValues(alpha: 0.3),
+                                color: (netBalance >= 0
+                                        ? AppColors.primary
+                                        : AppColors.expense)
+                                    .withValues(alpha: 0.3),
                                 blurRadius: 12,
                                 offset: const Offset(0, 4),
                               ),
@@ -148,7 +160,7 @@ class PartnerHomeScreen extends ConsumerWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    AppLocalizations.of(context).totalTransactions,
+                                    AppLocalizations.of(context).netBalance,
                                     style: AppTextStyles.labelSmall.copyWith(
                                       color: Colors.white.withValues(alpha: 0.8),
                                       letterSpacing: 0.5,
@@ -156,9 +168,30 @@ class PartnerHomeScreen extends ConsumerWidget {
                                   ),
                                   const SizedBox(height: 4),
                                   Text(
-                                    '${all.length}',
+                                    '${netBalance < 0 ? '-' : ''}${CurrencyFormatter.format(netBalance.abs())}',
                                     style: AppTextStyles.headlineLarge
                                         .copyWith(color: Colors.white),
+                                  ),
+                                  const SizedBox(height: 6),
+                                  Row(
+                                    children: [
+                                      Icon(
+                                        netBalance >= 0
+                                            ? Icons.trending_up
+                                            : Icons.trending_down,
+                                        color:
+                                            Colors.white.withValues(alpha: 0.8),
+                                        size: 14,
+                                      ),
+                                      const SizedBox(width: 4),
+                                      Text(
+                                        '${all.length} transactions',
+                                        style: AppTextStyles.labelSmall
+                                            .copyWith(
+                                                color: Colors.white
+                                                    .withValues(alpha: 0.8)),
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),
@@ -169,7 +202,7 @@ class PartnerHomeScreen extends ConsumerWidget {
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 child: const Icon(
-                                  Icons.bar_chart_rounded,
+                                  Icons.account_balance_wallet_outlined,
                                   color: Colors.white,
                                   size: 24,
                                 ),

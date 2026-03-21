@@ -79,4 +79,17 @@ class AuthRepositoryImpl implements AuthRepository {
     }
     return null;
   }
+
+  @override
+  Future<AppUser> updateProfile({
+    required String userId,
+    required String name,
+    required String? phone,
+  }) async {
+    return _userRemoteDataSource.updateProfile(
+      userId: userId,
+      name: name,
+      phone: phone,
+    );
+  }
 }

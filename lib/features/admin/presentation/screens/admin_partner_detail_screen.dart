@@ -12,7 +12,11 @@ import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/utils/currency_formatter.dart';
 import '../../../../core/widgets/state_widgets.dart';
 import '../../../auth/domain/models/app_user.dart';
+import '../../../sites/domain/models/site_model.dart';
 import '../../../transactions/domain/models/transaction_model.dart';
+import 'admin_site_detail_screen.dart';
+import '../../../partner/presentation/screens/transaction_detail_screen.dart';
+
 
 class AdminPartnerDetailScreen extends ConsumerStatefulWidget {
   const AdminPartnerDetailScreen({super.key, required this.partner});
@@ -381,89 +385,116 @@ class _AssignedSitesCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return FutureBuilder(
-      future: ref.read(siteRepositoryProvider).getAssignedSites(userId),
-      builder: (ctx, snap) {
-        final sites = snap.data ?? [];
-        return Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(14),
-            border: Border.all(color: AppColors.border),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(14, 12, 14, 10),
-                child: Row(
-                  children: [
-                    Text('Assigned Sites',
-                        style: AppTextStyles.bodyMedium
-                            .copyWith(fontWeight: FontWeight.w700)),
-                    const Spacer(),
-                    if (sites.isNotEmpty)
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 8, vertical: 2),
-                        decoration: BoxDecoration(
-                          color: AppColors.border,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Text(
-                          '${sites.length} SITES',
-                          style: AppTextStyles.labelSmall.copyWith(
-                            color: AppColors.textSecondary,
-                            fontSize: 9,
+    final sitesAsync = ref.watch(assignedSitesProvider(userId));
+
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: AppColors.border),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Header
+          Padding(
+            padding: const EdgeInsets.fromLTRB(14, 12, 14, 10),
+            child: Row(
+              children: [
+                Text(
+                  'Assigned Sites',
+                  style: AppTextStyles.bodyMedium
+                      .copyWith(fontWeight: FontWeight.w700),
+                ),
+                const Spacer(),
+                sitesAsync.whenOrNull(
+                  data: (sites) => sites.isNotEmpty
+                      ? Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8, vertical: 2),
+                          decoration: BoxDecoration(
+                            color: AppColors.primaryLight,
+                            borderRadius: BorderRadius.circular(20),
                           ),
-                        ),
-                      ),
-                  ],
+                          child: Text(
+                            '${sites.length} SITE${sites.length == 1 ? '' : 'S'}',
+                            style: AppTextStyles.labelSmall.copyWith(
+                              color: AppColors.primary,
+                              fontSize: 9,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        )
+                      : null,
+                ) ??
+                    const SizedBox.shrink(),
+              ],
+            ),
+          ),
+          const Divider(height: 1, color: AppColors.border),
+
+          // Body
+          sitesAsync.when(
+            loading: () => const Padding(
+              padding: EdgeInsets.all(24),
+              child: Center(
+                child: SizedBox(
+                  width: 24,
+                  height: 24,
+                  child: CircularProgressIndicator(strokeWidth: 2),
                 ),
               ),
-              const Divider(height: 1, color: AppColors.border),
-              if (sites.isEmpty)
-                Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Text('No sites assigned',
+            ),
+            error: (e, _) => Padding(
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                children: [
+                  const Icon(Icons.error_outline,
+                      size: 18, color: AppColors.expense),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      'Failed to load sites: $e',
                       style: AppTextStyles.bodySmall
-                          .copyWith(color: AppColors.textSecondary)),
-                )
-              else
-                ...sites.map(
-                  (site) => ListTile(
-                    leading: Container(
-                      width: 40,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFF1F5F9),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: const Icon(Icons.location_city,
-                          color: AppColors.textSecondary, size: 20),
+                          .copyWith(color: AppColors.expense),
                     ),
-                    title: Text(site.name,
-                        style: AppTextStyles.bodySmall
-                            .copyWith(fontWeight: FontWeight.w600)),
-                    subtitle: site.city != null
-                        ? Text(
-                            [site.city, site.state]
-                                .whereType<String>()
-                                .join(', '),
-                            style: AppTextStyles.labelSmall.copyWith(
-                                color: AppColors.textSecondary))
-                        : null,
-                    trailing: const Icon(Icons.chevron_right,
-                        color: AppColors.textHint),
                   ),
-                ),
-            ],
+                ],
+              ),
+            ),
+            data: (sites) {
+              if (sites.isEmpty) {
+                return Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Row(
+                    children: [
+                      const Icon(Icons.location_off_outlined,
+                          size: 18, color: AppColors.textHint),
+                      const SizedBox(width: 8),
+                      Text(
+                        'No sites assigned yet',
+                        style: AppTextStyles.bodySmall
+                            .copyWith(color: AppColors.textSecondary),
+                      ),
+                    ],
+                  ),
+                );
+              }
+              return Column(
+                children: sites
+                    .map(
+                      (site) => _TappableSiteTile(site: site),
+                    )
+                    .toList(),
+              );
+            },
           ),
-        );
-      },
+        ],
+      ),
     );
   }
 }
+
 
 // ─── Transactions tab ─────────────────────────────────────────────────────────
 
@@ -497,68 +528,7 @@ class _TransactionsTab extends ConsumerWidget {
           padding: const EdgeInsets.all(16),
           itemCount: txns.length,
           separatorBuilder: (_, __) => const SizedBox(height: 10),
-          itemBuilder: (_, i) {
-            final txn = txns[i];
-            final isIncome = txn.type == TransactionType.income;
-            return Container(
-              padding: const EdgeInsets.all(14),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(14),
-                border: Border.all(color: AppColors.border),
-              ),
-              child: Row(
-                children: [
-                  Container(
-                    width: 38,
-                    height: 38,
-                    decoration: BoxDecoration(
-                      color: isIncome
-                          ? AppColors.incomeLight
-                          : AppColors.expenseLight,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Icon(
-                      isIncome
-                          ? Icons.arrow_upward_rounded
-                          : Icons.arrow_downward_rounded,
-                      color:
-                          isIncome ? AppColors.income : AppColors.expense,
-                      size: 18,
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          txn.remarks?.isNotEmpty == true
-                              ? txn.remarks!
-                              : (isIncome ? 'Income' : 'Expense'),
-                          style: AppTextStyles.bodySmall
-                              .copyWith(fontWeight: FontWeight.w600),
-                        ),
-                        Text(
-                          DateFormat('d MMM yyyy')
-                              .format(txn.transactionDate),
-                          style: AppTextStyles.labelSmall.copyWith(
-                              color: AppColors.textSecondary),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Text(
-                    '${isIncome ? '+' : '-'}${CurrencyFormatter.format(txn.amountRupees)}',
-                    style: AppTextStyles.amountSmall.copyWith(
-                      color:
-                          isIncome ? AppColors.income : AppColors.textPrimary,
-                    ),
-                  ),
-                ],
-              ),
-            );
-          },
+          itemBuilder: (_, i) => _TappableTxnTile(txn: txns[i]),
         );
       },
     );
@@ -870,4 +840,151 @@ class _TabBarDelegate extends SliverPersistentHeaderDelegate {
 
   @override
   bool shouldRebuild(_TabBarDelegate old) => false;
+}
+
+// ─── Tappable site tile ───────────────────────────────────────────────────────
+
+class _TappableSiteTile extends StatelessWidget {
+  const _TappableSiteTile({required this.site});
+  final SiteModel site;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () => Navigator.push(
+        context,
+        MaterialPageRoute(builder: (_) => AdminSiteDetailScreen(site: site)),
+      ),
+      child: ListTile(
+        leading: Container(
+          width: 40,
+          height: 40,
+          decoration: BoxDecoration(
+            color: AppColors.primaryLight,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: const Icon(Icons.location_city,
+              color: AppColors.primary, size: 20),
+        ),
+        title: Text(
+          site.name,
+          style: AppTextStyles.bodySmall.copyWith(fontWeight: FontWeight.w600),
+        ),
+        subtitle: (site.city != null || site.state != null)
+            ? Text(
+                [site.city, site.state].whereType<String>().join(', '),
+                style: AppTextStyles.labelSmall
+                    .copyWith(color: AppColors.textSecondary),
+              )
+            : null,
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+              decoration: BoxDecoration(
+                color: site.isActive
+                    ? const Color(0xFFDCFCE7)
+                    : const Color(0xFFF1F5F9),
+                borderRadius: BorderRadius.circular(6),
+              ),
+              child: Text(
+                site.isActive ? 'Active' : 'Inactive',
+                style: AppTextStyles.labelSmall.copyWith(
+                  color: site.isActive
+                      ? const Color(0xFF16A34A)
+                      : AppColors.textHint,
+                  fontSize: 9,
+                ),
+              ),
+            ),
+            const SizedBox(width: 4),
+            const Icon(Icons.chevron_right, size: 18, color: AppColors.textHint),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// ─── Tappable transaction tile ────────────────────────────────────────────────
+
+class _TappableTxnTile extends StatelessWidget {
+  const _TappableTxnTile({required this.txn});
+  final TransactionModel txn;
+
+  @override
+  Widget build(BuildContext context) {
+    final isIncome = txn.type == TransactionType.income;
+    return GestureDetector(
+      onTap: () => Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (_) => TransactionDetailScreen(transactionId: txn.id)),
+      ),
+      child: Container(
+        padding: const EdgeInsets.all(14),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(color: AppColors.border),
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 38,
+              height: 38,
+              decoration: BoxDecoration(
+                color: isIncome ? AppColors.incomeLight : AppColors.expenseLight,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Icon(
+                isIncome
+                    ? Icons.arrow_upward_rounded
+                    : Icons.arrow_downward_rounded,
+                color: isIncome ? AppColors.income : AppColors.expense,
+                size: 18,
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    isIncome ? 'Income' : 'Expense',
+                    style: AppTextStyles.bodySmall
+                        .copyWith(fontWeight: FontWeight.w600),
+                  ),
+                  Text(
+                    txn.remarks?.isNotEmpty == true
+                        ? '${txn.remarks!} · ${txn.siteName} · ${DateFormat('d MMM').format(txn.transactionDate)}'
+                        : '${txn.siteName} · ${DateFormat('d MMM yyyy').format(txn.transactionDate)}',
+                    style: AppTextStyles.labelSmall
+                        .copyWith(color: AppColors.textSecondary),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: 8),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(
+                  '${isIncome ? '+' : '-'}${CurrencyFormatter.format(txn.amountRupees)}',
+                  style: AppTextStyles.amountSmall.copyWith(
+                    color: isIncome ? AppColors.income : AppColors.textPrimary,
+                  ),
+                ),
+                const Icon(Icons.chevron_right,
+                    size: 16, color: AppColors.textHint),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }

@@ -43,4 +43,19 @@ class AuthState extends _$AuthState {
       return null;
     });
   }
+
+  Future<void> updateProfile({
+    required String name,
+    required String? phone,
+  }) async {
+    final current = state.value;
+    if (current == null) return;
+    state = await AsyncValue.guard(() async {
+      return await ref.read(authRepositoryProvider).updateProfile(
+            userId: current.id,
+            name: name,
+            phone: phone,
+          );
+    });
+  }
 }

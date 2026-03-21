@@ -98,28 +98,35 @@ class _PartnerTransactionsScreenState
             final totalExpense = filtered
                 .where((t) => t.type == TransactionType.expense)
                 .fold(0.0, (s, t) => s + t.amountRupees);
+            final netBalance = totalIncome - totalExpense;
 
             return Column(
               children: [
-                // Totals strip
+                // ─── Totals strip ─────────────────────────────────────
                 Container(
                   color: AppColors.surface,
                   padding: const EdgeInsets.symmetric(
                       horizontal: 16, vertical: 12),
-                  child: Row(
+                  child: Column(
                     children: [
-                      Expanded(
-                          child: _TotalBadge(
-                              'Income', totalIncome, AppColors.income)),
-                      const SizedBox(width: 12),
-                      Expanded(
-                          child: _TotalBadge(
-                              'Expense', totalExpense, AppColors.expense)),
+                      Row(
+                        children: [
+                          Expanded(
+                              child: _TotalBadge(
+                                  'Income', totalIncome, AppColors.income)),
+                          const SizedBox(width: 12),
+                          Expanded(
+                              child: _TotalBadge(
+                                  'Expense', totalExpense, AppColors.expense)),
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      _NetBalanceBadge(netBalance),
                     ],
                   ),
                 ),
                 const Divider(height: 1, color: AppColors.border),
-                // List
+                // ─── List ─────────────────────────────────────────────
                 Expanded(
                   child: filtered.isEmpty
                       ? EmptyStateWidget(
@@ -260,6 +267,53 @@ class _PartnerTransactionsScreenState
   }
 }
 
+// ─── Net Balance Badge ─────────────────────────────────────────────────────────
+
+class _NetBalanceBadge extends StatelessWidget {
+  const _NetBalanceBadge(this.amount);
+  final double amount;
+
+  @override
+  Widget build(BuildContext context) {
+    final isPositive = amount >= 0;
+    final color = isPositive ? AppColors.income : AppColors.expense;
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: 0.10),
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: color.withValues(alpha: 0.3)),
+      ),
+      child: Row(
+        children: [
+          Icon(
+            isPositive ? Icons.trending_up : Icons.trending_down,
+            size: 14,
+            color: color,
+          ),
+          const SizedBox(width: 6),
+          Text(
+            'Net Balance',
+            style: AppTextStyles.labelSmall
+                .copyWith(color: AppColors.textSecondary),
+          ),
+          const Spacer(),
+          Text(
+            '${amount < 0 ? '-' : ''}${CurrencyFormatter.formatCompact(amount.abs())}',
+            style: AppTextStyles.labelMedium.copyWith(
+              color: color,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ─── Total Badge ──────────────────────────────────────────────────────────────
+
 class _TotalBadge extends StatelessWidget {
   const _TotalBadge(this.label, this.amount, this.color);
   final String label;
@@ -289,6 +343,8 @@ class _TotalBadge extends StatelessWidget {
     );
   }
 }
+
+// ─── Filter Chip ──────────────────────────────────────────────────────────────
 
 class _FilterChip extends StatelessWidget {
   const _FilterChip({
@@ -326,6 +382,8 @@ class _FilterChip extends StatelessWidget {
     );
   }
 }
+
+// ─── Transaction Card ─────────────────────────────────────────────────────────
 
 class _TransactionCard extends StatelessWidget {
   const _TransactionCard({required this.txn});

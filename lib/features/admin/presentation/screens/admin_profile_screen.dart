@@ -93,6 +93,25 @@ class _AdminProfileScreenState extends ConsumerState<AdminProfileScreen> {
                       ),
                     ),
                   ),
+                  const SizedBox(height: 16),
+                  OutlinedButton.icon(
+                    onPressed: () => _showEditSheet(context),
+                    icon: const Icon(Icons.edit_outlined,
+                        size: 16, color: Colors.white),
+                    label: Text(
+                      'Edit Profile',
+                      style: AppTextStyles.labelMedium
+                          .copyWith(color: Colors.white),
+                    ),
+                    style: OutlinedButton.styleFrom(
+                      side: BorderSide(
+                          color: Colors.white.withValues(alpha: 0.6)),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20)),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 8),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -120,6 +139,7 @@ class _AdminProfileScreenState extends ConsumerState<AdminProfileScreen> {
                         icon: Icons.email_outlined,
                         label: l10n.email,
                         value: user.email,
+                        locked: true,
                       ),
                       const Divider(
                           height: 1,
@@ -282,6 +302,15 @@ class _AdminProfileScreenState extends ConsumerState<AdminProfileScreen> {
     );
   }
 
+  void _showEditSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (_) => _EditProfileSheet(ref: ref),
+    );
+  }
+
   Future<void> _signOut(BuildContext context) async {
     final l10n = AppLocalizations.of(context);
     final confirmed = await showDialog<bool>(
@@ -313,15 +342,161 @@ class _AdminProfileScreenState extends ConsumerState<AdminProfileScreen> {
   }
 }
 
+// ─── Edit Profile Bottom Sheet ───────────────────────────────────────────────
+class _EditProfileSheet extends ConsumerStatefulWidget {
+  const _EditProfileSheet({required this.ref});
+  final WidgetRef ref;
+
+  @override
+  ConsumerState<_EditProfileSheet> createState() => _EditProfileSheetState();
+}
+
+class _EditProfileSheetState extends ConsumerState<_EditProfileSheet> {
+  final _formKey = GlobalKey<FormState>();
+  late TextEditingController _nameCtrl;
+  late TextEditingController _phoneCtrl;
+  bool _saving = false;
+
+  @override
+  void initState() {
+    super.initState();
+    final user = widget.ref.read(authStateProvider).value;
+    _nameCtrl = TextEditingController(text: user?.name ?? '');
+    _phoneCtrl = TextEditingController(text: user?.phone ?? '');
+  }
+
+  @override
+  void dispose() {
+    _nameCtrl.dispose();
+    _phoneCtrl.dispose();
+    super.dispose();
+  }
+
+  Future<void> _save() async {
+    if (!_formKey.currentState!.validate()) return;
+    setState(() => _saving = true);
+    try {
+      await ref.read(authStateProvider.notifier).updateProfile(
+            name: _nameCtrl.text.trim(),
+            phone: _phoneCtrl.text.trim().isEmpty
+                ? null
+                : _phoneCtrl.text.trim(),
+          );
+      if (mounted) Navigator.of(context).pop();
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error: $e')),
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _saving = false);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final bottom = MediaQuery.of(context).viewInsets.bottom;
+    return Container(
+      padding: EdgeInsets.fromLTRB(24, 24, 24, 24 + bottom),
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+      ),
+      child: Form(
+        key: _formKey,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Center(
+              child: Container(
+                width: 40,
+                height: 4,
+                margin: const EdgeInsets.only(bottom: 20),
+                decoration: BoxDecoration(
+                  color: Colors.grey[300],
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+            ),
+            Text('Edit Profile',
+                style: AppTextStyles.headlineSmall
+                    .copyWith(color: AppColors.textPrimary)),
+            const SizedBox(height: 4),
+            Text(
+              'Gmail ID cannot be changed.',
+              style: AppTextStyles.labelSmall
+                  .copyWith(color: AppColors.textSecondary),
+            ),
+            const SizedBox(height: 24),
+            TextFormField(
+              controller: _nameCtrl,
+              textCapitalization: TextCapitalization.words,
+              decoration: _inputDecoration('Full Name', Icons.person_outline),
+              validator: (v) =>
+                  (v == null || v.trim().isEmpty) ? 'Name is required' : null,
+            ),
+            const SizedBox(height: 16),
+            TextFormField(
+              controller: _phoneCtrl,
+              keyboardType: TextInputType.phone,
+              decoration: _inputDecoration(
+                  'Phone Number (optional)', Icons.phone_outlined),
+            ),
+            const SizedBox(height: 28),
+            SizedBox(
+              width: double.infinity,
+              height: 52,
+              child: FilledButton(
+                style: FilledButton.styleFrom(
+                  backgroundColor: AppColors.accent,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(14)),
+                ),
+                onPressed: _saving ? null : _save,
+                child: _saving
+                    ? const SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: CircularProgressIndicator(
+                            color: Colors.white, strokeWidth: 2),
+                      )
+                    : const Text('Save Changes'),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  InputDecoration _inputDecoration(String hint, IconData icon) =>
+      InputDecoration(
+        hintText: hint,
+        prefixIcon: Icon(icon, color: AppColors.textSecondary),
+        filled: true,
+        fillColor: const Color(0xFFF5F5F7),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(14),
+          borderSide: BorderSide.none,
+        ),
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+      );
+}
+
 class _InfoRow extends StatelessWidget {
   const _InfoRow({
     required this.icon,
     required this.label,
     required this.value,
+    this.locked = false,
   });
   final IconData icon;
   final String label;
   final String value;
+  final bool locked;
 
   @override
   Widget build(BuildContext context) {
@@ -355,6 +530,9 @@ class _InfoRow extends StatelessWidget {
               ],
             ),
           ),
+          if (locked)
+            const Icon(Icons.lock_outline,
+                size: 16, color: AppColors.textSecondary),
         ],
       ),
     );

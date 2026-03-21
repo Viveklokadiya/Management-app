@@ -186,15 +186,17 @@ class _AdminTransactionsScreenState
 
   Widget _buildBalanceCard(BuildContext context, double netBalance,
       double totalIncome, double totalExpense, int count) {
+    final isPositive = netBalance >= 0;
     return Container(
       margin: const EdgeInsets.all(16),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.primary,
+        color: isPositive ? AppColors.primary : AppColors.expense,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: AppColors.primary.withValues(alpha: 0.3),
+            color: (isPositive ? AppColors.primary : AppColors.expense)
+                .withValues(alpha: 0.3),
             blurRadius: 12,
             offset: const Offset(0, 4),
           ),
@@ -220,18 +222,36 @@ class _AdminTransactionsScreenState
                 ),
                 const SizedBox(height: 6),
                 Text(
-                  CurrencyFormatter.format(netBalance.abs()),
+                  '${netBalance < 0 ? '-' : ''}${CurrencyFormatter.format(netBalance.abs())}',
                   style: AppTextStyles.amountLarge.copyWith(color: Colors.white),
                 ),
                 const SizedBox(height: 4),
                 Row(
                   children: [
-                    const Icon(Icons.trending_up, color: Colors.white70, size: 14),
+                    Icon(
+                      isPositive ? Icons.trending_up : Icons.trending_down,
+                      color: Colors.white70,
+                      size: 14,
+                    ),
                     const SizedBox(width: 4),
                     Text(
                       AppLocalizations.of(context).totalTransactionsCount(count),
                       style: AppTextStyles.bodySmall.copyWith(color: Colors.white70),
                     ),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                Row(
+                  children: [
+                    _MiniChip(
+                        icon: Icons.arrow_upward_rounded,
+                        label: CurrencyFormatter.formatCompact(totalIncome),
+                        color: Colors.greenAccent.shade400),
+                    const SizedBox(width: 8),
+                    _MiniChip(
+                        icon: Icons.arrow_downward_rounded,
+                        label: CurrencyFormatter.formatCompact(totalExpense),
+                        color: Colors.redAccent.shade100),
                   ],
                 ),
               ],
@@ -246,7 +266,35 @@ class _AdminTransactionsScreenState
       ),
     );
   }
+}
 
+class _MiniChip extends StatelessWidget {
+  const _MiniChip({
+    required this.icon,
+    required this.label,
+    required this.color,
+  });
+  final IconData icon;
+  final String label;
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(icon, size: 12, color: color),
+        const SizedBox(width: 3),
+        Text(
+          label,
+          style: AppTextStyles.labelSmall.copyWith(
+            color: Colors.white,
+            fontSize: 10,
+          ),
+        ),
+      ],
+    );
+  }
 }
 
 class _AdminTxnTile extends StatelessWidget {

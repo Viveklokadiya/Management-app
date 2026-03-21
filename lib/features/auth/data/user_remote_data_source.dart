@@ -22,4 +22,23 @@ class UserRemoteDataSource {
       throw Exception('Failed to fetch user by email: $e');
     }
   }
+
+  Future<AppUser> updateProfile({
+    required String userId,
+    required String name,
+    required String? phone,
+  }) async {
+    try {
+      final ref = _firestore.collection('users').doc(userId);
+      await ref.update({
+        'name': name,
+        'phone': phone,
+        'updatedAt': FieldValue.serverTimestamp(),
+      });
+      final doc = await ref.get();
+      return AppUser.fromFirestore(doc);
+    } catch (e) {
+      throw Exception('Failed to update profile: $e');
+    }
+  }
 }

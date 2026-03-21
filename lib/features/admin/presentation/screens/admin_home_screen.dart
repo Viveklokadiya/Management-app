@@ -41,7 +41,13 @@ class AdminHomeScreen extends ConsumerWidget {
           final todayExpense = today
               .where((t) => t.type == TransactionType.expense)
               .fold(0.0, (s, t) => s + t.amountRupees);
-          final netBalance = todayIncome - todayExpense;
+          final totalIncome = allTxns
+              .where((t) => t.type == TransactionType.income)
+              .fold(0.0, (s, t) => s + t.amountRupees);
+          final totalExpense = allTxns
+              .where((t) => t.type == TransactionType.expense)
+              .fold(0.0, (s, t) => s + t.amountRupees);
+          final netBalance = totalIncome - totalExpense;
           final recent = allTxns.take(5).toList();
 
           return RefreshIndicator(
@@ -120,16 +126,21 @@ class AdminHomeScreen extends ConsumerWidget {
                     padding: const EdgeInsets.all(16),
                     child: Column(
                       children: [
-                        // Net Balance — full-width orange card
+                        // Net Balance — full-width card
                         Container(
                           width: double.infinity,
                           padding: const EdgeInsets.all(20),
                           decoration: BoxDecoration(
-                            color: AppColors.primary,
+                            color: netBalance >= 0
+                                ? AppColors.primary
+                                : AppColors.expense,
                             borderRadius: BorderRadius.circular(16),
                             boxShadow: [
                               BoxShadow(
-                                color: AppColors.primary.withValues(alpha: 0.3),
+                                color: (netBalance >= 0
+                                        ? AppColors.primary
+                                        : AppColors.expense)
+                                    .withValues(alpha: 0.3),
                                 blurRadius: 16,
                                 offset: const Offset(0, 6),
                               ),
@@ -158,7 +169,7 @@ class AdminHomeScreen extends ConsumerWidget {
                               ),
                               const SizedBox(height: 8),
                               Text(
-                                CurrencyFormatter.format(netBalance.abs()),
+                                '${netBalance < 0 ? '-' : ''}${CurrencyFormatter.format(netBalance.abs())}',
                                 style: AppTextStyles.amountLarge
                                     .copyWith(color: Colors.white),
                               ),
@@ -173,8 +184,13 @@ class AdminHomeScreen extends ConsumerWidget {
                                 child: Row(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    const Icon(Icons.trending_up,
-                                        color: Colors.white, size: 14),
+                                    Icon(
+                                      netBalance >= 0
+                                          ? Icons.trending_up
+                                          : Icons.trending_down,
+                                      color: Colors.white,
+                                      size: 14,
+                                    ),
                                     const SizedBox(width: 4),
                                     Text(
                                       AppLocalizations.of(context).totalTransactionsCount(allTxns.length),
@@ -188,7 +204,7 @@ class AdminHomeScreen extends ConsumerWidget {
                           ),
                         ),
                         const SizedBox(height: 12),
-                        // Income / Expense 2-column
+                        // Income / Expense 2-column (today)
                         Row(
                           children: [
                             Expanded(
