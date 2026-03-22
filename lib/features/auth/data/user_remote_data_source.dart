@@ -41,4 +41,22 @@ class UserRemoteDataSource {
       throw Exception('Failed to update profile: $e');
     }
   }
+
+  /// Stores a compressed Base64 photo string in the user Firestore document.
+  Future<AppUser> updatePhotoBase64({
+    required String userId,
+    required String base64,
+  }) async {
+    try {
+      final ref = _firestore.collection('users').doc(userId);
+      await ref.update({
+        'photoBase64': base64,
+        'updatedAt': FieldValue.serverTimestamp(),
+      });
+      final doc = await ref.get();
+      return AppUser.fromFirestore(doc);
+    } catch (e) {
+      throw Exception('Failed to update photo: $e');
+    }
+  }
 }

@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/router/routes.dart';
 import '../../../../core/widgets/language_tile.dart';
+import '../../../../core/widgets/profile_photo_widget.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../auth/domain/models/app_user.dart';
 import '../../../auth/presentation/providers/auth_provider.dart';
@@ -21,6 +23,18 @@ class AdminProfileScreen extends ConsumerStatefulWidget {
 
 class _AdminProfileScreenState extends ConsumerState<AdminProfileScreen> {
   bool _signingOut = false;
+  bool _uploadingPhoto = false;
+
+  Future<void> _pickPhoto(ImageSource source) async {
+    final base64 = await PhotoPickerService.pickAndEncode(source);
+    if (base64 == null || !mounted) return;
+    setState(() => _uploadingPhoto = true);
+    try {
+      await ref.read(authStateProvider.notifier).updatePhoto(base64);
+    } finally {
+      if (mounted) setState(() => _uploadingPhoto = false);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,24 +61,16 @@ class _AdminProfileScreenState extends ConsumerState<AdminProfileScreen> {
               ),
               child: Column(
                 children: [
-                  // Avatar with primary border
-                  Container(
-                    padding: const EdgeInsets.all(3),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                          color: AppColors.primary, width: 2),
-                    ),
-                    child: CircleAvatar(
-                      radius: 44,
-                      backgroundColor: AppColors.primaryLight,
-                      child: Text(
-                        user.name.isNotEmpty
-                            ? user.name[0].toUpperCase()
-                            : '?',
-                        style: AppTextStyles.amountLarge
-                            .copyWith(color: AppColors.primary),
-                      ),
+                  // Avatar with camera badge
+                  ProfilePhotoWidget(
+                    user: user,
+                    radius: 44,
+                    foregroundColor: AppColors.primary,
+                    backgroundColor: AppColors.primaryLight,
+                    isLoading: _uploadingPhoto,
+                    onTap: () => showPhotoSourceSheet(
+                      context: context,
+                      onSourceSelected: _pickPhoto,
                     ),
                   ),
                   const SizedBox(height: 14),

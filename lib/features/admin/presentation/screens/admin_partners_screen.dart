@@ -6,6 +6,7 @@ import '../../../../l10n/app_localizations.dart';
 import '../../../../core/providers/repository_providers.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
+import '../../../../core/widgets/profile_photo_widget.dart';
 import '../../../../core/widgets/state_widgets.dart';
 import '../../../auth/domain/models/app_user.dart';
 import 'admin_partner_detail_screen.dart';
@@ -186,21 +187,14 @@ class _PartnerCard extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Avatar
-                Container(
-                  width: 64,
-                  height: 64,
-                  decoration: BoxDecoration(
-                    color: roleColor.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(14),
-                    border: Border.all(color: roleColor.withValues(alpha: 0.2)),
-                  ),
-                  child: Center(
-                    child: Text(
-                      user.name.isNotEmpty ? user.name[0].toUpperCase() : '?',
-                      style: AppTextStyles.headlineMedium
-                          .copyWith(color: roleColor),
-                    ),
+                // Avatar — shows photo if available, else initial
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(14),
+                  child: ProfilePhotoWidget(
+                    user: user,
+                    radius: 32,
+                    foregroundColor: roleColor,
+                    backgroundColor: roleColor.withValues(alpha: 0.1),
                   ),
                 ),
                 const SizedBox(width: 14),

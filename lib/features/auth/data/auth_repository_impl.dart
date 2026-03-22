@@ -92,4 +92,15 @@ class AuthRepositoryImpl implements AuthRepository {
       phone: phone,
     );
   }
+
+  @override
+  Future<AppUser> updatePhotoBase64({
+    required String userId,
+    required String base64,
+  }) async {
+    return _userRemoteDataSource.updatePhotoBase64(
+      userId: userId,
+      base64: base64,
+    );
+  }
 }

@@ -58,4 +58,15 @@ class AuthState extends _$AuthState {
           );
     });
   }
+
+  Future<void> updatePhoto(String base64) async {
+    final current = state.value;
+    if (current == null) return;
+    state = await AsyncValue.guard(() async {
+      return await ref.read(authRepositoryProvider).updatePhotoBase64(
+            userId: current.id,
+            base64: base64,
+          );
+    });
+  }
 }

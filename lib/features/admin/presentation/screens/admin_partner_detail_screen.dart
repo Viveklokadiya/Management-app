@@ -10,6 +10,7 @@ import '../../../../core/providers/repository_providers.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/utils/currency_formatter.dart';
+import '../../../../core/widgets/profile_photo_widget.dart';
 import '../../../../core/widgets/state_widgets.dart';
 import '../../../auth/domain/models/app_user.dart';
 import '../../../sites/domain/models/site_model.dart';
@@ -116,26 +117,11 @@ class _PartnerHero extends StatelessWidget {
           // Avatar + online dot
           Stack(
             children: [
-              Container(
-                width: 96,
-                height: 96,
-                decoration: BoxDecoration(
-                  color: AppColors.primaryLight,
-                  shape: BoxShape.circle,
-                  border: Border.all(color: Colors.white, width: 3),
-                  boxShadow: const [
-                    BoxShadow(color: AppColors.shadowLight, blurRadius: 8)
-                  ],
-                ),
-                child: Center(
-                  child: Text(
-                    partner.name.isNotEmpty
-                        ? partner.name[0].toUpperCase()
-                        : '?',
-                    style: AppTextStyles.headlineLarge
-                        .copyWith(color: AppColors.primary),
-                  ),
-                ),
+              ProfilePhotoWidget(
+                user: partner,
+                radius: 48,
+                foregroundColor: AppColors.primary,
+                backgroundColor: AppColors.primaryLight,
               ),
               Positioned(
                 bottom: 4,
