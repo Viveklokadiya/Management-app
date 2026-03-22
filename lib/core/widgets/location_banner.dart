@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:geolocator/geolocator.dart';
 
+import '../../features/auth/presentation/providers/auth_provider.dart';
 import '../services/location_service.dart';
 import '../theme/app_text_styles.dart';
 
@@ -85,13 +88,38 @@ class _LocationPermissionBannerState
   }
 }
 
-/// Mixin for shell State classes that need to trigger location capture on init.
+/// Mixin for shell State classes that need to trigger location capture on init
+/// and then continue updating every [_updateInterval] while the app is open.
 mixin LocationCaptureMixin<T extends ConsumerStatefulWidget>
     on ConsumerState<T> {
+  static const _updateInterval = Duration(minutes: 2);
+  Timer? _locationTimer;
+
+  /// Call this from [initState] (inside a postFrameCallback so auth is ready).
   Future<void> captureLocation(String userId) async {
+    // First capture immediately
+    await _doCapture(userId);
+
+    // Then schedule periodic updates (cancel any existing timer first)
+    _locationTimer?.cancel();
+    _locationTimer = Timer.periodic(_updateInterval, (_) async {
+      // Re-read userId each tick in case the user changes (edge case)
+      final currentUserId =
+          ref.read(authStateProvider).value?.id ?? userId;
+      await _doCapture(currentUserId);
+    });
+  }
+
+  Future<void> _doCapture(String userId) async {
     final service = ref.read(locationServiceProvider);
     final notifier = ref.read(locationStatusNotifierProvider.notifier);
     final status = await service.captureAndStore(userId);
     notifier.setStatus(status);
+  }
+
+  @override
+  void dispose() {
+    _locationTimer?.cancel();
+    super.dispose();
   }
 }
