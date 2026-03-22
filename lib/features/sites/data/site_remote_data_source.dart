@@ -8,7 +8,6 @@ class SiteRemoteDataSource {
 
   Stream<List<SiteModel>> watchAllSites() => _db
       .collection('sites')
-      .where('isActive', isEqualTo: true)
       .snapshots()
       .map((s) {
         final list = s.docs.map(SiteModel.fromFirestore).toList();
