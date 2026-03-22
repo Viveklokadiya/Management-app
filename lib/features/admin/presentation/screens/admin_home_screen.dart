@@ -9,6 +9,7 @@ import '../../../../core/router/routes.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/utils/currency_formatter.dart';
+import '../../../../core/widgets/profile_photo_widget.dart';
 import '../../../../core/widgets/state_widgets.dart';
 import '../../../auth/presentation/providers/auth_provider.dart';
 import '../../../transactions/domain/models/transaction_model.dart';
@@ -70,10 +71,14 @@ class AdminHomeScreen extends ConsumerWidget {
                   titleSpacing: 16,
                   title: Row(
                     children: [
-                      CircleAvatar(
-                        radius: 20,
-                        backgroundImage: NetworkImage(
-                          'https://ui-avatars.com/api/?name=${Uri.encodeComponent(user.name)}&background=EC5B13&color=fff&size=80',
+                      // Avatar → tap to open profile
+                      GestureDetector(
+                        onTap: () => context.go(AppRoutes.adminProfile),
+                        child: ProfilePhotoWidget(
+                          user: user,
+                          radius: 20,
+                          foregroundColor: Colors.white,
+                          backgroundColor: AppColors.primary,
                         ),
                       ),
                       const SizedBox(width: 12),
